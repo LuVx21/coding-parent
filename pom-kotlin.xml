@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.luvx</groupId>
-    <artifactId>coding-parent-kotlin</artifactId>
+    <artifactId>coding-kotlin-parent</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -83,7 +83,7 @@
 
         <dependency>
             <groupId>org.luvx</groupId>
-            <artifactId>usage-logging</artifactId>
+            <artifactId>logging-parent</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
