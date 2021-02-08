@@ -19,6 +19,7 @@
         <vavr.version>0.10.3</vavr.version>
         <junit.version>4.13.1</junit.version>
         <kotlin.version>1.4.30</kotlin.version>
+        <kotlin.logging.version>1.11.5</kotlin.logging.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
 
@@ -78,7 +79,7 @@
         <dependency>
             <groupId>io.github.microutils</groupId>
             <artifactId>kotlin-logging</artifactId>
-            <version>1.11.5</version>
+            <version>${kotlin.logging.version}</version>
         </dependency>
 
         <dependency>
