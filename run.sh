@@ -1,9 +1,12 @@
-mvn install -f ./logging-parent/pom.xml
-mvn install -f pom-java.xml
-mvn install -f pom-kotlin.xml
-mvn install -f ./logging-spring-parent/pom.xml
-mvn install -f spring-boot-java.xml
-mvn install -f spring-boot-kotlin.xml
+for i in \
+        pom.xml \
+        pom-java.xml \
+        pom-kotlin.xml \
+        spring-boot-java.xml \
+        spring-boot-kotlin.xml
+do
+    mvn install -f $i
+done
 
 # 创建maven项目模板
 # cd sample
