@@ -1,7 +1,9 @@
 for i in \
-        pom.xml \
-        pom-java.xml \
-        pom-kotlin.xml \
+        coding-dependencies.xml \
+        coding-java-parent.xml \
+        coding-kotlin-dependencies.xml \
+        coding-kotlin-enhancer/pom.xml \
+        coding-kotlin-parent.xml \
         spring-boot-java.xml \
         spring-boot-kotlin.xml
 do

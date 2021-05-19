@@ -9,7 +9,7 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>coding-kotlin-parent</artifactId>
+    <artifactId>coding-kotlin-dependencies</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
