@@ -7,7 +7,7 @@ for i in \
         spring-boot-java.xml \
         spring-boot-kotlin.xml
 do
-    mvn install -f $i
+    mvn clean install -f $i
 done
 
 # 创建maven项目模板
