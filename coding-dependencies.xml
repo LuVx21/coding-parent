@@ -14,9 +14,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <lombok.version>1.18.4</lombok.version>
-        <guava.version>28.2-jre</guava.version>
-        <vavr.version>0.10.3</vavr.version>
+        <lombok.version>1.18.20</lombok.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <vavr.version>1.0.0-alpha-3</vavr.version>
         <junit.version>5.7.1</junit.version>
         <lang3.version>3.12.0</lang3.version>
         <collections4.version>4.4</collections4.version>
