@@ -1,6 +1,8 @@
 package org.luvx.enhancer
 
 import mu.KotlinLogging
+import java.util.Arrays
+import java.util.stream.Collectors
 
 private val log = KotlinLogging.logger {}
 
@@ -14,5 +16,12 @@ fun Any?.out(vararg messages: Any?): Any? {
 }
 
 fun out(vararg messages: Any?) {
-    println(messages.contentDeepToString())
+    if (messages.isNullOrEmpty()) {
+        return
+    }
+    Arrays.stream(messages)
+        .map { s -> s.toString() }
+        .collect(Collectors.joining(""))
+        .out()
+    // println(messages.contentDeepToString())
 }
