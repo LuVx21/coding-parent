@@ -84,15 +84,13 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
          * 设置起始ID，此ID对应的记录将作为迭代器返回的第一条数据对象
          *
          * @param initCursor 起始ID
-         * @param <C1> ID类型泛型
          * @return 当前构造器对象
          */
         @CheckReturnValue
         @Nonnull
-        public <C1> Builder<?, C1, ?> withInitCursor(C1 initCursor) {
-            Builder<?, C1, ?> thisBuilder = (Builder<?, C1, ?>) this;
-            thisBuilder.initCursor = initCursor;
-            return thisBuilder;
+        public Builder<T, C, R> withInitCursor(C initCursor) {
+            this.initCursor = initCursor;
+            return this;
         }
 
         /**
@@ -112,49 +110,39 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
          * 数据读取函数
          *
          * @param dataRetriever 数据读取函数，传入当前起始的ID，返回查询结果对象
-         * @param <C1> ID类型泛型
-         * @param <R1> 查询结果泛型
          * @return 当前构造器对象
          */
         @CheckReturnValue
         @Nonnull
-        public <C1, R1> Builder<?, C1, R1> withDataRetriever(Function<C1, R1> dataRetriever) {
-            Builder<?, C1, R1> thisBuilder = (Builder<?, C1, R1>) this;
-            thisBuilder.dataRetriever = dataRetriever;
-            return thisBuilder;
+        public Builder<T, C, R> withDataRetriever(Function<C, R> dataRetriever) {
+            this.dataRetriever = dataRetriever;
+            return this;
         }
 
         /**
          * 获取下一条游标函数
          *
          * @param cursorExtractor 获取下一条游标函数，传入当前获得的查询结果对象，返回下一条游标ID对象
-         * @param <C1> ID类型泛型
-         * @param <R1> 查询结果泛型
          * @return 当前构造器对象
          */
         @CheckReturnValue
         @Nonnull
-        public <C1, R1> Builder<?, C1, R1> withCursorExtractor(Function<R1, C1> cursorExtractor) {
-            Builder<?, C1, R1> thisBuilder = (Builder<?, C1, R1>) this;
-            thisBuilder.cursorExtractor = cursorExtractor;
-            return thisBuilder;
+        public Builder<T, C, R> withCursorExtractor(Function<R, C> cursorExtractor) {
+            this.cursorExtractor = cursorExtractor;
+            return this;
         }
 
         /**
          * 数据提取器函数
          *
          * @param dataExtractor 数据提取器函数，传入当前获得的查询结果对象，返回结果实体集合的迭代器对象
-         * @param <T1> 实体类型泛型
-         * @param <R1> 查询结果泛型
          * @return 当前构造器对象
          */
         @CheckReturnValue
         @Nonnull
-        public <T1, R1> Builder<T1, ?, R1>
-        withDataExtractor(Function<R1, Iterator<T1>> dataExtractor) {
-            Builder<T1, ?, R1> thisBuilder = (Builder<T1, ?, R1>) this;
-            thisBuilder.dataExtractor = dataExtractor;
-            return thisBuilder;
+        public Builder<T, C, R> withDataExtractor(Function<R, Iterator<T>> dataExtractor) {
+            this.dataExtractor = dataExtractor;
+            return this;
         }
 
         /**
@@ -162,48 +150,34 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
          *
          * @param endChecker 游标终末检查器，传入当前的游标值，判断是否还有下一条记录存在，有返回true，否则返回false。
          * 默认根据游标是否为null来进行判断，不为空证明有下一条记录
-         * @param <C1> ID类型泛型
          * @return 当前构造器对象
          */
         @CheckReturnValue
         @Nonnull
-        public <C1> Builder<?, C1, ?> withEndChecker(Predicate<C1> endChecker) {
-            Builder<?, C1, ?> thisBuilder = (Builder<?, C1, ?>) this;
-            thisBuilder.endChecker = endChecker;
-            return thisBuilder;
+        public Builder<T, C, R> withEndChecker(Predicate<C> endChecker) {
+            this.endChecker = endChecker;
+            return this;
         }
 
         /**
          * 构造游标迭代器
          *
-         * @param <T1> 返回实体的类型泛型
-         * @param <C1> ID类型泛型
-         * @param <R1> 列表读取结果对象的泛型
          * @return 游标迭代器对象
          */
         @SuppressWarnings("rawtypes")
         @Nonnull
-        public <T1, C1, R1> CursorIteratorEx<T1, C1, R1> build() {
+        public CursorIteratorEx<T, C, R> build() {
             ensure();
             return new CursorIteratorEx(initCursor, checkFirstCursor, dataRetriever,
                     cursorExtractor, dataExtractor, endChecker);
         }
 
         private void ensure() {
-            if (dataExtractor == null) {
-                throw new NullPointerException("data extractor is null.");
-            }
-            if (dataRetriever == null) {
-                throw new NullPointerException("data retriever is null.");
-            }
-            if (cursorExtractor == null) {
-                throw new NullPointerException("data retriever is null.");
-            }
-            if (endChecker == null) {
-                endChecker = Objects::isNull;
-            }
+            Objects.requireNonNull(dataExtractor, "data extractor is null.");
+            Objects.requireNonNull(dataRetriever, "data retriever is null.");
+            Objects.requireNonNull(cursorExtractor, "cursor extractor is null.");
+            endChecker = Objects.requireNonNullElse(endChecker, Objects::isNull);
         }
-
     }
 
     private final class RollingIterator implements Iterator<T> {

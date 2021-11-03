@@ -2,9 +2,7 @@ package org.luvx.common.util;
 
 import static org.apache.commons.collections4.CollectionUtils.size;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -25,7 +23,7 @@ class CursorIteratorExTest {
                 .<Item, Long, List<Item>> newBuilder()
                 .withInitCursor(0L)
                 .withDataRetriever((Long cursor) -> dao1(cursor, limit))
-                .withDataExtractor((Function<List<Item>, Iterator<Item>>) List::iterator)
+                .withDataExtractor(List::iterator)
                 .withCursorExtractor((List<Item> list) -> {
                             if (size(list) < limit) {
                                 return null;
