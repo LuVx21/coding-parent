@@ -10,7 +10,7 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <slf4j.version>1.7.30</slf4j.version>
+        <slf4j.version>1.7.32</slf4j.version>
         <logback.version>1.2.3</logback.version>
     </properties>
 

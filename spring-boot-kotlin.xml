@@ -20,7 +20,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>16</java.version>
         <lombok.version>1.18.4</lombok.version>
         <guava.version>28.2-jre</guava.version>
         <vavr.version>0.10.3</vavr.version>
@@ -111,7 +111,7 @@
 
         <dependency>
             <groupId>io.github.microutils</groupId>
-            <artifactId>kotlin-logging</artifactId>
+            <artifactId>kotlin-logging-jvm</artifactId>
             <version>${kotlin.logging.version}</version>
         </dependency>
 
@@ -239,6 +239,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <compilerArgs>--enable-preview</compilerArgs>
                     <!--编译的时候把参数添加进去-->
                     <!-- <compilerArgument>-parameters</compilerArgument>-->
                 </configuration>
