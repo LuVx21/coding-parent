@@ -5,11 +5,11 @@
 
     <parent>
         <groupId>org.luvx</groupId>
-        <artifactId>coding-dependencies</artifactId>
+        <artifactId>coding-root</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>coding-java-parent</artifactId>
+    <artifactId>coding-parent-java</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
