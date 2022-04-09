@@ -13,11 +13,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
+        <maven.plugin.version>3.10.1</maven.plugin.version>
         <lombok.version>1.18.22</lombok.version>
-        <guava.version>30.1.1-jre</guava.version>
-        <vavr.version>1.0.0-alpha-3</vavr.version>
-        <junit.version>5.7.1</junit.version>
+        <guava.version>31.1-jre</guava.version>
+        <vavr.version>1.0.0-alpha-4</vavr.version>
+        <junit.version>5.8.2</junit.version>
         <lang3.version>3.12.0</lang3.version>
         <collections4.version>4.4</collections4.version>
     </properties>

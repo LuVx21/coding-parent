@@ -15,8 +15,8 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <kotlin.version>1.5.32</kotlin.version>
-        <kotlin.logging.version>2.0.13</kotlin.logging.version>
+        <kotlin.version>1.6.20</kotlin.version>
+        <kotlin.logging.version>2.1.21</kotlin.logging.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
 
@@ -129,7 +129,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>default-compile</id>
