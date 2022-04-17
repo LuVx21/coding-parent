@@ -5,11 +5,11 @@
 
     <parent>
         <groupId>org.luvx</groupId>
-        <artifactId>coding-root</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <artifactId>coding-root-kotlin</artifactId>
+        <version>${app.version}</version>
     </parent>
 
-    <artifactId>coding-parent-java</artifactId>
+    <artifactId>coding-parent-kotlin</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -18,25 +18,14 @@
     </properties>
 
     <dependencies>
-        <dependency>
+           <dependency>
             <groupId>org.luvx</groupId>
-            <artifactId>logging-parent</artifactId>
+            <artifactId>coding-kotlin-enhancer</artifactId>
             <version>${app.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.plugin.version}</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
 </project>

@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.luvx</groupId>
         <artifactId>coding-root</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>${app.version}</version>
     </parent>
 
     <artifactId>coding-root-kotlin</artifactId>
@@ -19,6 +19,12 @@
         <kotlin.logging.version>2.1.21</kotlin.logging.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
+
+    <modules>
+        <module>coding-kotlin-enhancer</module>
+        <module>coding-parent-kotlin</module>
+        <module>coding-common</module>
+    </modules>
 
     <dependencies>
         <dependency>

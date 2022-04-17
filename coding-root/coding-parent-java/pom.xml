@@ -3,33 +3,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.luvx</groupId>
-    <artifactId>logging-parent</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <parent>
+        <groupId>org.luvx</groupId>
+        <artifactId>coding-root</artifactId>
+        <version>${app.version}</version>
+    </parent>
+
+    <artifactId>coding-parent-java</artifactId>
+    <packaging>pom</packaging>
+
     <name>${project.artifactId}</name>
 
     <properties>
-        <slf4j.version>1.7.32</slf4j.version>
-        <logback.version>1.2.3</logback.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
+            <groupId>org.luvx</groupId>
+            <artifactId>logging-parent</artifactId>
+            <version>${app.version}</version>
         </dependency>
     </dependencies>
 
@@ -38,7 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven.plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
