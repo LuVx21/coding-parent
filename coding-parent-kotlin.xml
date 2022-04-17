@@ -21,7 +21,7 @@
            <dependency>
             <groupId>org.luvx</groupId>
             <artifactId>coding-kotlin-enhancer</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>${app.version}</version>
         </dependency>
     </dependencies>
 

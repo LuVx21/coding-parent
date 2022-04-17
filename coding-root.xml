@@ -11,6 +11,7 @@
     <name>${project.artifactId}</name>
 
     <properties>
+        <app.version>1.0.1-SNAPSHOT</app.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>

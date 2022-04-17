@@ -18,15 +18,13 @@
     <name>${project.artifactId}</name>
 
     <properties>
+        <app.version>1.0.1-SNAPSHOT</app.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
         <lombok.version>1.18.4</lombok.version>
         <guava.version>28.2-jre</guava.version>
         <vavr.version>1.0.0-alpha-4</vavr.version>
-        <junit.version>4.13.1</junit.version>
-        <slf4j.version>1.7.30</slf4j.version>
-        <logback.version>1.2.3</logback.version>
         <kotlin.version>1.6.20</kotlin.version>
         <kotlin.logging.version>2.1.21</kotlin.logging.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
@@ -93,39 +91,14 @@
         <dependency>
             <groupId>org.luvx</groupId>
             <artifactId>logging-spring-parent</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>${app.version}</version>
         </dependency>
-
-        <!-- <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency> -->
-
-        <!-- <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency> -->
 
         <dependency>
             <groupId>io.github.microutils</groupId>
             <artifactId>kotlin-logging-jvm</artifactId>
             <version>${kotlin.logging.version}</version>
         </dependency>
-
-        <!-- <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-        </dependency> -->
     </dependencies>
 
     <build>
