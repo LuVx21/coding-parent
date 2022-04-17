@@ -12,6 +12,6 @@ for i in \
         spring-boot-kotlin.xml \
         coding-common/pom.xml
 do
-    mvn clean install -f $i
+    mvn clean install -f $i && mvn clean -f $i
 done
 
