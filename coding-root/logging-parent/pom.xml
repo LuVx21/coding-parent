@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.luvx</groupId>
         <artifactId>coding-root</artifactId>
-        <version>${app.version}</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>logging-parent</artifactId>

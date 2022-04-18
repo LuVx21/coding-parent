@@ -12,8 +12,7 @@
 
     <groupId>org.luvx</groupId>
     <artifactId>coding-root-spring</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
-<!--    <version>${app.version}</version>-->
+    <version>${app.version}</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
