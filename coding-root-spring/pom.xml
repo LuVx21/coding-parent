@@ -11,8 +11,9 @@
     </parent>
 
     <groupId>org.luvx</groupId>
-    <artifactId>coding-spring-boot-java-parent</artifactId>
+    <artifactId>coding-root-spring</artifactId>
     <version>1.0.1-SNAPSHOT</version>
+<!--    <version>${app.version}</version>-->
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -26,6 +27,11 @@
         <guava.version>28.2-jre</guava.version>
         <vavr.version>1.0.0-alpha-4</vavr.version>
     </properties>
+
+    <modules>
+        <module>coding-spring-boot-java-parent</module>
+        <module>coding-spring-boot-kotlin-parent</module>
+    </modules>
 
     <dependencies>
         <dependency>
