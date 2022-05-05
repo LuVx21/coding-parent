@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
-        <lombok.version>1.18.4</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
         <guava.version>28.2-jre</guava.version>
         <vavr.version>1.0.0-alpha-4</vavr.version>
     </properties>
@@ -87,6 +87,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!--fork:如果没有该项配置,整个devtools不会起作用-->
+                    <fork>true</fork>
+                </configuration>
             </plugin>
         </plugins>
     </build>
