@@ -5,17 +5,21 @@
 
     <parent>
         <groupId>org.luvx</groupId>
-        <artifactId>coding-root-kotlin</artifactId>
+        <artifactId>coding-parent-spring-boot</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>coding-kotlin-enhancer</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>coding-parent-spring-boot-java</artifactId>
+    <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
 
     <properties>
     </properties>
+
+    <modules>
+        <module>coding-parent-spring-boot-kotlin</module>
+    </modules>
 
     <dependencies>
     </dependencies>
