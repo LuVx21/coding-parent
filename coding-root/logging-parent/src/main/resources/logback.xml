@@ -2,7 +2,7 @@
 
 <configuration>
     <property name="logging.path" value="./logs"/>
-    <property name="logging.level" value="DEBUG"/>
+    <property name="logging.level" value="INFO"/>
 
     <!-- 按照每天生成日志文件 -->
     <appender name="ERROR-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
