@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration>
-    <springProperty scope="context" name="logging.path" source="logging.path"/>
-    <springProperty scope="context" name="logging.level" source="logging.level.org.luvx"/>
+    <springProperty scope="context" name="logging.path" source="logging.file.path" defaultValue="logs"/>
+    <springProperty scope="context" name="logging.level" source="logging.level.org.luvx" defaultValue="info"/>
 
     <!-- 按照每天生成日志文件 -->
     <appender name="ERROR-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -33,7 +33,7 @@
     <appender name="ROOT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <append>true</append>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>info</level>
+            <level>${logging.level}</level>
         </filter>
         <file>${logging.path}/app.log</file>
         <!-- 每天生成一个日志文件，保存${file.maxHistory}天的日志文件 -->
