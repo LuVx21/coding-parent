@@ -17,6 +17,10 @@
     <properties>
     </properties>
 
+    <modules>
+        <module>coding-root-kotlin</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.luvx</groupId>

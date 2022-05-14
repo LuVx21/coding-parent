@@ -11,8 +11,10 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class DateUtils {
-    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String            DATE_TIME_FORMAT    = "yyyy-MM-dd HH:mm:ss";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern(DATE_TIME_FORMAT).withZone(ZoneId.systemDefault());
 
@@ -68,5 +70,27 @@ public class DateUtils {
     public static void m3(Date date) {
         LocalDateTime localDateTime = date.toInstant().atZone(ZONE).toLocalDateTime();
         LocalDate localDate = date.toInstant().atZone(ZONE).toLocalDate();
+    }
+
+    /**
+     * 计算日期{@code startDate}与{@code endDate}的间隔天数
+     *
+     * @return 间隔天数
+     */
+    public static long localDateCompare(LocalDate startDate, LocalDate endDate, ChronoUnit unit) {
+        return startDate.until(endDate, unit);
+    }
+
+    /**
+     * 字符串转换成日期
+     *
+     * @param day 日期字符串
+     * @param pattern 日期的格式
+     */
+    public static LocalDate stringToLocalDate(String day, String pattern) {
+        if (StringUtils.isBlank(day)) {
+            return null;
+        }
+        return LocalDate.parse(day, DateTimeFormatter.ofPattern(pattern));
     }
 }
