@@ -21,6 +21,10 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
 
+    <modules>
+        <module>coding-common-spring-boot</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -59,13 +63,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <configuration>
+                    <!--fork:如果没有该项配置,整个devtools不会起作用-->
+                    <fork>true</fork>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -110,6 +111,7 @@
                         <!-- <plugin>jpa</plugin> -->
                     </compilerPlugins>
                     <pluginOptions>
+                        <!--使用该注解的类编译时不加 final-->
                         <!-- <option>all-open:annotation=org.luvx.AllOpen</option>-->
                         <!-- <option>no-arg:annotation=org.luvx.NoArg</option>-->
                     </pluginOptions>
@@ -167,6 +169,26 @@
                     <!--编译的时候把参数添加进去-->
                     <!-- <compilerArgument>-parameters</compilerArgument>-->
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/kotlin</source>
+                                <source>src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
