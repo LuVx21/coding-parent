@@ -58,12 +58,6 @@
             <artifactId>kotlin-logging-jvm</artifactId>
             <version>${kotlin.logging.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.luvx</groupId>
-            <artifactId>logging-parent</artifactId>
-            <version>${app.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

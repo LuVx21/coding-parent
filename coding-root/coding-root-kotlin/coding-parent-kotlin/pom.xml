@@ -20,7 +20,12 @@
     <dependencies>
            <dependency>
             <groupId>org.luvx</groupId>
-            <artifactId>coding-kotlin-enhancer</artifactId>
+            <artifactId>coding-common</artifactId>
+            <version>${app.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.luvx</groupId>
+            <artifactId>logging-parent</artifactId>
             <version>${app.version}</version>
         </dependency>
     </dependencies>
