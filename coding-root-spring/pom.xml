@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>org.luvx</groupId>
-    <artifactId>coding-root-spring</artifactId>
+    <artifactId>coding-parent-spring-boot</artifactId>
     <version>0.0</version>
     <packaging>pom</packaging>
 
