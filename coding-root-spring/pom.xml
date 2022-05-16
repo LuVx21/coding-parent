@@ -12,13 +12,13 @@
 
     <groupId>org.luvx</groupId>
     <artifactId>coding-root-spring</artifactId>
-    <version>0.1</version>
+    <version>0.0</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
 
     <properties>
-        <app.version>0.1</app.version>
+        <app.version>0.0</app.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
@@ -28,8 +28,8 @@
     </properties>
 
     <modules>
-        <module>coding-spring-boot-java-parent</module>
-        <module>coding-spring-boot-kotlin-parent</module>
+        <module>coding-parent-spring-boot-java</module>
+        <module>coding-parent-spring-boot-kotlin</module>
     </modules>
 
     <dependencies>
