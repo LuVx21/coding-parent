@@ -1,4 +1,4 @@
-package org.luvx.boot.common;
+package org.luvx.boot.common.util;
 
 import lombok.extern.slf4j.Slf4j;
 

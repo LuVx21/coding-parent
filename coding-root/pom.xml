@@ -28,7 +28,7 @@
         <module>coding-parent-java</module>
         <module>coding-parent-spring-boot</module>
         <module>logging-parent</module>
-        <module>logging-spring-parent</module>
+        <module>logging-parent-spring</module>
     </modules>
 
     <dependencies>
@@ -70,6 +70,32 @@
             <version>${collections4.version}</version>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.luvx</groupId>
+                <artifactId>coding-common</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.luvx</groupId>
+                <artifactId>logging-parent</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.luvx</groupId>
+                <artifactId>coding-common-spring-boot</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.luvx</groupId>
+                <artifactId>logging-parent-spring</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <repositories>
         <repository>

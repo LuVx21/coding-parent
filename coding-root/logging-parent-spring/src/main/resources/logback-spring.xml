@@ -58,6 +58,13 @@
         </encoder>
     </appender>
 
+    <!-- 异步输出 -->
+    <appender name="ASYNC-INFO" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref="ROOT-APPENDER"/>
+    </appender>
+
     <springProfile name="default">
         <root level="${logging.level}">
             <appender-ref ref="ROOT-APPENDER"/>

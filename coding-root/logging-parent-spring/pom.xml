@@ -9,7 +9,7 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>logging-spring-parent</artifactId>
+    <artifactId>logging-parent-spring</artifactId>
     <packaging>jar</packaging>
 
     <properties>
