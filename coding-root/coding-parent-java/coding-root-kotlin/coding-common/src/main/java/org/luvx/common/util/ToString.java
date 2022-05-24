@@ -7,10 +7,11 @@ public class ToString {
         if (obj == null) {
             return "null";
         }
+        if (obj instanceof CharSequence || obj instanceof Number) {
+            return obj.toString();
+        }
         Class<?> cl = obj.getClass();
-        if (cl == String.class) {
-            return (String) obj;
-        } else if (cl.isArray()) {
+        if (cl.isArray()) {
             return Arrays.toString((Object[]) obj);
         }
         return obj.toString();

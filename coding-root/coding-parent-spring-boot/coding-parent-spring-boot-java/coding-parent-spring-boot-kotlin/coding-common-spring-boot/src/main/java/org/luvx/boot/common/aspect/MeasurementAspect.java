@@ -1,5 +1,6 @@
 package org.luvx.boot.common.aspect;
 
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,11 +9,15 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.luvx.boot.common.annotation.MeasurementAnnotation;
 import org.luvx.common.util.ToString;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.lang.reflect.Method;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map;
+
+import static java.util.Collections.emptyMap;
 
 @Slf4j
 @Aspect
@@ -42,20 +47,35 @@ public class MeasurementAspect {
         return obj;
     }
 
-    private String params(ProceedingJoinPoint joinPoint) {
+    private Map<String, Object> annoValues(ProceedingJoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         if (!(signature instanceof MethodSignature)) {
-            return "";
+            return emptyMap();
+        }
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
+        MeasurementAnnotation annotation = method.getAnnotation(MeasurementAnnotation.class);
+        return emptyMap();
+    }
+
+    private Map<String, SimpleEntry<String, String>> params(ProceedingJoinPoint joinPoint) {
+        Signature signature = joinPoint.getSignature();
+        if (!(signature instanceof MethodSignature)) {
+            return emptyMap();
         }
         MethodSignature methodSignature = (MethodSignature) signature;
         Class[] paraTypes = methodSignature.getParameterTypes();
         String[] paraNames = methodSignature.getParameterNames();
         Object[] args = joinPoint.getArgs();
         if (ArrayUtils.isEmpty(args)) {
-            return "";
+            return emptyMap();
         }
-        return IntStream.range(0, paraTypes.length)
-                .mapToObj(i -> paraNames[i] + "|" + paraTypes[i].getName() + "|" + ToString.toString(args[i]))
-                .collect(Collectors.joining("\n"));
+        Map<String, SimpleEntry<String, String>> result = Maps.newHashMap();
+        for (int i = 0; i < args.length; i++) {
+            String key = paraNames[i];
+            SimpleEntry<String, String> simpleEntry = new SimpleEntry<>(ToString.toString(args[i]), paraTypes[i].getName());
+            result.put(key, simpleEntry);
+        }
+        return result;
     }
 }
