@@ -22,7 +22,9 @@
     </properties>
 
     <modules>
-        <module>coding-common-spring-boot</module>
+        <module>boot-common</module>
+        <module>boot-web</module>
+        <module>boot-aop</module>
     </modules>
 
     <dependencies>

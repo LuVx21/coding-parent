@@ -1,4 +1,4 @@
-package org.luvx.boot.common.aspect;
+package org.luvx.boot.aop.aspect;
 
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.luvx.boot.common.annotation.ExecTime;
+import org.luvx.boot.aop.annotation.ExecTime;
 import org.luvx.common.util.ToString;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ import static java.util.Collections.emptyMap;
 @Component
 public class MeasurementAspect {
 
-    @Pointcut("@annotation(org.luvx.boot.common.annotation.ExecTime)")
+    @Pointcut("@annotation(org.luvx.boot.aop.annotation.ExecTime)")
     public void annotationPointCut() {
     }
 

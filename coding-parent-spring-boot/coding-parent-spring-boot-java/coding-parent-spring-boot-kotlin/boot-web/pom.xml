@@ -9,7 +9,7 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>coding-common-spring-boot</artifactId>
+    <artifactId>boot-web</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -21,10 +21,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <dependency>
             <groupId>org.luvx</groupId>

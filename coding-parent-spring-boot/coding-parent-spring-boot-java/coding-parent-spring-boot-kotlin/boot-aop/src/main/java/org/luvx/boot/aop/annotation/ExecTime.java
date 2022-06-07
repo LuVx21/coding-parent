@@ -1,4 +1,4 @@
-package org.luvx.boot.common.annotation;
+package org.luvx.boot.aop.annotation;
 
 import java.lang.annotation.*;
 

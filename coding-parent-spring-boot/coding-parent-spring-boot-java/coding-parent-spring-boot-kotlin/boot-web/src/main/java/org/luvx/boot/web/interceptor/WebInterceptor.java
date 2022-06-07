@@ -1,4 +1,4 @@
-package org.luvx.boot.common.interceptor;
+package org.luvx.boot.web.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
