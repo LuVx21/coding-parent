@@ -70,6 +70,12 @@
             <artifactId>commons-collections4</artifactId>
             <version>${collections4.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.phantomthief</groupId>
+            <artifactId>more-lambdas-jdk9</artifactId>
+            <version>0.1.55</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -82,12 +88,6 @@
             <dependency>
                 <groupId>org.luvx</groupId>
                 <artifactId>logging-parent</artifactId>
-                <version>${app.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.luvx</groupId>
-                <artifactId>common-spring-boot</artifactId>
                 <version>${app.version}</version>
             </dependency>
             <dependency>
