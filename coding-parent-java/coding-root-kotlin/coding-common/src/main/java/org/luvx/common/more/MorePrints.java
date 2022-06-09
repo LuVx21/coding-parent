@@ -1,8 +1,8 @@
-package org.luvx.common.util;
+package org.luvx.common.more;
 
 import io.vavr.collection.Iterator;
 
-public class PrintUtils {
+public class MorePrints {
     public static void println(Object... objs) {
         System.out.println(
                 Iterator.of(objs)
