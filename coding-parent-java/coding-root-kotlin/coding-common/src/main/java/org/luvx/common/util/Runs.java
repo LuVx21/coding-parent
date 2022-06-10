@@ -1,8 +1,11 @@
 package org.luvx.common.util;
 
 import com.github.phantomthief.util.MoreFunctions;
+import com.github.phantomthief.util.ThrowableRunnable;
 import com.google.common.collect.Lists;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.luvx.common.more.MoreArguments;
 
@@ -15,16 +18,9 @@ import java.util.Objects;
 
 @Slf4j
 public class Runs {
-    public static void run(Runnable runnable) {
-        try {
-            runnable.run();
-        } catch (Throwable ignore) {
-        }
-    }
-
-    public static void runWithTime(Runnable runnable) {
+    public static void runWithTime(ThrowableRunnable runnable) {
         long start = System.currentTimeMillis();
-        run(runnable);
+        MoreFunctions.runCatching(runnable);
         long end = System.currentTimeMillis();
         log.info("执行时间:{}ms", end - start);
     }
