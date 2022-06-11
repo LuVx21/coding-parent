@@ -1,5 +1,8 @@
 package org.luvx.common.util;
 
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,12 +14,12 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.annotation.Nullable;
 
 public class DateUtils {
     private static final String            DATE_TIME_FORMAT    = "yyyy-MM-dd HH:mm:ss";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
-            .ofPattern(DATE_TIME_FORMAT).withZone(ZoneId.systemDefault());
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = ofPattern(DATE_TIME_FORMAT)
+            .withZone(ZoneId.systemDefault());
 
     private static final ZoneOffset ZONE = ZoneOffset.ofHours(8);
 
@@ -87,10 +90,8 @@ public class DateUtils {
      * @param day 日期字符串
      * @param pattern 日期的格式
      */
+    @Nullable
     public static LocalDate stringToLocalDate(String day, String pattern) {
-        if (StringUtils.isBlank(day)) {
-            return null;
-        }
-        return LocalDate.parse(day, DateTimeFormatter.ofPattern(pattern));
+        return isBlank(day) ? null : LocalDate.parse(day, ofPattern(pattern));
     }
 }

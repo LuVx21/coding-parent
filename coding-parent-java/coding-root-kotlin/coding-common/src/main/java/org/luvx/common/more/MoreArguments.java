@@ -10,7 +10,7 @@ public class MoreArguments {
     /**
      * 可变参数按数量分组
      */
-    public static Object[][] doArgs(int cnt, Object... args) {
+    public static Object[][] groupArgs(int cnt, Object... args) {
         if (cnt == 0 || ArrayUtils.isEmpty(args)) {
             return new Object[0][0];
         }

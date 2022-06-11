@@ -50,7 +50,7 @@ public class Runs {
                     .orElseThrow();
             method.setAccessible(true);
             int parameterCount = method.getParameterCount();
-            Object[][] objects = MoreArguments.doArgs(parameterCount, args);
+            Object[][] objects = MoreArguments.groupArgs(parameterCount, args);
             for (Object[] arg : objects) {
                 Object invoke = ObjectUtils.defaultIfNull(method.invoke(o, arg), arg);
                 result.add(invoke);
