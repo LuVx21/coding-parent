@@ -3,7 +3,7 @@ package org.luvx.common.id;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class SnowFlakeIdGenerator {
+public class SnowflakeIdWorker1 {
     //初始时间截 (2017-01-01)
     private static final long INITIAL_TIME_STAMP  = 1483200000000L;
     //机器id所占的位数
@@ -36,10 +36,10 @@ public class SnowFlakeIdGenerator {
     /**
      * 构造函数
      *
-     * @param workerId     工作ID (0~31)
+     * @param workerId 工作ID (0~31)
      * @param datacenterId 数据中心ID (0~31)
      */
-    public SnowFlakeIdGenerator(long workerId, long datacenterId) {
+    public SnowflakeIdWorker1(long workerId, long datacenterId) {
         if (workerId > MAX_WORKER_ID || workerId < 0) {
             throw new IllegalArgumentException(String.format("WorkerID 不能大于 %d 或小于 0", MAX_WORKER_ID));
         }
@@ -57,26 +57,26 @@ public class SnowFlakeIdGenerator {
      */
     public synchronized long nextId() {
         long timestamp = System.currentTimeMillis();
-//如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
+        //如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
         if (timestamp < lastTimestamp) {
             throw new RuntimeException("当前时间小于上一次记录的时间戳！");
         }
-//如果是同一时间生成的，则进行毫秒内序列
+        //如果是同一时间生成的，则进行毫秒内序列
         if (lastTimestamp == timestamp) {
             sequence = (sequence + 1) & SEQUENCE_MASK;
-//sequence等于0说明毫秒内序列已经增长到最大值
+            //sequence等于0说明毫秒内序列已经增长到最大值
             if (sequence == 0) {
-//阻塞到下一个毫秒,获得新的时间戳
+                //阻塞到下一个毫秒,获得新的时间戳
                 timestamp = tilNextMillis(lastTimestamp);
             }
         }
-//时间戳改变，毫秒内序列重置
+        //时间戳改变，毫秒内序列重置
         else {
             sequence = 0L;
         }
-//上次生成ID的时间截
+        //上次生成ID的时间截
         lastTimestamp = timestamp;
-//移位并通过或运算拼到一起组成64位的ID
+        //移位并通过或运算拼到一起组成64位的ID
         return ((timestamp - INITIAL_TIME_STAMP) << TIMESTAMP_OFFSET)
                 | (datacenterId << DATACENTERID_OFFSET)
                 | (workerId << WORKERID_OFFSET)
@@ -98,8 +98,8 @@ public class SnowFlakeIdGenerator {
     }
 
     public static void main(String[] args) {
-        final SnowFlakeIdGenerator idGenerator = new SnowFlakeIdGenerator(1, 1);
-//线程池并行执行10000次ID生成
+        final SnowflakeIdWorker1 idGenerator = new SnowflakeIdWorker1(1, 1);
+        //线程池并行执行10000次ID生成
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         for (int i = 0; i < 10000; i++) {

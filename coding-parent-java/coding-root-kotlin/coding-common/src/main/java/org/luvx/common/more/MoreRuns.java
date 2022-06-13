@@ -42,7 +42,15 @@ public class MoreRuns {
             Method[] declaredMethods = clazz.getDeclaredMethods();
             Method method = Arrays.stream(declaredMethods)
                     .filter(m -> Objects.equals(methodName, m.getName()))
-                    .filter(m -> args.length % m.getParameterCount() == 0)
+                    .filter(m -> {
+                        Class<?>[] parameterTypes = m.getParameterTypes();
+                        for (int i = 0; i < parameterTypes.length; i++) {
+                            if (!Objects.equals(parameterTypes[i], args[i].getClass())) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    })
                     .findFirst()
                     .orElseThrow();
             method.setAccessible(true);
@@ -53,6 +61,7 @@ public class MoreRuns {
                 result.add(invoke);
             }
         });
+        log.info("执行结果:{}", result);
         return result;
     }
 }
