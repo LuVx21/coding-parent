@@ -5,12 +5,11 @@
 
     <parent>
         <groupId>org.luvx</groupId>
-        <artifactId>coding-parent-spring-boot-java</artifactId>
+        <artifactId>coding-parent-boot-java</artifactId>
         <version>0.1</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>coding-parent-spring-boot-kotlin</artifactId>
+    <artifactId>coding-parent-boot-kotlin</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>

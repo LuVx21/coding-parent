@@ -5,11 +5,11 @@
 
     <parent>
         <groupId>org.luvx</groupId>
-        <artifactId>coding-parent-spring-boot-kotlin</artifactId>
+        <artifactId>coding-parent-boot-kotlin</artifactId>
         <version>0.1</version>
     </parent>
 
-    <artifactId>boot-common</artifactId>
+    <artifactId>boot-web</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -19,8 +19,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.luvx</groupId>

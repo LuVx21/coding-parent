@@ -9,7 +9,7 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>coding-parent-spring-boot-java</artifactId>
+    <artifactId>coding-parent-boot-java</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -19,7 +19,7 @@
     </properties>
 
     <modules>
-        <module>coding-parent-spring-boot-kotlin</module>
+        <module>coding-parent-boot-kotlin</module>
     </modules>
 
     <dependencies>

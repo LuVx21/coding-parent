@@ -27,7 +27,7 @@
 
     <modules>
         <module>coding-parent-java</module>
-        <module>coding-parent-spring-boot-java</module>
+        <module>coding-parent-boot-java</module>
         <module>logging-parent</module>
         <module>logging-parent-spring</module>
     </modules>
