@@ -15,7 +15,7 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <kotlin.version>1.6.20</kotlin.version>
+        <kotlin.version>1.7.0</kotlin.version>
         <kotlin.logging.version>2.1.23</kotlin.logging.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
