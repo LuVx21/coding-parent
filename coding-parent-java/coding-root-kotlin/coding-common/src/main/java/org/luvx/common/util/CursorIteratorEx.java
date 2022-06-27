@@ -13,12 +13,12 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 
 public class CursorIteratorEx<T, C, R> implements Iterable<T> {
-    private final C initCursor;
-    private final boolean checkFirstCursor;
-    private final Function<C, R> dataRetriever;
-    private final Function<R, C> cursorExtractor;
+    private final C                        initCursor;
+    private final boolean                  checkFirstCursor;
+    private final Function<C, R>           dataRetriever;
+    private final Function<R, C>           cursorExtractor;
     private final Function<R, Iterator<T>> dataExtractor;
-    private final Predicate<C> endChecker;
+    private final Predicate<C>             endChecker;
 
     private CursorIteratorEx(C initCursor, boolean checkFirstCursor, Function<C, R> dataRetriever,
             Function<R, C> cursorExtractor, Function<R, Iterator<T>> dataExtractor,
@@ -36,8 +36,8 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
      *
      * @return 游标迭代器构造器对象
      */
-    @CheckReturnValue
     @Nonnull
+    @CheckReturnValue
     public static <T, C, R> Builder<T, C, R> newBuilder() {
         return new Builder<>();
     }
@@ -72,13 +72,12 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
      */
     @SuppressWarnings("unchecked")
     public static final class Builder<T, C, R> {
-
-        private C initCursor;
-        private boolean checkFirstCursor;
-        private Function<C, R> dataRetriever;
-        private Function<R, C> cursorExtractor;
+        private C                        initCursor;
+        private boolean                  checkFirstCursor;
+        private Function<C, R>           dataRetriever;
+        private Function<R, C>           cursorExtractor;
         private Function<R, Iterator<T>> dataExtractor;
-        private Predicate<C> endChecker;
+        private Predicate<C>             endChecker;
 
         /**
          * 设置起始ID，此ID对应的记录将作为迭代器返回的第一条数据对象
@@ -181,9 +180,8 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
     }
 
     private final class RollingIterator implements Iterator<T> {
-
-        private C currentCursor;
-        private R currentData;
+        private C           currentCursor;
+        private R           currentData;
         private Iterator<T> currentIterator;
 
         RollingIterator() {

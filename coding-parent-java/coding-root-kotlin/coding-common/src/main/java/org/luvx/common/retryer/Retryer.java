@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +120,7 @@ public class Retryer<T> {
      * @return value returned by supplier
      * @throws X 如果超过了最大重试次数，且代码抛出了异常
      */
+    @Nullable
     public <X extends Throwable> T call(ThrowableSupplier<T, X> supplier) throws X {
         long lastIntervalMillis = 0, lastSecondIntervalMillis = 0;
         for (int i = 0; i <= maxRetryTimes; i++) {
@@ -155,7 +157,9 @@ public class Retryer<T> {
             }
         }
         notifyMaxRetryTimesExceeded();
-        throw new RuntimeException("超出最大重试次数");
+        // throw new RuntimeException("超出最大重试次数");
+        log.warn("超出最大重试次数:{}", name);
+        return null;
     }
 
     private void notifyRetryBegin(int retryTimes) {
