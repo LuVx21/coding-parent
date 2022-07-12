@@ -1,25 +1,25 @@
 package org.luvx.common.idbit.constant;
 
+import static org.luvx.common.idbit.constant.UserClickBitType.E1;
+import static org.luvx.common.idbit.constant.UserClickBitType.E2;
+
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 import org.luvx.common.idbit.dto.HasBitInfo;
 import org.luvx.common.more.MorePrints;
 
-import java.util.Set;
-
 class HasBitInfoTest {
     @Test
     void m1() {
-        long l = HasBitInfo.toLong(
-                Set.of(UserClickBitType.E0, UserClickBitType.E1, UserClickBitType.E2)
-        );
+        Set<UserClickBitType> set = Set.of(E1, E2);
+
+        long l = HasBitInfo.toLong(set);
+
         MorePrints.println(
-                UserClickBitType.E2.bitValue(),
                 l,
                 Long.toBinaryString(l),
-                HasBitInfo.toSet(l, UserClickBitType.class),
-
-                // Long.toBinaryString(4),
-                HasBitInfo.toSet(7, UserClickBitType.class)
+                HasBitInfo.toSet(l, UserClickBitType.class)
         );
     }
 }

@@ -9,15 +9,15 @@ public class UserClickBit extends BaseBit<UserClickBitType> {
         super(id, bits);
     }
 
-    public boolean e0() {
+    public boolean isE0() {
         return getBits().contains(UserClickBitType.E0);
     }
 
-    public boolean e1() {
+    public boolean isE1() {
         return getBits().contains(UserClickBitType.E1);
     }
 
-    public boolean e2() {
+    public boolean isE2() {
         return getBits().contains(UserClickBitType.E2);
     }
 }

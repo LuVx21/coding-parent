@@ -28,4 +28,15 @@ public interface HasBitInfo {
                 .mapToLong(HasBitInfo::bitValue)
                 .sum();
     }
+
+    static <E extends HasBitInfo> long toBitValue(Set<E> set) {
+        if (set == null) {
+            return 0L;
+        }
+        long bitValue = 0;
+        for (HasBitInfo bit : set) {
+            bitValue |= bit.bitValue();
+        }
+        return bitValue;
+    }
 }
