@@ -1,4 +1,4 @@
-package org.luvx.common.enums;
+package org.luvx.common.idbit.dto;
 
 import java.util.EnumSet;
 import java.util.Set;

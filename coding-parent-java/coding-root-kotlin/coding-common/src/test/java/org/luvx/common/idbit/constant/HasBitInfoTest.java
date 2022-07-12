@@ -1,7 +1,7 @@
-package org.luvx.common.enums;
+package org.luvx.common.idbit.constant;
 
 import org.junit.jupiter.api.Test;
-import org.luvx.common.enums.use.UserClickBitType;
+import org.luvx.common.idbit.dto.HasBitInfo;
 import org.luvx.common.more.MorePrints;
 
 import java.util.Set;

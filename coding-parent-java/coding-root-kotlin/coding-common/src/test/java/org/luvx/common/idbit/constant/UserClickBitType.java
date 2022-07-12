@@ -1,8 +1,8 @@
-package org.luvx.common.enums.use;
+package org.luvx.common.idbit.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.luvx.common.enums.HasBitInfo;
+import org.luvx.common.idbit.dto.HasBitInfo;
 
 @Getter
 @AllArgsConstructor
