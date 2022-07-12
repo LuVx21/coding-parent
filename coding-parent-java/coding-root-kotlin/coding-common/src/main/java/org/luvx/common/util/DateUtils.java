@@ -1,20 +1,15 @@
 package org.luvx.common.util;
 
-import static java.time.format.DateTimeFormatter.ofPattern;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import javax.annotation.Nullable;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 
-import javax.annotation.Nullable;
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class DateUtils {
     private static final String            DATE_TIME_FORMAT    = "yyyy-MM-dd HH:mm:ss";
@@ -87,11 +82,15 @@ public class DateUtils {
     /**
      * 字符串转换成日期
      *
-     * @param day 日期字符串
+     * @param day     日期字符串
      * @param pattern 日期的格式
      */
     @Nullable
     public static LocalDate stringToLocalDate(String day, String pattern) {
         return isBlank(day) ? null : LocalDate.parse(day, ofPattern(pattern));
+    }
+
+    public static String format(TemporalAccessor temporal) {
+        return DATE_TIME_FORMATTER.format(temporal);
     }
 }
