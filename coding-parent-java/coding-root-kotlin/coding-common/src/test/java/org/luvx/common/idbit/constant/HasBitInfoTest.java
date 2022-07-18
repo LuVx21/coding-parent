@@ -12,7 +12,7 @@ import org.luvx.common.more.MorePrints;
 class HasBitInfoTest {
     @Test
     void m1() {
-        Set<UserClickBitType> set = Set.of(E1, E2);
+        Set<UserClickBitType> set = Set.of(E1, E2, UserClickBitType.E62, UserClickBitType.E63);
 
         long l = HasBitInfo.toLong(set);
 
