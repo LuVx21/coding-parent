@@ -7,7 +7,7 @@ public class MorePrints {
         System.out.println(
                 Iterator.of(objs)
                         .map(String::valueOf)
-                        .mkString(" ")
+                        .mkString("\n")
         );
     }
 }
