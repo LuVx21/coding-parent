@@ -16,6 +16,10 @@ public interface EnumHasCode<T> {
      */
     T getCode();
 
+    default boolean isValidBizCode() {
+        return true;
+    }
+
     /**
      * 是否是: 实际用于业务标识的枚举
      *

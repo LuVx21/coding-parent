@@ -25,6 +25,11 @@ public enum CommonStatusEnum implements EnumHasName<Integer, String> {
     }
 
     @Override
+    public boolean isValidBizCode() {
+        return this != UNKNOWN;
+    }
+
+    @Override
     public String getName() {
         return name;
     }
