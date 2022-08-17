@@ -1,16 +1,23 @@
 package org.luvx.common.util;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.USE_DEFAULTS;
+import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
 import static org.luvx.common.util.TimeUtils.NORM_DATETIME_FORMAT;
 
 @Slf4j
@@ -18,118 +25,100 @@ import static org.luvx.common.util.TimeUtils.NORM_DATETIME_FORMAT;
 public final class JsonUtils {
 
     private static volatile ObjectMapper defaultMapper;
-
     private static volatile ObjectMapper supportNullValueMapper;
 
     private static volatile ObjectMapper snakeMapper;
-
     private static volatile ObjectMapper snakeSupportNullValueMapper;
 
-    public static String toJson(Object obj) {
-        return toJson(obj, false);
+    public static String toJSONString(Object obj) {
+        return toJSONString(obj, false, false);
     }
 
-    public static String toJsonSnake(Object obj) {
-        return toJson(obj, false, true);
+    public static String toJSONStringSnake(Object obj) {
+        return toJSONString(obj, false, true);
     }
 
-    public static String toJson(Object obj, boolean supportNullValue) {
-        return toJson(obj, supportNullValue, false);
-    }
-
-    public static String toJson(Object obj, boolean supportNullValue, boolean snake) {
+    public static String toJSONString(Object obj, boolean supportNullValue, boolean snake) {
         if (obj == null) {
             return null;
         }
         try {
             if (snake) {
-                if (supportNullValue) {
-                    return getSnakeNullValueMapper().writeValueAsString(obj);
-                }
-                return getSnakeMapper().writeValueAsString(obj);
+                return (supportNullValue ? getSnakeNullValueMapper() : getSnakeMapper())
+                        .writeValueAsString(obj);
             }
-
-            if (supportNullValue) {
-                return getNullValueMapper().writeValueAsString(obj);
-            }
-            return getDefaultMapper().writeValueAsString(obj);
+            return (supportNullValue ? getNullValueMapper() : getDefaultMapper())
+                    .writeValueAsString(obj);
         } catch (IOException e) {
             log.warn("[writeValueAsString]：" + e.getMessage(), e);
         }
         return null;
     }
 
-    public static <T> T toObj(String json, Class<T> clazz) {
-        return toObj(json, clazz, false);
+    public static <T> T parseObject(String json, Class<T> clazz) {
+        return parseObject(json, clazz, false);
     }
 
-    public static <T> T toObjSnake(String json, Class<T> clazz) {
-        return toObj(json, clazz, true);
+    public static <T> T parseObjectSnake(String json, Class<T> clazz) {
+        return parseObject(json, clazz, true);
     }
 
-    public static <T> T toObj(String json, Class<T> clazz, boolean snake) {
+    public static <T> T parseObject(String json, Class<T> clazz, boolean snake) {
         if (StringUtils.isEmpty(json)) {
             return null;
         }
         try {
-            if (snake) {
-                return getSnakeMapper().readValue(json, clazz);
-            }
-            return getDefaultMapper().readValue(json, clazz);
-        } catch (IOException e) {
-            log.warn("[readValue]：" + e.getMessage(), e);
-        }
-        return null;
-
-    }
-
-    public static <T> T toObj(String json, TypeReference<T> typeRef) {
-        return toObj(json, typeRef, false);
-    }
-
-    public static <T> T toObjSnake(String json, TypeReference<T> typeRef) {
-        return toObj(json, typeRef, true);
-    }
-
-    public static <T> T toObj(String json, TypeReference<T> typeRef, boolean snake) {
-        if (StringUtils.isEmpty(json)) {
-            return null;
-        }
-        try {
-            if (snake) {
-                return getSnakeMapper().readValue(json, typeRef);
-            }
-            return getDefaultMapper().readValue(json, typeRef);
+            return (snake ? getSnakeMapper() : getDefaultMapper()).readValue(json, clazz);
         } catch (IOException e) {
             log.warn("[readValue]：" + e.getMessage(), e);
         }
         return null;
     }
 
-    public static <T> T toObj(String json, Class<? extends Collection> collectionClass, Class<?> elementClass) {
+    public static <T> T parseObject(String json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef, false);
+    }
+
+    public static <T> T parseObjectSnake(String json, TypeReference<T> typeRef) {
+        return parseObject(json, typeRef, true);
+    }
+
+    public static <T> T parseObject(String json, TypeReference<T> typeRef, boolean snake) {
         if (StringUtils.isEmpty(json)) {
             return null;
         }
         try {
-            JavaType javaType = getDefaultMapper().getTypeFactory().constructCollectionType(collectionClass, elementClass);
-            return (T) getDefaultMapper().readValue(json, javaType);
+            return (snake ? getSnakeMapper() : getDefaultMapper()).readValue(json, typeRef);
         } catch (IOException e) {
-            log.warn("[toObj]" + e.getMessage(), e);
+            log.warn("[readValue]：" + e.getMessage(), e);
         }
         return null;
     }
 
-    public static <T> T toObj(String json, Class<? extends Map> mapClass, Class<?> keyClass, Class<?> valueClass) {
+    public static <T extends List<E>, E> List<E> parseArray(String json, Class<T> listClass, Class<E> elementClass) {
         if (StringUtils.isEmpty(json)) {
-            return null;
+            return Collections.emptyList();
         }
         try {
-            JavaType javaType = getDefaultMapper().getTypeFactory().constructMapType(mapClass, keyClass, valueClass);
-            return (T) getDefaultMapper().readValue(json, javaType);
+            JavaType javaType = getDefaultMapper().getTypeFactory().constructCollectionType(listClass, elementClass);
+            return getDefaultMapper().readValue(json, javaType);
         } catch (IOException e) {
-            log.warn("[toObj]" + e.getMessage(), e);
+            log.warn("[parseArray]" + e.getMessage(), e);
         }
-        return null;
+        return Collections.emptyList();
+    }
+
+    public static <M extends Map<K, V>, K, V> Map<K, V> parseMap(String json, Class<M> mapClass, Class<K> kClass, Class<V> vClass) {
+        if (StringUtils.isEmpty(json)) {
+            return Collections.emptyMap();
+        }
+        try {
+            JavaType javaType = getDefaultMapper().getTypeFactory().constructMapType(mapClass, kClass, vClass);
+            return getDefaultMapper().readValue(json, javaType);
+        } catch (IOException e) {
+            log.warn("[parseMap]" + e.getMessage(), e);
+        }
+        return Collections.emptyMap();
     }
 
     public static String formatJson(String json) {
@@ -150,7 +139,7 @@ public final class JsonUtils {
             synchronized (JsonUtils.class) {
                 if (defaultMapper == null) {
                     defaultMapper = new ObjectMapper();
-                    setMapperCommonConfigure(defaultMapper, JsonInclude.Include.NON_NULL);
+                    setMapperCommonConfigure(defaultMapper, NON_NULL);
                 }
             }
         }
@@ -162,7 +151,7 @@ public final class JsonUtils {
             synchronized (JsonUtils.class) {
                 if (supportNullValueMapper == null) {
                     supportNullValueMapper = new ObjectMapper();
-                    setMapperCommonConfigure(supportNullValueMapper, JsonInclude.Include.USE_DEFAULTS);
+                    setMapperCommonConfigure(supportNullValueMapper, USE_DEFAULTS);
                 }
             }
         }
@@ -174,8 +163,8 @@ public final class JsonUtils {
             synchronized (JsonUtils.class) {
                 if (snakeMapper == null) {
                     snakeMapper = new ObjectMapper();
-                    setMapperCommonConfigure(snakeMapper, JsonInclude.Include.NON_NULL);
-                    snakeMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+                    setMapperCommonConfigure(snakeMapper, NON_NULL);
+                    snakeMapper.setPropertyNamingStrategy(SNAKE_CASE);
                 }
             }
         }
@@ -187,15 +176,15 @@ public final class JsonUtils {
             synchronized (JsonUtils.class) {
                 if (snakeSupportNullValueMapper == null) {
                     snakeSupportNullValueMapper = new ObjectMapper();
-                    setMapperCommonConfigure(snakeSupportNullValueMapper, JsonInclude.Include.USE_DEFAULTS);
-                    snakeSupportNullValueMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+                    setMapperCommonConfigure(snakeSupportNullValueMapper, USE_DEFAULTS);
+                    snakeSupportNullValueMapper.setPropertyNamingStrategy(SNAKE_CASE);
                 }
             }
         }
         return snakeSupportNullValueMapper;
     }
 
-    private static void setMapperCommonConfigure(ObjectMapper mapper, JsonInclude.Include include) {
+    private static void setMapperCommonConfigure(ObjectMapper mapper, Include include) {
         // 设置序列化忽略项
         mapper.setSerializationInclusion(include);
         // 设置时区
