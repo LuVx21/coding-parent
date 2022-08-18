@@ -108,12 +108,12 @@ public final class JsonUtils {
         return Collections.emptyList();
     }
 
-    public static <M extends Map<K, V>, K, V> Map<K, V> parseMap(String json, Class<M> mapClass, Class<K> kClass, Class<V> vClass) {
+    public static <M extends Map<String, V>, V> Map<String, V> parseMap(String json, Class<M> mapClass, Class<V> vClass) {
         if (StringUtils.isEmpty(json)) {
             return Collections.emptyMap();
         }
         try {
-            JavaType javaType = getDefaultMapper().getTypeFactory().constructMapType(mapClass, kClass, vClass);
+            JavaType javaType = getDefaultMapper().getTypeFactory().constructMapType(mapClass, String.class, vClass);
             return getDefaultMapper().readValue(json, javaType);
         } catch (IOException e) {
             log.warn("[parseMap]" + e.getMessage(), e);

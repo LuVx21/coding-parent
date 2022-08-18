@@ -3,8 +3,10 @@ package org.luvx.common.util;
 import org.junit.jupiter.api.Test;
 import org.luvx.common.more.MorePrints;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 class JsonUtilsTest {
 
@@ -39,7 +41,16 @@ class JsonUtilsTest {
                 "userId" : 10000
                 }
                 """;
-        Map<String, Long> map = JsonUtils.parseMap(json, Map.class, String.class, Long.class);
-        System.out.println(map);
+        Map<String, Long> map = JsonUtils.parseMap(json, TreeMap.class, Long.class);
+        MorePrints.println(
+                map.getClass(),
+                map
+        );
+
+        Map map1 = JsonUtils.parseObject(json, Map.class);
+        MorePrints.println(
+                map1.getClass(),
+                map1
+        );
     }
 }
