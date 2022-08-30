@@ -48,6 +48,6 @@ public class ListAllUrlPath {
             pattern.getPatternValues()
                     .forEach(url -> result.put(url, Map.of("location", s, "method", methodList)));
         }
-        log.info("获取所有url:\n{}", JsonUtils.toJSONString(result));
+        log.info("获取所有url:\n{}", JsonUtils.toJson(result));
     }
 }

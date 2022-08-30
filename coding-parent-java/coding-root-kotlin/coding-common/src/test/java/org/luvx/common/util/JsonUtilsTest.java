@@ -19,8 +19,8 @@ class JsonUtilsTest {
         user.setAge(18);
         user.setValid(2);
         MorePrints.println(
-                JsonUtils.toJSONString(user),
-                JsonUtils.toJSONStringSnake(user)
+                JsonUtils.toJson(user),
+                JsonUtils.toJsonSnake(user)
         );
 
         String json = """
@@ -47,7 +47,7 @@ class JsonUtilsTest {
                 map
         );
 
-        Map map1 = JsonUtils.parseObject(json, Map.class);
+        Map map1 = JsonUtils.fromJson(json, Map.class);
         MorePrints.println(
                 map1.getClass(),
                 map1

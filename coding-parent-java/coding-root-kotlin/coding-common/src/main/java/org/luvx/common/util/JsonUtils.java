@@ -1,28 +1,36 @@
 package org.luvx.common.util;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.USE_DEFAULTS;
 import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
 import static org.luvx.common.util.TimeUtils.NORM_DATETIME_FORMAT;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.MapType;
+
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @UtilityClass
 public final class JsonUtils {
+
+    private static final String EMPTY_JSON       = "{}";
+    private static final String EMPTY_ARRAY_JSON = "[]";
 
     private static volatile ObjectMapper defaultMapper;
     private static volatile ObjectMapper supportNullValueMapper;
@@ -30,15 +38,15 @@ public final class JsonUtils {
     private static volatile ObjectMapper snakeMapper;
     private static volatile ObjectMapper snakeSupportNullValueMapper;
 
-    public static String toJSONString(Object obj) {
-        return toJSONString(obj, false, false);
+    public static String toJson(Object obj) {
+        return toJson(obj, false, false);
     }
 
-    public static String toJSONStringSnake(Object obj) {
-        return toJSONString(obj, false, true);
+    public static String toJsonSnake(Object obj) {
+        return toJson(obj, false, true);
     }
 
-    public static String toJSONString(Object obj, boolean supportNullValue, boolean snake) {
+    public static String toJson(Object obj, boolean supportNullValue, boolean snake) {
         if (obj == null) {
             return null;
         }
@@ -55,15 +63,15 @@ public final class JsonUtils {
         return null;
     }
 
-    public static <T> T parseObject(String json, Class<T> clazz) {
-        return parseObject(json, clazz, false);
+    public static <T> T fromJson(String json, Class<T> clazz) {
+        return fromJson(json, clazz, false);
     }
 
-    public static <T> T parseObjectSnake(String json, Class<T> clazz) {
-        return parseObject(json, clazz, true);
+    public static <T> T fromJsonSnake(String json, Class<T> clazz) {
+        return fromJson(json, clazz, true);
     }
 
-    public static <T> T parseObject(String json, Class<T> clazz, boolean snake) {
+    public static <T> T fromJson(String json, Class<T> clazz, boolean snake) {
         if (StringUtils.isEmpty(json)) {
             return null;
         }
@@ -75,15 +83,15 @@ public final class JsonUtils {
         return null;
     }
 
-    public static <T> T parseObject(String json, TypeReference<T> typeRef) {
-        return parseObject(json, typeRef, false);
+    public static <T> T fromJson(String json, TypeReference<T> typeRef) {
+        return fromJson(json, typeRef, false);
     }
 
-    public static <T> T parseObjectSnake(String json, TypeReference<T> typeRef) {
-        return parseObject(json, typeRef, true);
+    public static <T> T fromJsonSnake(String json, TypeReference<T> typeRef) {
+        return fromJson(json, typeRef, true);
     }
 
-    public static <T> T parseObject(String json, TypeReference<T> typeRef, boolean snake) {
+    public static <T> T fromJson(String json, TypeReference<T> typeRef, boolean snake) {
         if (StringUtils.isEmpty(json)) {
             return null;
         }
@@ -108,20 +116,25 @@ public final class JsonUtils {
         return Collections.emptyList();
     }
 
-    public static <M extends Map<String, V>, V> Map<String, V> parseMap(String json, Class<M> mapClass, Class<V> vClass) {
+    public static <M extends Map<String, V>, V> M fromJson(String json,
+            Class<M> mapClass, Class<V> vClass
+    ) {
         if (StringUtils.isEmpty(json)) {
-            return Collections.emptyMap();
+            json = EMPTY_JSON;
         }
         try {
-            JavaType javaType = getDefaultMapper().getTypeFactory().constructMapType(mapClass, String.class, vClass);
+            MapType javaType = getDefaultMapper().getTypeFactory().constructMapType(mapClass, String.class, vClass);
             return getDefaultMapper().readValue(json, javaType);
         } catch (IOException e) {
-            log.warn("[parseMap]" + e.getMessage(), e);
+            throw wrapException(e);
         }
-        return Collections.emptyMap();
     }
 
-    public static String formatJson(String json) {
+    public static Map<String, Object> fromJson(String json) {
+        return fromJson(json, Map.class, Object.class);
+    }
+
+    public static String toPrettyJson(String json) {
         if (json == null) {
             return null;
         }
@@ -182,6 +195,20 @@ public final class JsonUtils {
             }
         }
         return snakeSupportNullValueMapper;
+    }
+
+    private static RuntimeException wrapException(IOException e) {
+        if (e instanceof JsonProcessingException) {
+            return new UncheckedJsonProcessingException((JsonProcessingException) e);
+        } else {
+            return new UncheckedIOException(e);
+        }
+    }
+
+    public class UncheckedJsonProcessingException extends UncheckedIOException {
+        public UncheckedJsonProcessingException(JsonProcessingException cause) {
+            super(cause.getMessage(), cause);
+        }
     }
 
     private static void setMapperCommonConfigure(ObjectMapper mapper, Include include) {
