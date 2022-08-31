@@ -12,6 +12,11 @@ import java.util.stream.StreamSupport;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 
+/**
+ * @param <T> 返回实体的类型
+ * @param <C> ID类型
+ * @param <R> 列表读取结果对象类型
+ */
 public class CursorIteratorEx<T, C, R> implements Iterable<T> {
     private final C                        initCursor;
     private final boolean                  checkFirstCursor;
@@ -21,8 +26,8 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
     private final Predicate<C>             endChecker;
 
     private CursorIteratorEx(C initCursor, boolean checkFirstCursor, Function<C, R> dataRetriever,
-            Function<R, C> cursorExtractor, Function<R, Iterator<T>> dataExtractor,
-            Predicate<C> endChecker) {
+                             Function<R, C> cursorExtractor, Function<R, Iterator<T>> dataExtractor,
+                             Predicate<C> endChecker) {
         this.initCursor = initCursor;
         this.checkFirstCursor = checkFirstCursor;
         this.dataRetriever = dataRetriever;
