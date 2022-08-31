@@ -41,7 +41,7 @@ class JsonUtilsTest {
                 "userId" : 10000
                 }
                 """;
-        Map<String, Long> map = JsonUtils.parseMap(json, TreeMap.class, Long.class);
+        Map<String, Long> map = JsonUtils.fromJson(json, TreeMap.class, Long.class);
         MorePrints.println(
                 map.getClass(),
                 map

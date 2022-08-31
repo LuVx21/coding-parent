@@ -1,5 +1,6 @@
 package org.luvx.boot.web.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.luvx.boot.common.exception.BizException;
 import org.luvx.boot.web.response.BizEnum;
 import org.luvx.boot.web.response.R;
@@ -9,11 +10,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvice {
     /**
@@ -57,7 +60,8 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(Exception.class)
-    public R<String> exceptionHandler(Throwable t) {
+    public R<String> exceptionHandler(HttpServletRequest request, Throwable t) {
+        log.error("异常->url: {}", request.getRequestURI(), t);
         return R.fail();
     }
 }

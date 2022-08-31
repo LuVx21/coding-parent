@@ -18,8 +18,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.UUID;
 
-@Component
 @Slf4j
+@Component
 public class WebLogFilter extends OncePerRequestFilter implements Ordered {
 
     private int order = Ordered.LOWEST_PRECEDENCE - 8;
@@ -32,17 +32,18 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        log.info("filter:{}", getClass().getName());
         MDC.clear();
         MDC.put("trace_id", UUID.randomUUID().toString().replaceAll("-", ""));
         ContentCachingRequestWrapper wrapperRequest = new ContentCachingRequestWrapper(request);
         ContentCachingResponseWrapper wrapperResponse = new ContentCachingResponseWrapper(response);
-        filterChain.doFilter(wrapperRequest, wrapperResponse);
 
         String urlParams = getRequestParams(request);
         log.info("request params: {}", urlParams);
-
         String requestBodyStr = getRequestBody(wrapperRequest);
         log.info("request body: {}", requestBodyStr);
+
+        filterChain.doFilter(wrapperRequest, wrapperResponse);
 
         String responseBodyStr = getResponseBody(wrapperResponse);
         log.info("response body: {}", responseBodyStr);
@@ -95,15 +96,13 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
      */
     private String getResponseBody(ContentCachingResponseWrapper response) {
         ContentCachingResponseWrapper wrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
-
-        if (wrapper != null) {
-            byte[] buffer = wrapper.getContentAsByteArray();
-            String characterEncoding = wrapper.getCharacterEncoding();
-            String body = getPayLoad(buffer, characterEncoding);
-            return body;
+        if (wrapper == null) {
+            return "";
         }
 
-        return "";
+        byte[] buffer = wrapper.getContentAsByteArray();
+        String characterEncoding = wrapper.getCharacterEncoding();
+        return getPayLoad(buffer, characterEncoding);
     }
 
     /**
