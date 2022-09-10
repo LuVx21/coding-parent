@@ -5,7 +5,6 @@ import com.google.common.collect.Iterators;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -55,7 +54,7 @@ class CursorIteratorExTest {
                     Item last = list.get(list.size() - 1);
                     return last.id + 1;
                 })
-                .withEndChecker(l -> l == null || NumberUtils.toLong(l.toString()) > 47)
+                .withEndChecker(l -> l == null || l > 47)
                 .build();
 
         Iterators.partition(cursorIterator.iterator(), 5).forEachRemaining(System.out::println);

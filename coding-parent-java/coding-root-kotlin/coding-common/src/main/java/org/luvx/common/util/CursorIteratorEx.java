@@ -1,5 +1,7 @@
 package org.luvx.common.util;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Spliterator;
@@ -9,20 +11,23 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nonnull;
-
 /**
  * @param <T> 返回实体的类型
  * @param <C> ID类型
  * @param <R> 列表读取结果对象类型
  */
 public class CursorIteratorEx<T, C, R> implements Iterable<T> {
+    /* 初始游标值,从此值开始迭代 */
     private final C                        initCursor;
+    /* 是否检查初始游标值 */
     private final boolean                  checkFirstCursor;
+    /* 用户获取数据 */
     private final Function<C, R>           dataRetriever;
+    /* 用于获取下个游标 */
     private final Function<R, C>           cursorExtractor;
+    /* 用于获取数据结果的迭代器 */
     private final Function<R, Iterator<T>> dataExtractor;
+    /* 游标终止检查 */
     private final Predicate<C>             endChecker;
 
     private CursorIteratorEx(C initCursor, boolean checkFirstCursor, Function<C, R> dataRetriever,
@@ -223,8 +228,8 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
             if (currentData == null) {
                 currentIterator = null;
             } else {
-                currentCursor = cursorExtractor.apply(currentData);
                 currentIterator = dataExtractor.apply(currentData);
+                currentCursor = cursorExtractor.apply(currentData);
             }
         }
 
