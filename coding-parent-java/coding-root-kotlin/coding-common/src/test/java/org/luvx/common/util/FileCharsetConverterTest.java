@@ -1,4 +1,4 @@
-package org.luvx.common.more;
+package org.luvx.common.util;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,25 +1,26 @@
 package org.luvx.common.cursor;
 
-import com.google.common.collect.AbstractIterator;
-import com.google.common.collect.Iterators;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.junit.jupiter.api.Test;
-import org.luvx.common.cursor.CursorIteratorEx;
+import static org.apache.commons.collections4.CollectionUtils.size;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-import static org.apache.commons.collections4.CollectionUtils.size;
+import org.apache.commons.collections4.CollectionUtils;
+import org.junit.jupiter.api.Test;
+
+import com.google.common.collect.AbstractIterator;
+import com.google.common.collect.Iterators;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 class CursorIteratorExTest {
 
     @Test
-    void m1() {
+    void m0() {
         final int limit = 10;
         AbstractIterator<List<Item>> iterator = new AbstractIterator<>() {
             private Long cursor = 0L;
@@ -41,10 +42,22 @@ class CursorIteratorExTest {
     }
 
     @Test
+    void m1() {
+        final int limit = 10;
+        CursorIterator<Long, Item> cursorIterator = CursorIterator.<Long, Item> builder()
+                .withInitCursor(0L)
+                .withDataRetriever(this::dao1)
+                .withCursorExtractor(i -> i.id)
+                .limit(limit)
+                .build();
+
+        Iterators.partition(cursorIterator.iterator(), 5).forEachRemaining(System.out::println);
+    }
+
+    @Test
     public void m2() {
         final int limit = 10;
-        CursorIteratorEx<Item, Long, List<Item>> cursorIterator = CursorIteratorEx
-                .<Item, Long, List<Item>>newBuilder()
+        CursorIteratorEx<Item, Long, List<Item>> cursorIterator = CursorIteratorEx.<Item, Long, List<Item>> builder()
                 .withInitCursor(0L)
                 .withDataRetriever((Long cursor) -> dao1(cursor, limit))
                 .withDataExtractor(List::iterator)
@@ -73,7 +86,7 @@ class CursorIteratorExTest {
 
     @AllArgsConstructor
     static class Item {
-        long id;
+        long   id;
         String name;
 
         @Override

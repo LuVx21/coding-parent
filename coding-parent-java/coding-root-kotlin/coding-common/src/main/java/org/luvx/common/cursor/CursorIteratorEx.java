@@ -48,7 +48,7 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
      */
     @Nonnull
     @CheckReturnValue
-    public static <T, C, R> Builder<T, C, R> newBuilder() {
+    public static <T, C, R> Builder<T, C, R> builder() {
         return new Builder<>();
     }
 

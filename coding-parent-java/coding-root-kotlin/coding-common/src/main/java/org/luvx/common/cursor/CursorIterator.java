@@ -2,7 +2,6 @@ package org.luvx.common.cursor;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
-import static org.luvx.common.cursor.PageScroller.MODE_TRIM_FIRST;
 import static org.luvx.common.cursor.PageScroller.MODE_TRIM_LAST;
 
 import java.util.Iterator;
@@ -35,7 +34,6 @@ public class CursorIterator<Id, Record> implements Iterable<Record> {
     /**
      * 获取迭代器
      */
-    @Nonnull
     @Override
     public Iterator<Record> iterator() {
         return new AbstractIterator<>() {
@@ -71,19 +69,19 @@ public class CursorIterator<Id, Record> implements Iterable<Record> {
 
     @SuppressWarnings("unchecked")
     public static class Builder<Id, Entity> {
-        private IntSupplier          bufferSize;
-        private Function<Entity, Id> extractor;
-        private Id                   start;
-        private int                  limit = 0;
-        private boolean              mode  = MODE_TRIM_FIRST;
+        private CursorIterable<Id, Entity> dataRetriever;
+        private IntSupplier                limitSupplier;
+        private Function<Entity, Id>       cursorExtractor;
+        private Id                         initCursor;
+        private int                        maxPage = 0;
 
         /**
          * 游标值提取方法
          */
         @CheckReturnValue
-        @Nonnull
-        public Builder<Id, Entity> cursorExtractor(Function<Entity, Id> extractor) {
-            this.extractor = extractor;
+        public Builder<Id, Entity> withCursorExtractor(Function<Entity, Id> cursorExtractor) {
+            requireNonNull(cursorExtractor);
+            this.cursorExtractor = cursorExtractor;
             return this;
         }
 
@@ -91,44 +89,43 @@ public class CursorIterator<Id, Record> implements Iterable<Record> {
          * 起始游标值, 对应的数据也是返回的第一条数据
          */
         @CheckReturnValue
-        @Nonnull
-        public Builder<Id, Entity> start(Id start) {
-            this.start = start;
+        public Builder<Id, Entity> withInitCursor(Id initCursor) {
+            this.initCursor = initCursor;
             return this;
         }
 
         @CheckReturnValue
-        @Nonnull
-        public Builder<Id, Entity> bufferSize(int bufferSize) {
-            checkArgument(bufferSize > 0);
-            return bufferSize(() -> bufferSize);
-        }
-
-        @CheckReturnValue
-        @Nonnull
-        public Builder<Id, Entity> bufferSize(@Nonnull IntSupplier bufferSize) {
-            this.bufferSize = requireNonNull(bufferSize);
-            return this;
-        }
-
-        @CheckReturnValue
-        @Nonnull
         public Builder<Id, Entity> limit(int limit) {
-            this.limit = limit;
+            checkArgument(limit > 0);
+            return limit(() -> limit);
+        }
+
+        @CheckReturnValue
+        public Builder<Id, Entity> limit(@Nonnull IntSupplier limitSupplier) {
+            this.limitSupplier = requireNonNull(limitSupplier);
             return this;
         }
 
-        @Nonnull
-        public CursorIterator<Id, Entity> build(CursorIterable<Id, Entity> dataRetriever) {
+        @CheckReturnValue
+        public Builder<Id, Entity> maxPage(int maxPage) {
+            this.maxPage = maxPage;
+            return this;
+        }
+
+        @CheckReturnValue
+        public Builder<Id, Entity> withDataRetriever(CursorIterable<Id, Entity> dataRetriever) {
             requireNonNull(dataRetriever);
-            requireNonNull(extractor);
-            bufferSize = Objects.requireNonNullElse(bufferSize, () -> DEFAULT_BUFFER_SIZE);
+            this.dataRetriever = dataRetriever;
+            return this;
+        }
 
-            this.mode = MODE_TRIM_LAST;
+        public CursorIterator<Id, Entity> build() {
+            limitSupplier = Objects.requireNonNullElse(limitSupplier, () -> DEFAULT_BUFFER_SIZE);
 
-            PageScroller<Id, Entity> scroller = new PageScroller<>(dataRetriever, start, bufferSize, extractor, mode);
-            if (limit > 0) {
-                scroller.setMaxNumberOfPages(limit);
+            PageScroller<Id, Entity> scroller = new PageScroller<>(dataRetriever, initCursor, limitSupplier,
+                    cursorExtractor, MODE_TRIM_LAST);
+            if (maxPage > 0) {
+                scroller.setMaxPage(maxPage);
             }
             return new CursorIterator<>(scroller);
         }
