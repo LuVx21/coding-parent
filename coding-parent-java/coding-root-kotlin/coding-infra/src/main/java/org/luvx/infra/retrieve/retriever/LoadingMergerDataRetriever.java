@@ -1,8 +1,8 @@
 package org.luvx.infra.retrieve.retriever;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.Thread.currentThread;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import java.util.Collection;
@@ -173,7 +173,7 @@ public class LoadingMergerDataRetriever<K, V> implements MultiDataRetrievable<K,
         }
 
         public LoadingMergerDataRetriever<K, V> build() {
-            checkNotNull(loader);
+            requireNonNull(loader);
             return new LoadingMergerDataRetriever<>(waitOtherLoadingTimeout, loader);
         }
     }

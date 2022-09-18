@@ -1,4 +1,4 @@
-package org.luvx.common.util;
+package org.luvx.common.cursor;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;

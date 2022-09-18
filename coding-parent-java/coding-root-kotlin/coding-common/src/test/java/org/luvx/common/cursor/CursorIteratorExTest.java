@@ -1,4 +1,4 @@
-package org.luvx.common.util;
+package org.luvx.common.cursor;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterators;
@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
+import org.luvx.common.cursor.CursorIteratorEx;
 
 import java.util.Collections;
 import java.util.List;
