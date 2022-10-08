@@ -1,7 +1,14 @@
 package org.luvx.common.util;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
@@ -92,5 +99,13 @@ public class DateUtils {
 
     public static String format(TemporalAccessor temporal) {
         return DATE_TIME_FORMATTER.format(temporal);
+    }
+
+    public static <T extends ChronoLocalDate> T min(@Nonnull T a, @Nonnull T b) {
+        return a.isAfter(b) ? b : a;
+    }
+
+    public static <T extends ChronoLocalDate> T max(@Nonnull T a, @Nonnull T b) {
+        return a.isAfter(b) ? a : b;
     }
 }
