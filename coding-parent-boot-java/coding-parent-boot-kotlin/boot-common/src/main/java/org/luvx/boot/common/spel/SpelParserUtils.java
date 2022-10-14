@@ -20,6 +20,10 @@ public class SpelParserUtils {
     }
 
     public static Object parse(String expression, EvaluationContext context) {
+        return parser.parseExpression(expression).getValue(context);
+    }
+
+    public static Object parseWithReplace(String expression, EvaluationContext context) {
         String exp = getString(expression);
         log.info("{} -> {}", expression, exp);
         return parser.parseExpression(exp).getValue(context);

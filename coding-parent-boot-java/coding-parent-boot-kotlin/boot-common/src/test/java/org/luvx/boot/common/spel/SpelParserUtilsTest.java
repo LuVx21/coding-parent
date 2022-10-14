@@ -15,7 +15,7 @@ class SpelParserUtilsTest {
         context.setVariable("d", "哈哈");
 
         String expression = "{#a}【连接{#b}】{#c} ({#d}）";
-        Object value = SpelParserUtils.parse(expression, context);
+        Object value = SpelParserUtils.parseWithReplace(expression, context);
         System.out.println(value);
     }
 
@@ -27,5 +27,12 @@ class SpelParserUtilsTest {
         Expression exp = SpelParserUtils.parse("'Hello World'.length()");
         Integer size = exp.getValue(Integer.class);
         System.out.println(size);
+
+        EvaluationContext context = new StandardEvaluationContext();
+        context.setVariable("a", 1);
+        context.setVariable("b", 2);
+        context.setVariable("c", 3);
+        Object parse = SpelParserUtils.parse("#a+#b*#c", context);
+        System.out.println(parse);
     }
 }
