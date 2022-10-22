@@ -1,7 +1,7 @@
 package org.luvx.boot.web.enums;
 
 import lombok.AllArgsConstructor;
-import org.luvx.common.enums.EnumHasName;
+import org.luvx.coding.common.enums.EnumHasName;
 
 @AllArgsConstructor
 public enum CommonStatusEnum implements EnumHasName<Integer, String> {

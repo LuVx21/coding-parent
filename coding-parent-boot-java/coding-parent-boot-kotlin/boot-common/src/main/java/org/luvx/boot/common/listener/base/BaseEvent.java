@@ -1,6 +1,6 @@
 package org.luvx.boot.common.listener.base;
 
-import org.luvx.common.enums.EnumHasCode;
+import org.luvx.coding.common.enums.EnumHasCode;
 import org.springframework.context.ApplicationEvent;
 
 import lombok.Getter;

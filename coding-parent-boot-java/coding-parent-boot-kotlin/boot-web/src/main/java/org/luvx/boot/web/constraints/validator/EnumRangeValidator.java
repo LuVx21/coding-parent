@@ -1,7 +1,7 @@
 package org.luvx.boot.web.constraints.validator;
 
 import org.luvx.boot.web.constraints.EnumRange;
-import org.luvx.common.enums.EnumHasCode;
+import org.luvx.coding.common.enums.EnumHasCode;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

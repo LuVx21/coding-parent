@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-import org.luvx.common.enums.EnumHasCode;
+import org.luvx.coding.common.enums.EnumHasCode;
 import org.springframework.context.ApplicationListener;
 
 import lombok.extern.slf4j.Slf4j;

@@ -10,7 +10,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.luvx.boot.aop.annotation.ExecTime;
-import org.luvx.common.util.ToString;
+import org.luvx.coding.common.util.ToString;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
