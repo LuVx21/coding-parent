@@ -1,5 +1,7 @@
 package org.luvx.boot.common.spel;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
@@ -11,12 +13,17 @@ class SpelParserUtilsTest {
         EvaluationContext context = new StandardEvaluationContext();
         context.setVariable("a", "foo");
         context.setVariable("b", "bar");
-        context.setVariable("c", 1121);
+        context.setVariable("c", 2);
         context.setVariable("d", "哈哈");
 
-        String expression = "{#a}【连接{#b}】{#c} ({#d}）";
-        Object value = SpelParserUtils.parseWithReplace(expression, context);
-        System.out.println(value);
+        Stream.of(
+                "{#a}【连接{#b}】{#c}({#d}）",
+                "'+#a+#b*#c+#a+'"
+                // "#a+#b*#c"
+        ).forEachOrdered(expr -> {
+            Object value = SpelParserUtils.parse(expr, context);
+            System.out.println(value);
+        });
     }
 
     @Test
@@ -27,12 +34,5 @@ class SpelParserUtilsTest {
         Expression exp = SpelParserUtils.parse("'Hello World'.length()");
         Integer size = exp.getValue(Integer.class);
         System.out.println(size);
-
-        EvaluationContext context = new StandardEvaluationContext();
-        context.setVariable("a", 1);
-        context.setVariable("b", 2);
-        context.setVariable("c", 3);
-        Object parse = SpelParserUtils.parse("#a+#b*#c", context);
-        System.out.println(parse);
     }
 }
