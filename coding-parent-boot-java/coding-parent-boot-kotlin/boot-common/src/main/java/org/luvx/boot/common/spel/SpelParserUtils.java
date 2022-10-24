@@ -1,12 +1,13 @@
 package org.luvx.boot.common.spel;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.regex.Pattern;
+
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
-import java.util.regex.Pattern;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SpelParserUtils {
@@ -16,13 +17,16 @@ public class SpelParserUtils {
     private static final ExpressionParser parser = new SpelExpressionParser();
 
     public static Expression parse(String expression) {
-        return parser.parseExpression(expression);
+        try {
+            return parser.parseExpression(expression);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Object parse(String expression, EvaluationContext context) {
+    public static String parse2String(String expression, EvaluationContext context) {
         String exp = getString(expression);
-        log.info("{} -> {}", expression, exp);
-        return parser.parseExpression(exp).getValue(context);
+        return parse(exp).getValue(context).toString();
     }
 
     /**
@@ -33,9 +37,10 @@ public class SpelParserUtils {
      * </pre>
      */
     public static String getString(String expression) {
-        expression = "'" + expression + "'";
-        expression = left.matcher(expression).replaceAll("'+");
-        expression = right.matcher(expression).replaceAll("+'");
-        return expression;
+        String exp = "'" + expression + "'";
+        exp = left.matcher(exp).replaceAll("'+");
+        exp = right.matcher(exp).replaceAll("+'");
+        log.info("{} -> {}", expression, exp);
+        return exp;
     }
 }

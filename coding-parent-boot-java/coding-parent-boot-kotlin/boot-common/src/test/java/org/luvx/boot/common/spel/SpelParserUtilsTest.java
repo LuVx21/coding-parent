@@ -21,7 +21,7 @@ class SpelParserUtilsTest {
                 "'+#a+#b*#c+#a+'"
                 // "#a+#b*#c"
         ).forEachOrdered(expr -> {
-            Object value = SpelParserUtils.parse(expr, context);
+            Object value = SpelParserUtils.parse2String(expr, context);
             System.out.println(value);
         });
     }
