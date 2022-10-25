@@ -9,6 +9,7 @@
         <version>0.1</version>
     </parent>
 
+    <groupId>org.luvx.boot</groupId>
     <artifactId>coding-parent-boot-java</artifactId>
     <packaging>pom</packaging>
 
@@ -42,11 +43,11 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.luvx</groupId>
+            <groupId>org.luvx.boot</groupId>
             <artifactId>logging-parent-spring</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.luvx</groupId>
+            <groupId>org.luvx.coding</groupId>
             <artifactId>coding-common</artifactId>
         </dependency>
     </dependencies>

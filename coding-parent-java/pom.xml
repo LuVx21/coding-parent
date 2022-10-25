@@ -9,6 +9,7 @@
         <version>0.1</version>
     </parent>
 
+    <groupId>org.luvx.coding</groupId>
     <artifactId>coding-parent-java</artifactId>
     <packaging>pom</packaging>
 
@@ -23,7 +24,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.luvx</groupId>
+            <groupId>org.luvx.coding</groupId>
             <artifactId>logging-parent</artifactId>
         </dependency>
     </dependencies>

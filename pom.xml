@@ -87,37 +87,37 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.luvx</groupId>
+                <groupId>org.luvx.coding</groupId>
                 <artifactId>logging-parent</artifactId>
                 <version>${app.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.luvx</groupId>
+                <groupId>org.luvx.boot</groupId>
                 <artifactId>logging-parent-spring</artifactId>
                 <version>${app.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.luvx</groupId>
+                <groupId>org.luvx.coding</groupId>
                 <artifactId>coding-common</artifactId>
                 <version>${app.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.luvx</groupId>
+                <groupId>org.luvx.coding</groupId>
                 <artifactId>coding-infra</artifactId>
                 <version>${app.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.luvx</groupId>
+                <groupId>org.luvx.boot</groupId>
                 <artifactId>boot-common</artifactId>
                 <version>${app.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.luvx</groupId>
+                <groupId>org.luvx.boot</groupId>
                 <artifactId>boot-aop</artifactId>
                 <version>${app.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.luvx</groupId>
+                <groupId>org.luvx.boot</groupId>
                 <artifactId>boot-web</artifactId>
                 <version>${app.version}</version>
             </dependency>

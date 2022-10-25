@@ -9,6 +9,7 @@
         <version>0.1</version>
     </parent>
 
+    <groupId>org.luvx.coding</groupId>
     <artifactId>logging-parent</artifactId>
     <packaging>jar</packaging>
 

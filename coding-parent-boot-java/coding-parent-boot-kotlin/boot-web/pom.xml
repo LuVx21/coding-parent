@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.luvx</groupId>
+        <groupId>org.luvx.boot</groupId>
         <artifactId>coding-parent-boot-kotlin</artifactId>
         <version>0.1</version>
     </parent>
@@ -27,11 +27,11 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.luvx</groupId>
+            <groupId>org.luvx.boot</groupId>
             <artifactId>boot-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.luvx</groupId>
+            <groupId>org.luvx.coding</groupId>
             <artifactId>coding-infra</artifactId>
         </dependency>
     </dependencies>

@@ -9,6 +9,7 @@
         <version>0.1</version>
     </parent>
 
+    <groupId>org.luvx.boot</groupId>
     <artifactId>logging-parent-spring</artifactId>
     <packaging>jar</packaging>
 
