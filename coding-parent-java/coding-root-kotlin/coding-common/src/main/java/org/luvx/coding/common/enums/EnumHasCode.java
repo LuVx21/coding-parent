@@ -2,8 +2,11 @@ package org.luvx.coding.common.enums;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import java.util.Arrays;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import static java.util.Collections.emptyMap;
 import static java.util.function.Function.identity;
@@ -13,6 +16,7 @@ public interface EnumHasCode<T> {
     /**
      * 枚举类区分值(唯一)
      */
+    @JsonValue
     T getCode();
 
     default boolean isValidBizCode() {

@@ -1,7 +1,9 @@
 package org.luvx.boot.web.enums;
 
-import lombok.AllArgsConstructor;
 import org.luvx.coding.common.enums.EnumHasName;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
 public enum CommonStatusEnum implements EnumHasName<Integer, String> {
@@ -17,6 +19,7 @@ public enum CommonStatusEnum implements EnumHasName<Integer, String> {
     ;
 
     private final int    code;
+    @Getter
     private final String name;
 
     @Override
@@ -27,10 +30,5 @@ public enum CommonStatusEnum implements EnumHasName<Integer, String> {
     @Override
     public boolean isValidBizCode() {
         return this != UNKNOWN;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }
