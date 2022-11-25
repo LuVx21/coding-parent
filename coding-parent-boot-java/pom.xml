@@ -16,7 +16,7 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <spring.boot.version>2.6.13</spring.boot.version>
+        <spring.boot.version>2.7.6</spring.boot.version>
     </properties>
 
     <modules>
