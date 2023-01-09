@@ -9,6 +9,8 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.luvx.boot.common.listener.base.BaseEvent;
+import org.luvx.boot.common.util.ApplicationContextUtils;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class EventBatchPublisher {
     private List<Pair<BaseEvent<?, ?>, Consumer<BaseEvent<?, ?>>>> list;
@@ -28,6 +30,12 @@ public class EventBatchPublisher {
 
     public void add(BaseEvent<?, ?> event, Consumer<BaseEvent<?, ?>> consumer) {
         this.add(Pair.of(event, consumer));
+    }
+
+    public EventBatchPublisher add(BaseEvent<?, ?> event) {
+        ApplicationEventPublisher publisher = ApplicationContextUtils.getBean(ApplicationEventPublisher.class);
+        this.add(Pair.of(event, publisher::publishEvent));
+        return this;
     }
 
     public void publish() {
