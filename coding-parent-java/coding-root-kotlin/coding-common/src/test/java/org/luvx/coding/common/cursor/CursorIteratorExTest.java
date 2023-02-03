@@ -59,7 +59,7 @@ class CursorIteratorExTest {
         final int limit = 10;
         CursorIteratorEx<Item, Long, List<Item>> cursorIterator = CursorIteratorEx.<Item, Long, List<Item>> builder()
                 .withInitCursor(0L)
-                .withDataRetriever((Long cursor) -> dao1(cursor, limit))
+                .withDataAccessor((Long cursor) -> dao1(cursor, limit))
                 .withDataExtractor(List::iterator)
                 .withCursorExtractor((List<Item> list) -> {
                     if (size(list) < limit) {

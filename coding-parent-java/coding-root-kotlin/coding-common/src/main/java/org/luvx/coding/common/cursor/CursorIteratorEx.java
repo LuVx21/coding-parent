@@ -11,6 +11,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * 主要逻辑全在RollingIterator中
  * <pre>
@@ -148,7 +150,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> withDataAccessor(Function<C, R> dataAccessor) {
+        public Builder<T, C, R> withDataAccessor(@NotNull Function<C, R> dataAccessor) {
             this.dataAccessor = dataAccessor;
             return this;
         }
@@ -161,7 +163,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> withCursorExtractor(Function<R, C> cursorExtractor) {
+        public Builder<T, C, R> withCursorExtractor(@NotNull Function<R, C> cursorExtractor) {
             this.cursorExtractor = cursorExtractor;
             return this;
         }
@@ -174,7 +176,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> withDataExtractor(Function<R, Iterator<T>> dataExtractor) {
+        public Builder<T, C, R> withDataExtractor(@NotNull Function<R, Iterator<T>> dataExtractor) {
             this.dataExtractor = dataExtractor;
             return this;
         }
