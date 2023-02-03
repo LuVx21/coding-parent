@@ -12,30 +12,55 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * @param <T> 返回实体的类型
- * @param <C> ID类型
- * @param <R> 列表读取结果对象类型
+ * 主要逻辑全在RollingIterator中
+ * <pre>
+ * {@code
+ *     CursorIterator<Item, String, List<Item>> cursorIterator =
+ *         CursorIterator.<Item, String, List<Item>>builder()
+ *                 .withInitCursor(Optional.ofNullable(firstGreater.apply(null))
+ *                         .map(VocBasicInfoPO::getId)
+ *                         .orElse(null)
+ *                 )
+ *                 .withEndChecker(StringUtils::isEmpty)
+ *                 .firstCursorCheckEnd(true)
+ *                 .withDataAccessor((String cursor) -> dao.apply(cursor, limit))
+ *                 .withDataExtractor(List::iterator)
+ *                 .withCursorExtractor((List<Item> _list) -> {
+ *                     if (CollectionUtils.size(_list) < limit) {
+ *                         return null;
+ *                     }
+ *                     Item last = _list.get(_list.size() - 1);
+ *                     VocBasicInfoPO apply = firstGreater.apply(last.getId());
+ *                     return apply.getId();
+ *                 })
+ *                 .build();
+ * }
+ * </pre>
+ *
+ * @param <ITEM>  返回实体的类型
+ * @param <ID>    ID类型
+ * @param <ITEMS> 列表读取结果对象类型
  */
-public class CursorIteratorEx<T, C, R> implements Iterable<T> {
+public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
     /* 初始游标值,从此值开始迭代 */
-    private final C                        initCursor;
+    private final ID                              initCursor;
     /* 是否检查初始游标值 */
-    private final boolean                  checkFirstCursor;
-    /* 用户获取数据 */
-    private final Function<C, R>           dataRetriever;
-    /* 用于获取下个游标 */
-    private final Function<R, C>           cursorExtractor;
-    /* 用于获取数据结果的迭代器 */
-    private final Function<R, Iterator<T>> dataExtractor;
+    private final boolean                         checkFirstCursor;
+    /* 用于获取批次数据 */
+    private final Function<ID, ITEMS>             dataAccessor;
+    /* 处理dataAccessor的结果获取批次数据的游标, 其执行结果被用于endChecker */
+    private final Function<ITEMS, ID>             cursorExtractor;
+    /* 处理dataAccessor的结果获取迭代器 */
+    private final Function<ITEMS, Iterator<ITEM>> dataExtractor;
     /* 游标终止检查 */
-    private final Predicate<C>             endChecker;
+    private final Predicate<ID>                   endChecker;
 
-    private CursorIteratorEx(C initCursor, boolean checkFirstCursor, Function<C, R> dataRetriever,
-                             Function<R, C> cursorExtractor, Function<R, Iterator<T>> dataExtractor,
-                             Predicate<C> endChecker) {
+    private CursorIteratorEx(ID initCursor, boolean checkFirstCursor, Function<ID, ITEMS> dataAccessor,
+                             Function<ITEMS, ID> cursorExtractor, Function<ITEMS, Iterator<ITEM>> dataExtractor,
+                             Predicate<ID> endChecker) {
         this.initCursor = initCursor;
         this.checkFirstCursor = checkFirstCursor;
-        this.dataRetriever = dataRetriever;
+        this.dataAccessor = dataAccessor;
         this.cursorExtractor = cursorExtractor;
         this.dataExtractor = dataExtractor;
         this.endChecker = endChecker;
@@ -59,7 +84,7 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
      */
     @Nonnull
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<ITEM> iterator() {
         return new RollingIterator();
     }
 
@@ -68,7 +93,7 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
      *
      * @return 返回一个Stream对象
      */
-    public Stream<T> stream() {
+    public Stream<ITEM> stream() {
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(),
                 (Spliterator.NONNULL | Spliterator.IMMUTABLE)), false);
     }
@@ -84,7 +109,7 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
     public static final class Builder<T, C, R> {
         private C                        initCursor;
         private boolean                  checkFirstCursor;
-        private Function<C, R>           dataRetriever;
+        private Function<C, R>           dataAccessor;
         private Function<R, C>           cursorExtractor;
         private Function<R, Iterator<T>> dataExtractor;
         private Predicate<C>             endChecker;
@@ -118,13 +143,13 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
         /**
          * 数据读取函数
          *
-         * @param dataRetriever 数据读取函数，传入当前起始的ID，返回查询结果对象
+         * @param dataAccessor 数据读取函数，传入当前起始的ID，返回查询结果对象
          * @return 当前构造器对象
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> withDataRetriever(Function<C, R> dataRetriever) {
-            this.dataRetriever = dataRetriever;
+        public Builder<T, C, R> withDataAccessor(Function<C, R> dataAccessor) {
+            this.dataAccessor = dataAccessor;
             return this;
         }
 
@@ -177,31 +202,38 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
         @Nonnull
         public CursorIteratorEx<T, C, R> build() {
             ensure();
-            return new CursorIteratorEx(initCursor, checkFirstCursor, dataRetriever,
+            return new CursorIteratorEx(initCursor, checkFirstCursor, dataAccessor,
                     cursorExtractor, dataExtractor, endChecker);
         }
 
         private void ensure() {
             Objects.requireNonNull(dataExtractor, "data extractor is null.");
-            Objects.requireNonNull(dataRetriever, "data retriever is null.");
+            Objects.requireNonNull(dataAccessor, "data retriever is null.");
             Objects.requireNonNull(cursorExtractor, "cursor extractor is null.");
             endChecker = Objects.requireNonNullElse(endChecker, Objects::isNull);
         }
     }
 
-    private final class RollingIterator implements Iterator<T> {
-        private C           currentCursor;
-        private R           currentData;
-        private Iterator<T> currentIterator;
+    /**
+     * 迭代的主逻辑
+     */
+    private final class RollingIterator implements Iterator<ITEM> {
+        private ID             currentCursor;
+        private ITEMS          currentData;
+        private Iterator<ITEM> currentIterator;
 
         RollingIterator() {
             currentCursor = initCursor;
+            // 检查游标
             if (checkFirstCursor && endChecker.test(currentCursor)) {
                 return;
             }
-            currentData = dataRetriever.apply(currentCursor);
+            // 读取数据
+            currentData = dataAccessor.apply(currentCursor);
             if (currentData != null) {
+                // 数据结果转为迭代器
                 currentIterator = dataExtractor.apply(currentData);
+                // 数据结果提取下次执行的游标
                 currentCursor = cursorExtractor.apply(currentData);
             }
         }
@@ -214,17 +246,20 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
             if (currentIterator.hasNext()) {
                 return true;
             }
+            // 上次拉取的数据已经迭代结束, 需再次拉取数据
             roll();
             return currentIterator != null && currentIterator.hasNext();
         }
 
         private void roll() {
+            // 再次拉取前检查游标
             if (endChecker.test(currentCursor)) {
                 currentData = null;
                 currentIterator = null;
                 return;
             }
-            currentData = dataRetriever.apply(currentCursor);
+            // 再次拉取数据
+            currentData = dataAccessor.apply(currentCursor);
             if (currentData == null) {
                 currentIterator = null;
             } else {
@@ -234,7 +269,7 @@ public class CursorIteratorEx<T, C, R> implements Iterable<T> {
         }
 
         @Override
-        public T next() {
+        public ITEM next() {
             return currentIterator.next();
         }
     }
