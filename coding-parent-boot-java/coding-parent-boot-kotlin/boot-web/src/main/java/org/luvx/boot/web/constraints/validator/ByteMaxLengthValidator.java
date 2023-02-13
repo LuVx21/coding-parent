@@ -2,8 +2,8 @@ package org.luvx.boot.web.constraints.validator;
 
 import org.luvx.boot.web.constraints.ByteMaxLength;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.nio.charset.Charset;
 
 public class ByteMaxLengthValidator implements ConstraintValidator<ByteMaxLength, String> {
