@@ -3,8 +3,8 @@ package org.luvx.boot.web.constraints;
 import org.luvx.boot.web.constraints.validator.EnumRangeValidator;
 import org.luvx.coding.common.enums.EnumHasCode;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
