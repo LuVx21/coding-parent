@@ -2,11 +2,13 @@ package org.luvx.coding.common.more;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -26,6 +28,23 @@ public class MoreMaps {
             builder.put(ks[i], vs[i]);
         }
         return builder.build();
+    }
+
+    public static <K, V> Map<K, V> of(Iterable<K> keys, Iterable<V> values) {
+        Map<K, V> result = Maps.newHashMap();
+
+        Iterator<K> keyIter = keys.iterator();
+        Iterator<V> valueIter = values.iterator();
+
+        while (keyIter.hasNext()) {
+            final K key = keyIter.next();
+            if (valueIter.hasNext()) {
+                result.put(key, valueIter.next());
+            } else {
+                break;
+            }
+        }
+        return result;
     }
 
     public static <K> List<Object> getList(Map<? super K, ?> map, K key, @Nullable List<Object> defaultValue) {
