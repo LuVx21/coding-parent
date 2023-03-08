@@ -1,4 +1,4 @@
-package org.luvx.coding.manifold.extensions.java.lang.String;
+package org.luvx.coding.manifold;
 
 import java.util.Map;
 
