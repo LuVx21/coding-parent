@@ -11,4 +11,8 @@ public class ObjectExt {
     public static Optional<@Self Object> asOpt(@This Object obj) {
         return Optional.ofNullable(obj);
     }
+
+    public static void println(@This Object obj) {
+        System.out.println(obj);
+    }
 }

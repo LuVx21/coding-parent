@@ -92,6 +92,12 @@
             <groupId>com.github.phantomthief</groupId>
             <artifactId>more-lambdas-jdk9</artifactId>
             <version>0.1.55</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
