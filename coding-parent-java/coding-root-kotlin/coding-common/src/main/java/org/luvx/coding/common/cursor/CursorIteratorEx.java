@@ -75,7 +75,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
      */
     @Nonnull
     @CheckReturnValue
-    public static <T, C, R> Builder<T, C, R> builder() {
+    public static <ITEM, ID, ITEMS> Builder<ITEM, ID, ITEMS> builder() {
         return new Builder<>();
     }
 
@@ -103,18 +103,18 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
     /**
      * 游标迭代器构造器
      *
-     * @param <T> 返回实体的类型泛型
-     * @param <C> ID类型泛型
-     * @param <R> 列表读取结果对象的泛型
+     * @param <ITEM> 返回实体的类型泛型
+     * @param <ID> ID类型泛型
+     * @param <ITEMS> 列表读取结果对象的泛型
      */
     @SuppressWarnings("unchecked")
-    public static final class Builder<T, C, R> {
-        private C                        initCursor;
-        private boolean                  checkFirstCursor;
-        private Function<C, R>           dataAccessor;
-        private Function<R, C>           cursorExtractor;
-        private Function<R, Iterator<T>> dataExtractor;
-        private Predicate<C>             endChecker;
+    public static final class Builder<ITEM, ID, ITEMS> {
+        private ID                              initCursor;
+        private boolean                         checkFirstCursor;
+        private Function<ID, ITEMS>             dataAccessor;
+        private Function<ITEMS, ID>             cursorExtractor;
+        private Function<ITEMS, Iterator<ITEM>> dataExtractor;
+        private Predicate<ID>                   endChecker;
 
         /**
          * 设置起始ID，此ID对应的记录将作为迭代器返回的第一条数据对象
@@ -124,7 +124,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> withInitCursor(C initCursor) {
+        public Builder<ITEM, ID, ITEMS> withInitCursor(ID initCursor) {
             this.initCursor = initCursor;
             return this;
         }
@@ -137,7 +137,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> firstCursorCheckEnd(boolean check) {
+        public Builder<ITEM, ID, ITEMS> firstCursorCheckEnd(boolean check) {
             this.checkFirstCursor = check;
             return this;
         }
@@ -150,7 +150,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> withDataAccessor(@NotNull Function<C, R> dataAccessor) {
+        public Builder<ITEM, ID, ITEMS> withDataAccessor(@NotNull Function<ID, ITEMS> dataAccessor) {
             this.dataAccessor = dataAccessor;
             return this;
         }
@@ -163,7 +163,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> withCursorExtractor(@NotNull Function<R, C> cursorExtractor) {
+        public Builder<ITEM, ID, ITEMS> withCursorExtractor(@NotNull Function<ITEMS, ID> cursorExtractor) {
             this.cursorExtractor = cursorExtractor;
             return this;
         }
@@ -176,7 +176,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> withDataExtractor(@NotNull Function<R, Iterator<T>> dataExtractor) {
+        public Builder<ITEM, ID, ITEMS> withDataExtractor(@NotNull Function<ITEMS, Iterator<ITEM>> dataExtractor) {
             this.dataExtractor = dataExtractor;
             return this;
         }
@@ -190,7 +190,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<T, C, R> withEndChecker(Predicate<C> endChecker) {
+        public Builder<ITEM, ID, ITEMS> withEndChecker(Predicate<ID> endChecker) {
             this.endChecker = endChecker;
             return this;
         }
@@ -202,7 +202,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @SuppressWarnings("rawtypes")
         @Nonnull
-        public CursorIteratorEx<T, C, R> build() {
+        public CursorIteratorEx<ITEM, ID, ITEMS> build() {
             ensure();
             return new CursorIteratorEx(initCursor, checkFirstCursor, dataAccessor,
                     cursorExtractor, dataExtractor, endChecker);
