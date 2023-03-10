@@ -2,6 +2,7 @@ package org.luvx.coding.common.cursor;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Spliterator;
@@ -11,7 +12,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.jetbrains.annotations.NotNull;
+import com.google.common.util.concurrent.RateLimiter;
 
 /**
  * 主要逻辑全在RollingIterator中
@@ -39,8 +40,8 @@ import org.jetbrains.annotations.NotNull;
  * }
  * </pre>
  *
- * @param <ITEM>  返回实体的类型
- * @param <ID>    ID类型
+ * @param <ITEM> 返回实体的类型
+ * @param <ID> ID类型
  * @param <ITEMS> 列表读取结果对象类型
  */
 public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
@@ -48,6 +49,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
     private final ID                              initCursor;
     /* 是否检查初始游标值 */
     private final boolean                         checkFirstCursor;
+    private       RateLimiter                     rateLimiter;
     /* 用于获取批次数据 */
     private final Function<ID, ITEMS>             dataAccessor;
     /* 处理dataAccessor的结果获取批次数据的游标, 其执行结果被用于endChecker */
@@ -57,11 +59,13 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
     /* 游标终止检查 */
     private final Predicate<ID>                   endChecker;
 
-    private CursorIteratorEx(ID initCursor, boolean checkFirstCursor, Function<ID, ITEMS> dataAccessor,
-                             Function<ITEMS, ID> cursorExtractor, Function<ITEMS, Iterator<ITEM>> dataExtractor,
-                             Predicate<ID> endChecker) {
+    private CursorIteratorEx(ID initCursor, boolean checkFirstCursor,
+            RateLimiter rateLimiter, Function<ID, ITEMS> dataAccessor,
+            Function<ITEMS, ID> cursorExtractor, Function<ITEMS, Iterator<ITEM>> dataExtractor,
+            Predicate<ID> endChecker) {
         this.initCursor = initCursor;
         this.checkFirstCursor = checkFirstCursor;
+        this.rateLimiter = rateLimiter;
         this.dataAccessor = dataAccessor;
         this.cursorExtractor = cursorExtractor;
         this.dataExtractor = dataExtractor;
@@ -111,6 +115,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
     public static final class Builder<ITEM, ID, ITEMS> {
         private ID                              initCursor;
         private boolean                         checkFirstCursor;
+        private RateLimiter                     rateLimiter;
         private Function<ID, ITEMS>             dataAccessor;
         private Function<ITEMS, ID>             cursorExtractor;
         private Function<ITEMS, Iterator<ITEM>> dataExtractor;
@@ -142,6 +147,11 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
             return this;
         }
 
+        public Builder<ITEM, ID, ITEMS> withRateLimiter(@Nullable RateLimiter rateLimiter) {
+            this.rateLimiter = rateLimiter;
+            return this;
+        }
+
         /**
          * 数据读取函数
          *
@@ -150,7 +160,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<ITEM, ID, ITEMS> withDataAccessor(@NotNull Function<ID, ITEMS> dataAccessor) {
+        public Builder<ITEM, ID, ITEMS> withDataAccessor(@Nonnull Function<ID, ITEMS> dataAccessor) {
             this.dataAccessor = dataAccessor;
             return this;
         }
@@ -163,7 +173,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<ITEM, ID, ITEMS> withCursorExtractor(@NotNull Function<ITEMS, ID> cursorExtractor) {
+        public Builder<ITEM, ID, ITEMS> withCursorExtractor(@Nonnull Function<ITEMS, ID> cursorExtractor) {
             this.cursorExtractor = cursorExtractor;
             return this;
         }
@@ -176,7 +186,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          */
         @CheckReturnValue
         @Nonnull
-        public Builder<ITEM, ID, ITEMS> withDataExtractor(@NotNull Function<ITEMS, Iterator<ITEM>> dataExtractor) {
+        public Builder<ITEM, ID, ITEMS> withDataExtractor(@Nonnull Function<ITEMS, Iterator<ITEM>> dataExtractor) {
             this.dataExtractor = dataExtractor;
             return this;
         }
@@ -204,7 +214,8 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
         @Nonnull
         public CursorIteratorEx<ITEM, ID, ITEMS> build() {
             ensure();
-            return new CursorIteratorEx(initCursor, checkFirstCursor, dataAccessor,
+            return new CursorIteratorEx(initCursor, checkFirstCursor,
+                    rateLimiter, dataAccessor,
                     cursorExtractor, dataExtractor, endChecker);
         }
 
@@ -223,9 +234,11 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
         private ID             currentCursor;
         private ITEMS          currentData;
         private Iterator<ITEM> currentIterator;
+        private RateLimiter    _rateLimiter;
 
         RollingIterator() {
             currentCursor = initCursor;
+            _rateLimiter = rateLimiter;
             // 检查游标
             if (checkFirstCursor && endChecker.test(currentCursor)) {
                 return;
@@ -261,6 +274,9 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
                 return;
             }
             // 再次拉取数据
+            if (_rateLimiter != null) {
+                _rateLimiter.acquire();
+            }
             currentData = dataAccessor.apply(currentCursor);
             if (currentData == null) {
                 currentIterator = null;

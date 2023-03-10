@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterators;
+import com.google.common.util.concurrent.RateLimiter;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,6 +60,7 @@ class CursorIteratorExTest {
         final int limit = 10;
         CursorIteratorEx<Item, Long, List<Item>> cursorIterator = CursorIteratorEx.<Item, Long, List<Item>> builder()
                 .withInitCursor(0L)
+                .withRateLimiter(RateLimiter.create(0.5))
                 .withDataAccessor((Long cursor) -> dao1(cursor, limit))
                 .withDataExtractor(List::iterator)
                 .withCursorExtractor((List<Item> list) -> {
