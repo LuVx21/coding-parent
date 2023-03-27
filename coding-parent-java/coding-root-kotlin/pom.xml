@@ -22,7 +22,6 @@
 
     <modules>
         <module>coding-common</module>
-        <module>coding-manifold</module>
         <module>coding-infra</module>
         <module>coding-parent-kotlin</module>
     </modules>
