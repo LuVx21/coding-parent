@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-/**
- * @author Ren, Xie
- */
 @Slf4j
 @Component
 public class ApplicationContextUtils implements ApplicationContextAware, DisposableBean {
