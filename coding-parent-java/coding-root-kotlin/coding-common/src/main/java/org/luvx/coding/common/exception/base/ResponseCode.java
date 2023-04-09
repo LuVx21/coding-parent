@@ -5,7 +5,15 @@ public interface ResponseCode {
 
     String getMessage();
 
-    BaseException exception(Object... args);
+    default BaseException exception() {
+        return exception(getMessage());
+    }
 
-    BaseException exception(Throwable t, Object... args);
+    default BaseException exception(Throwable cause) {
+        return exception(getMessage(), cause);
+    }
+
+    BaseException exception(String msg, Object... args);
+
+    BaseException exception(String msg, Throwable cause, Object... args);
 }

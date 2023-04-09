@@ -4,12 +4,23 @@ import org.luvx.coding.common.exception.base.BaseException;
 import org.luvx.coding.common.exception.base.ResponseCode;
 
 public class BizException extends BaseException {
-
-    public BizException(ResponseCode r, String msg, Object[] args) {
-        super(r, msg, args);
+    public BizException() {
+        super();
     }
 
-    public BizException(ResponseCode r, String msg, Throwable cause, Object[] args) {
-        super(r, msg, cause, args);
+    public BizException(String msg, Object... args) {
+        super(msg, args);
+    }
+
+    public BizException(String msg, Throwable cause, Object... args) {
+        super(msg, cause, args);
+    }
+
+    public BizException(ResponseCode exceptionCode, String msg, Object... args) {
+        super(exceptionCode, msg, args);
+    }
+
+    public BizException(ResponseCode exceptionCode, String msg, Throwable cause, Object... args) {
+        super(exceptionCode, msg, cause, args);
     }
 }

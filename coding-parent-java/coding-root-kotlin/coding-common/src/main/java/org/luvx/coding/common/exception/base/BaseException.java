@@ -1,26 +1,37 @@
 package org.luvx.coding.common.exception.base;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.luvx.coding.common.exception.code.CommonResponseCode;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import static com.google.common.base.Strings.lenientFormat;
 
 @Getter
-public class BaseException extends RuntimeException {
-    ResponseCode responseCode;
-    Object[]     args;
+@NoArgsConstructor
+public abstract class BaseException extends RuntimeException {
+    private ResponseCode responseCode = CommonResponseCode.FAILED;
 
-    public BaseException(ResponseCode exceptionCode, Object... args) {
-        this.responseCode = exceptionCode;
-        this.args = args;
+    public BaseException(String msg, Object... args) {
+        super(formatMsg(msg, args));
+    }
+
+    public BaseException(String msg, Throwable cause, Object... args) {
+        super(formatMsg(msg, args), cause);
     }
 
     public BaseException(ResponseCode exceptionCode, String msg, Object... args) {
-        super(msg);
+        this(msg, args);
         this.responseCode = exceptionCode;
-        this.args = args;
     }
 
     public BaseException(ResponseCode exceptionCode, String msg, Throwable cause, Object... args) {
-        super(msg, cause);
+        this(msg, cause, args);
         this.responseCode = exceptionCode;
-        this.args = args;
+    }
+
+    private static String formatMsg(String msg, Object[] args) {
+        return ArrayUtils.isEmpty(args) ? msg : lenientFormat(msg, args);
     }
 }
