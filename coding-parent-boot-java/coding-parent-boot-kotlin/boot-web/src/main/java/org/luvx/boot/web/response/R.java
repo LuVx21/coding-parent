@@ -2,11 +2,12 @@ package org.luvx.boot.web.response;
 
 import java.io.Serializable;
 
+import org.luvx.coding.common.exception.base.ResponseCode;
+import org.luvx.coding.common.exception.code.CommonResponseCode;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.luvx.coding.common.exception.base.ResponseCode;
-import org.luvx.coding.common.exception.code.CommonResponseCode;
 
 @Getter
 @NoArgsConstructor
@@ -16,12 +17,16 @@ public class R<T> implements Serializable {
     private String msg;
     private T      data;
 
-    public static <T> R<T> ok() {
-        return ok(null);
+    public static <T> R<T> success() {
+        return success(null);
     }
 
-    public static <T> R<T> ok(T data) {
+    public static <T> R<T> success(T data) {
         return of(CommonResponseCode.SUCCESS, data);
+    }
+
+    public static <T> R<T> fail() {
+        return of(CommonResponseCode.FAILED, null);
     }
 
     public static <T> R<T> fail(ResponseCode code) {
