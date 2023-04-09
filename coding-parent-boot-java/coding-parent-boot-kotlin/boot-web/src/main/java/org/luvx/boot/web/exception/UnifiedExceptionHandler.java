@@ -1,12 +1,12 @@
 package org.luvx.boot.web.exception;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.luvx.boot.web.response.R;
 import org.luvx.coding.common.exception.BizException;
@@ -28,13 +28,18 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.*;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import lombok.extern.slf4j.Slf4j;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static org.luvx.coding.common.exception.code.ArgumentResponseCode.BAD_REQUEST_MSG;
@@ -118,7 +123,7 @@ public class UnifiedExceptionHandler {
 
         if (ENV_PROD.equals(profile)) {
             code = CommonResponseCode.SERVER_ERROR;
-            BaseException ee = new BaseException(CommonResponseCode.SERVER_ERROR);
+            BaseException ee = CommonResponseCode.SERVER_ERROR.exception();
             String message = getMessage(ee);
             return R.fail(code, message);
         }
@@ -162,8 +167,8 @@ public class UnifiedExceptionHandler {
         log.error("异常->url: {}", request.getRequestURI(), t);
         if (ENV_PROD.equals(profile)) {
             // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
-            BaseException baseException = new BaseException(CommonResponseCode.SERVER_ERROR);
-            String message = getMessage(baseException);
+            BaseException ee = CommonResponseCode.SERVER_ERROR.exception();
+            String message = getMessage(ee);
             return R.fail(CommonResponseCode.SERVER_ERROR, message);
         }
 
@@ -197,11 +202,7 @@ public class UnifiedExceptionHandler {
      * @param e 异常
      */
     private String getMessage(BaseException e) {
-        String message = "response." + e.getResponseCode().getMessage();
-        message = String.format(message, e.getArgs());
-        if (StringUtils.isEmpty(message)) {
-            return e.getMessage();
-        }
-        return message;
+        String message = e.getResponseCode().getMessage();
+        return StringUtils.isEmpty(message) ? e.getMessage() : "response." + message;
     }
 }
