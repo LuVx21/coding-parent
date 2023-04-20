@@ -13,6 +13,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import com.alibaba.fastjson2.JSON;
 import org.apache.commons.lang3.ObjectUtils;
 import org.luvx.coding.common.concurrent.ThreadUtils;
 
@@ -71,7 +72,7 @@ public class MoreRuns {
                 result.add(invoke);
             }
         });
-        log.info("执行结果:{}", result);
+        log.info("执行结果:{}", JSON.toJSONString(result));
         return result;
     }
 
