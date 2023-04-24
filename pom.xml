@@ -151,6 +151,13 @@
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
+<!--        <directory>${user.home}/Desktop/target/${project.parent.artifactId}/${project.artifactId}</directory>-->
+        <outputDirectory>
+            ${user.home}/Desktop/target/${project.parent.artifactId}/${project.artifactId}/classes
+        </outputDirectory>
+        <testOutputDirectory>
+            ${user.home}/Desktop/target/${project.parent.artifactId}/${project.artifactId}/test-classes
+        </testOutputDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
