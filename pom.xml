@@ -16,12 +16,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
         <maven.plugin.version>3.10.1</maven.plugin.version>
-        <lombok.version>1.18.26</lombok.version>
-        <guava.version>31.1-jre</guava.version>
+        <lombok.version>1.18.28</lombok.version>
+        <guava.version>32.1.1-jre</guava.version>
         <vavr.version>0.10.4</vavr.version>
         <!-- <vavr.version>1.0.0-alpha-4</vavr.version> -->
-        <junit.version>5.9.2</junit.version>
-        <lang3.version>3.12.0</lang3.version>
+        <junit.version>5.10.0</junit.version>
+        <lang3.version>3.13.0</lang3.version>
         <collections4.version>4.4</collections4.version>
     </properties>
 
@@ -151,6 +151,13 @@
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
+<!--        <directory>${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}</directory>-->
+        <outputDirectory>
+            ${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}/classes
+        </outputDirectory>
+        <testOutputDirectory>
+            ${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}/test-classes
+        </testOutputDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

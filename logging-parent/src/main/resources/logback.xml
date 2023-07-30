@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration>
-    <property name="logging.path" value="./logs"/>
+    <property name="logging.path" value="${user.home}/Desktop/logs"/>
     <property name="logging.level" value="INFO"/>
 
     <!-- 按照每天生成日志文件 -->
