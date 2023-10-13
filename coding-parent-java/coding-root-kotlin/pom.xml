@@ -18,6 +18,9 @@
         <kotlin.version>1.9.10</kotlin.version>
         <kotlin.logging.version>3.0.5</kotlin.logging.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <kotlin.compiler.incremental.cache.root>
+            ${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}/kotlin-ic
+        </kotlin.compiler.incremental.cache.root>
     </properties>
 
     <modules>
