@@ -12,17 +12,21 @@
 
     <properties>
         <app.version>0.2</app.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>17</java.version>
-        <maven.plugin.version>3.11.0</maven.plugin.version>
-        <lombok.version>1.18.30</lombok.version>
+
+        <collections4.version>4.4</collections4.version>
         <guava.version>32.1.2-jre</guava.version>
-        <vavr.version>0.10.4</vavr.version>
-        <!-- <vavr.version>1.0.0-alpha-4</vavr.version> -->
         <junit.version>5.10.0</junit.version>
         <lang3.version>3.13.0</lang3.version>
-        <collections4.version>4.4</collections4.version>
+        <kotlin.version>1.9.20-RC</kotlin.version>
+        <logback.version>1.4.11</logback.version>
+        <lombok.version>1.18.30</lombok.version>
+        <maven.plugin.version>3.11.0</maven.plugin.version>
+        <slf4j.version>2.0.9</slf4j.version>
+        <vavr.version>0.10.4</vavr.version>
+        <!-- <vavr.version>1.0.0-alpha-4</vavr.version> -->
     </properties>
 
     <modules>
@@ -155,7 +159,7 @@
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
-<!--        <directory>${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}</directory>-->
+        <!--        <directory>${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}</directory>-->
         <outputDirectory>
             ${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}/classes
         </outputDirectory>
