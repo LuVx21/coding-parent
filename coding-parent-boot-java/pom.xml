@@ -16,7 +16,7 @@
     <name>${project.artifactId}</name>
 
     <properties>
-<!--        <spring.boot.version>2.7.16</spring.boot.version>-->
+        <spring.boot.version>2.7.16</spring.boot.version>
     </properties>
 
     <modules>
@@ -57,7 +57,7 @@
             <dependency>
                 <groupId>org.luvx.boot</groupId>
                 <artifactId>coding-parent-boot-dependencies</artifactId>
-                <version>${app.version}</version>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -69,10 +69,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-<!--                <version>${spring.boot.version}</version>-->
+                <version>${spring.boot.version}</version>
                 <configuration>
                     <!--fork:如果没有该项配置,整个devtools不会起作用-->
-<!--                    <fork>true</fork>-->
+                    <fork>true</fork>
                 </configuration>
             </plugin>
         </plugins>
