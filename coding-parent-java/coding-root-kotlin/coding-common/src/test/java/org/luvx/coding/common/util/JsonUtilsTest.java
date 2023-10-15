@@ -1,12 +1,17 @@
 package org.luvx.coding.common.util;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Triple;
 import org.junit.jupiter.api.Test;
 import org.luvx.coding.common.more.MorePrints;
+import org.luvx.coding.common.more.MoreRuns;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
+@Slf4j
 class JsonUtilsTest {
 
     @Test
@@ -51,5 +56,28 @@ class JsonUtilsTest {
                 map1.getClass(),
                 map1
         );
+    }
+
+    @Test
+    void diffTest() {
+        String json1 = """
+                {
+                "a1" : 1,
+                "b" : 2,
+                "c" : 33
+                }
+                """;
+        String json2 = """
+                {
+                "a2" : 1,
+                "b" : 2,
+                "c" : 333
+                }
+                """;
+
+        MoreRuns.runWithTime(() -> {
+            Triple<Set<String>, Set<String>, Map<String, Map.Entry<Object, Object>>> diff = JsonUtils.diff(json1, json2);
+            log.info("json1独有key:{}, json2独有key:{}, 不同值:{}", diff.getLeft(), diff.getMiddle(), diff.getRight());
+        });
     }
 }

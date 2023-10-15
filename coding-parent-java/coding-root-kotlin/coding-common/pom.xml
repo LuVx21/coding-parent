@@ -15,7 +15,6 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <jackson.version>2.15.2</jackson.version>
     </properties>
 
     <dependencies>
