@@ -1,18 +1,5 @@
 package org.luvx.coding.common.util;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.USE_DEFAULTS;
-import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
-import static org.luvx.coding.common.util.TimeUtils.NORM_DATETIME_FORMAT;
-
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,9 +8,24 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
-
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Triple;
+import org.luvx.coding.common.json.JsonAbbr;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
+import java.util.Map.Entry;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.USE_DEFAULTS;
+import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
+import static org.luvx.coding.common.util.TimeUtils.NORM_DATETIME_FORMAT;
 
 @Slf4j
 @UtilityClass
@@ -117,7 +119,7 @@ public final class JsonUtils {
     }
 
     public static <M extends Map<String, V>, V> M fromJson(String json,
-            Class<M> mapClass, Class<V> vClass
+                                                           Class<M> mapClass, Class<V> vClass
     ) {
         if (StringUtils.isEmpty(json)) {
             json = EMPTY_JSON;
@@ -230,5 +232,33 @@ public final class JsonUtils {
         mapper.configure(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, false);
         //默认情况下启用功能，以便在子类型属性丢失时抛出异常，关闭
         mapper.configure(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY, false);
+    }
+
+    public static Triple<Set<String>, Set<String>, Map<String, Entry<Object, Object>>> diff(String json1, String json2) {
+        Map<String, Object> map1 = JsonAbbr.jsonAbbr(json1);
+        Map<String, Object> map2 = JsonAbbr.jsonAbbr(json2);
+
+        Set<String> s1 = Sets.newHashSet(), s2 = Sets.newHashSet();
+        Map<String, Entry<Object, Object>> diff = Maps.newHashMap();
+        for (Entry<String, Object> entry : map1.entrySet()) {
+            String key = entry.getKey();
+            if (map2.containsKey(key)) {
+                Object value = entry.getValue();
+                Object o = map2.get(key);
+                if (!Objects.equals(value, o)) {
+                    diff.put(key, new SimpleEntry<>(value, o));
+                }
+            } else {
+                s1.add(key);
+            }
+        }
+        for (Entry<String, Object> entry : map2.entrySet()) {
+            String key = entry.getKey();
+            if (!map1.containsKey(key)) {
+                s2.add(key);
+            }
+        }
+
+        return Triple.of(s1, s2, diff);
     }
 }
