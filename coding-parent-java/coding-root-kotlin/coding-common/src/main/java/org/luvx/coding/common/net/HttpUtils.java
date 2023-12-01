@@ -60,7 +60,7 @@ public class HttpUtils {
     /**
      * 处理了gzip情况的String BodyHandler
      */
-    private static final BodyHandler<Supplier<String>> STRING_BODY_HANDLER = gzipBodyHandler(String::new);
+    public static final BodyHandler<Supplier<String>> STRING_BODY_HANDLER = gzipBodyHandler(String::new);
 
     public static final MoreSuppliers.CloseableSupplier<HttpClient> httpClientSupplier = lazy(() -> {
         HttpClient.Builder builder = HttpClient.newBuilder()
