@@ -20,6 +20,7 @@ public class OnOffSwitch {
     }
 
     public OnOffSwitch switchStatus() {
+        // TODO 非原子操作
         on = !on;
         return this;
     }

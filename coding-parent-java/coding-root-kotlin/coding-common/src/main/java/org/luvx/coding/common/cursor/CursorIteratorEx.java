@@ -49,7 +49,7 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
     private final ID                              initCursor;
     /* 是否检查初始游标值 */
     private final boolean                         checkFirstCursor;
-    private       RateLimiter                     rateLimiter;
+    private final RateLimiter                     rateLimiter;
     /* 用于获取批次数据 */
     private final Function<ID, ITEMS>             dataAccessor;
     /* 处理dataAccessor的结果获取批次数据的游标, 其执行结果被用于endChecker */
