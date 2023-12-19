@@ -1,5 +1,7 @@
 package org.luvx.coding.common.util;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
@@ -53,12 +55,13 @@ public class FileCharsetConverter {
      */
     public static void convert(File file, String fromCharsetName, String toCharsetName, FilenameFilter filter) throws Exception {
         if (file.isDirectory()) {
-            File[] fileList = null;
+            File[] fileList;
             if (filter == null) {
                 fileList = file.listFiles();
             } else {
                 fileList = file.listFiles(filter);
             }
+            fileList = (File[]) ArrayUtils.nullToEmpty(fileList);
             for (File f : fileList) {
                 convert(f, fromCharsetName, toCharsetName, filter);
             }
