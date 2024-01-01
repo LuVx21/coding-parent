@@ -152,7 +152,7 @@ public class HttpUtils {
     public static HttpResult<Path> download(String url, @Nullable String directory, @Nullable String fileName, int timeOut)
             throws IOException, InterruptedException {
         if (StringUtils.isBlank(directory)) {
-            directory = Properties.DIR_USER_HOME + File.separator + "Downloads";
+            directory = STR."\{Properties.DIR_USER_HOME}\{File.separator}Downloads";
         }
         Path path = Path.of(directory);
         if (Files.notExists(path)) {
@@ -371,7 +371,7 @@ public class HttpUtils {
                 bodyPublisher = HttpRequest.BodyPublishers.ofString(mapToQueryString(formDataMap));
             } else if (multipartMapNotNull) {
                 String boundary = BOUNDARY_PREFIX + UUID.randomUUID().toString().replace("-", "");
-                contentTypeValue = "multipart/form-data; boundary=" + boundary;
+                contentTypeValue = STR."multipart/form-data; boundary=\{boundary}";
                 bodyPublisher = ofMimeMultipartBodyPublisher(multipartMap, boundary);
             } else {
                 throw new RuntimeException("不支持的类型");
@@ -428,7 +428,7 @@ public class HttpUtils {
      * @param boundary 边界
      */
     private static HttpRequest.BodyPublisher ofMimeMultipartBodyPublisher(Map<String, Object> map, String boundary) {
-        byte[] separator = ("--" + boundary + "\r\nContent-Disposition: form-data; name=").getBytes(UTF_8);
+        byte[] separator = (STR."--\{boundary}\r\nContent-Disposition: form-data; name=").getBytes(UTF_8);
         List<byte[]> byteArrays = map.entrySet()
                 .stream()
                 .flatMap(entry -> {
@@ -443,8 +443,7 @@ public class HttpUtils {
                             throw new UncheckedIOException(e);
                         }
                         mimeType = StringUtils.isBlank(mimeType) ? "application/octet-stream" : mimeType;
-                        byte[] fileInfoArr = ("\"" + k + "\"; filename=\"" + path.getFileName()
-                                + "\"\r\nContent-Type: " + mimeType + "\r\n\r\n")
+                        byte[] fileInfoArr = (STR."\"\{k}\"; filename=\"\{path.getFileName()}\"\r\nContent-Type: \{mimeType}\r\n\r\n")
                                 .getBytes(UTF_8);
                         byte[] fileArr;
                         try {
@@ -454,11 +453,11 @@ public class HttpUtils {
                         }
                         return Stream.of(separator, fileInfoArr, fileArr, "\r\n".getBytes(UTF_8));
                     } else {
-                        return Stream.of(separator, ("\"" + k + "\"\r\n\r\n" + v + "\r\n").getBytes(UTF_8));
+                        return Stream.of(separator, (STR."\"\{k}\"\r\n\r\n\{v}\r\n").getBytes(UTF_8));
                     }
                 })
                 .collect(Collectors.toList());
-        byteArrays.add(("--" + boundary + "--").getBytes(UTF_8));
+        byteArrays.add((STR."--\{boundary}--").getBytes(UTF_8));
         return HttpRequest.BodyPublishers.ofByteArrays(byteArrays);
     }
 
