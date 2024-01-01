@@ -4,6 +4,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.MapUtils;
 
+import java.net.URI;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,6 +85,15 @@ public class UrlUtils {
                     return String.join("=", URLEncoder.encode(entry.getKey(), UTF_8), value);
                 })
                 .collect(Collectors.joining("&", urlPrefix + "?", ""));
+    }
+
+    public static String urlAddDomain(String baseUrl, String urlWithoutDomain) {
+        if (!urlWithoutDomain.startsWith("http")) {
+            URI uri = URI.create(baseUrl);
+            String domain = STR."\{uri.getScheme()}://\{uri.getHost()}";
+            urlWithoutDomain = domain + urlWithoutDomain;
+        }
+        return urlWithoutDomain;
     }
 }
 
