@@ -10,5 +10,5 @@ public interface Common {
     Splitter SPLITTER_COMMA   = Splitter.on(",");
     Splitter SPLITTER_NEWLINE = Splitter.on("\n");
 
-    CloseableSupplier<RateLimiter> rateLimiterSupplier = lazy(() -> RateLimiter.create(1));
+    CloseableSupplier<RateLimiter> RATE_LIMITER_SUPPLIER = lazy(() -> RateLimiter.create(1));
 }
