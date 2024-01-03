@@ -33,7 +33,7 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        log.info("filter:{}", getClass().getName());
+        log.debug("filter:{}", getClass().getName());
         MDC.clear();
         MDC.put("trace_id", UUID.randomUUID().toString().replaceAll("-", ""));
         ContentCachingRequestWrapper wrapperRequest = new ContentCachingRequestWrapper(request);
@@ -68,7 +68,7 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
             String name = enu.nextElement();
             sb.append(name).append("=").append(request.getParameter(name));
             if (enu.hasMoreElements()) {
-                sb.append(",");
+                sb.append("&");
             }
         }
         return sb.toString();
