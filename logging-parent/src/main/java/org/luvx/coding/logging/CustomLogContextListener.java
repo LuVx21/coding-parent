@@ -9,6 +9,7 @@ import ch.qos.logback.core.spi.ContextAwareBase;
 import ch.qos.logback.core.spi.LifeCycle;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 
 public class CustomLogContextListener extends ContextAwareBase implements LoggerContextListener, LifeCycle {
 
@@ -44,6 +45,7 @@ public class CustomLogContextListener extends ContextAwareBase implements Logger
         System.setProperty(LOG_PATH_KEY, name);
         Context context = getContext();
         context.putProperty(LOG_PATH_KEY, name);
+        context.putProperty("PID", getPid());
     }
 
     @Override
@@ -53,5 +55,10 @@ public class CustomLogContextListener extends ContextAwareBase implements Logger
     @Override
     public boolean isStarted() {
         return false;
+    }
+
+    private String getPid() {
+        String name = ManagementFactory.getRuntimeMXBean().getName();
+        return name.substring(0, name.indexOf("@"));
     }
 }

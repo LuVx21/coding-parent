@@ -3,6 +3,7 @@ package org.luvx.coding.common.json;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharSource;
 import com.google.common.io.Files;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.luvx.coding.common.more.MoreRuns;
 
@@ -10,6 +11,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.Map.Entry;
 
+@Slf4j
 class JsonAbbrTest {
     String json = """
             {
@@ -58,7 +60,7 @@ class JsonAbbrTest {
             Map<String, Object> result = JsonAbbr.jsonAbbr("[" + json + "]");
             result.entrySet().stream()
                     .sorted(Entry.comparingByKey())
-                    .forEach(System.out::println);
+                    .forEach(s -> log.info("{}", s));
         });
     }
 }
