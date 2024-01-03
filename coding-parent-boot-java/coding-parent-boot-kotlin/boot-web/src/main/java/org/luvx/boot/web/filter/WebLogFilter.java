@@ -1,5 +1,6 @@
 package org.luvx.boot.web.filter;
 
+import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
@@ -14,7 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.UUID;
 
@@ -46,7 +47,9 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
         filterChain.doFilter(wrapperRequest, wrapperResponse);
 
         String responseBodyStr = getResponseBody(wrapperResponse);
-        log.info("response body: {}", responseBodyStr);
+        if (JSON.isValid(responseBodyStr)) {
+            log.info("response body: {}", responseBodyStr);
+        }
 
         wrapperResponse.copyBodyToResponse();
     }
@@ -58,9 +61,8 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
      * @return
      */
     public static String getRequestParams(HttpServletRequest request) {
-        String type = request.getMethod();
-        String uri = request.getRequestURI();
-        StringBuilder sb = new StringBuilder(type + " " + uri + " ");
+        String type = request.getMethod(), uri = request.getRequestURI();
+        StringBuilder sb = new StringBuilder(STR."\{type} \{uri} ");
         Enumeration<String> enu = request.getParameterNames();
         while (enu.hasMoreElements()) {
             String name = enu.nextElement();
@@ -109,23 +111,10 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
      * byte[] -> str
      *
      * @param buf
-     * @param characterEncoding
+     * @param characterEncoding 中文有问题
      * @return
      */
     private String getPayLoad(byte[] buf, String characterEncoding) {
-        if (buf == null) {
-            return "";
-        }
-
-        if (buf.length > 0) {
-            String payload;
-            try {
-                payload = new String(buf, 0, buf.length, characterEncoding);
-            } catch (UnsupportedEncodingException ex) {
-                payload = "[unknown]";
-            }
-            return payload;
-        }
-        return "";
+        return (buf == null || buf.length == 0) ? "" : new String(buf, StandardCharsets.UTF_8);
     }
 }
