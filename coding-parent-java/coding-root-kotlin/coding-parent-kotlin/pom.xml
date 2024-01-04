@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.luvx.coding</groupId>
         <artifactId>coding-root-kotlin</artifactId>
-        <version>0.3</version>
+        <version>0.2</version>
     </parent>
 
     <artifactId>coding-parent-kotlin</artifactId>
