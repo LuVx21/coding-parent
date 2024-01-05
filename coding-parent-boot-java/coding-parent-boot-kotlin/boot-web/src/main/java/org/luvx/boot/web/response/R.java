@@ -12,7 +12,7 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 public class R<T> implements Serializable {
-    private Map<String, String> host = NetUtils.getHostInfo();
+    private Map<String, String> appInfo = NetUtils.getHostInfo();
 
     private String code;
     private String msg;
