@@ -1,6 +1,7 @@
 package org.luvx.boot.web.response;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import org.luvx.coding.common.exception.base.ResponseCode;
 import org.luvx.coding.common.exception.code.CommonResponseCode;
@@ -8,11 +9,14 @@ import org.luvx.coding.common.exception.code.CommonResponseCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.luvx.coding.common.net.NetUtils;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class R<T> implements Serializable {
+    private Map<String, String> host = NetUtils.getHostInfo();
+
     private String code;
     private String msg;
     private T      data;
