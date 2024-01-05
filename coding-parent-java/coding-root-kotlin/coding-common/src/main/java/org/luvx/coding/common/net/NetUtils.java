@@ -1,10 +1,22 @@
 package org.luvx.coding.common.net;
 
+import com.github.phantomthief.util.MoreFunctions;
+
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Map;
 
 public class NetUtils {
+
+    public static Map<String, String> getHostInfo() {
+        return MoreFunctions.catching(() -> {
+            InetAddress ia = InetAddress.getLocalHost();
+            String host = ia.getHostName(), ip = ia.getHostAddress();
+            return Map.of("ip", ip, "host", host);
+        });
+    }
+
     public static boolean isPortAvailable(int port) {
         try {
             bindPort("0.0.0.0", port);
