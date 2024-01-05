@@ -1,18 +1,19 @@
 package org.luvx.boot.web.response;
 
-import java.io.Serializable;
-
-import org.luvx.coding.common.exception.base.ResponseCode;
-import org.luvx.coding.common.exception.code.CommonResponseCode;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.luvx.coding.common.exception.base.ResponseCode;
+import org.luvx.coding.common.exception.code.CommonResponseCode;
+import org.luvx.coding.common.net.NetUtils;
+
+import java.io.Serializable;
+import java.util.Map;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class R<T> implements Serializable {
+    private Map<String, String> host = NetUtils.getHostInfo();
+
     private String code;
     private String msg;
     private T      data;
@@ -42,6 +43,10 @@ public class R<T> implements Serializable {
     }
 
     private static <T> R<T> of(String code, String msg, T data) {
-        return new R<>(code, msg, data);
+        R<T> r = new R<>();
+        r.code = code;
+        r.msg = msg;
+        r.data = data;
+        return r;
     }
 }
