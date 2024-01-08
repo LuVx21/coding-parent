@@ -1,18 +1,15 @@
 package org.luvx.coding.common.retryer;
 
-import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
-import org.apache.commons.lang3.ObjectUtils;
-
 import com.github.phantomthief.util.ThrowableRunnable;
 import com.github.phantomthief.util.ThrowableSupplier;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+
+import javax.annotation.Nullable;
+import java.time.Duration;
+import java.util.function.Predicate;
+
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 @Slf4j
 public class RetryUtils {
@@ -21,16 +18,23 @@ public class RetryUtils {
         throw new UnsupportedOperationException();
     }
 
-    public static <X extends Throwable> void runWithRetry(int maxRetryTimes, long retryPeriod,
-            ThrowableRunnable<X> func, @Nullable Predicate<Throwable> exceptionChecker) throws X {
-        supplyWithRetry(maxRetryTimes, retryPeriod, () -> {
+    public static <X extends Throwable> void runWithRetry(
+            ThrowableRunnable<X> func,
+            @Nullable Predicate<Throwable> exceptionChecker,
+            int maxRetryTimes, Duration retryPeriod
+    ) throws X {
+        ThrowableSupplier<Object, X> supplier = () -> {
             func.run();
             return null;
-        }, exceptionChecker);
+        };
+        supplyWithRetry(supplier, exceptionChecker, maxRetryTimes, retryPeriod);
     }
 
-    public static <T, X extends Throwable> T supplyWithRetry(int maxRetryTimes, long retryPeriod,
-            ThrowableSupplier<T, X> func, @Nullable Predicate<Throwable> exceptionChecker) throws X {
+    public static <T, X extends Throwable> T supplyWithRetry(
+            ThrowableSupplier<T, X> func,
+            @Nullable Predicate<Throwable> exceptionChecker,
+            int maxRetryTimes, Duration retryPeriod
+    ) throws X {
         int times = 0;
         Throwable lastThrowable;
         do {
@@ -41,14 +45,14 @@ public class RetryUtils {
                     throw e;
                 }
                 if (e instanceof Error) {
-                    log.error("ignore error in retry", e);
+                    log.error("重试时可忽略异常", e);
                 }
-                if (retryPeriod > 0) {
-                    sleepUninterruptibly(retryPeriod, MILLISECONDS);
+                if (retryPeriod != null && retryPeriod.isPositive()) {
+                    sleepUninterruptibly(retryPeriod);
                 }
                 times++;
                 if (times <= maxRetryTimes) {
-                    log.warn("try to retry for exception:{}, retry times:{}", e, times);
+                    log.warn("重试最大次数后异常:{}, 重试次数:{}", e, times);
                 }
                 lastThrowable = e;
             }

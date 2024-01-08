@@ -25,6 +25,7 @@
     <modules>
         <module>coding-common</module>
         <module>coding-infra</module>
+        <module>coding-embed</module>
         <module>coding-parent-kotlin</module>
     </modules>
 
