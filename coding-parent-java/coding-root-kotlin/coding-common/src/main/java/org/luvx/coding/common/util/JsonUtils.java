@@ -40,6 +40,11 @@ public final class JsonUtils {
     private static volatile ObjectMapper snakeMapper;
     private static volatile ObjectMapper snakeSupportNullValueMapper;
 
+    public static final TypeReference<Map<String, Object>> TYPE_REFERENCE_MAP_STRING_OBJECT = new TypeReference<>() {
+    };
+    public static final TypeReference<Map<String, String>> TYPE_REFERENCE_MAP_STRING_STRING = new TypeReference<>() {
+    };
+
     public static String toJson(Object obj) {
         return toJson(obj, false, false);
     }
@@ -222,15 +227,15 @@ public final class JsonUtils {
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         // 在序列化自我引用则失败不抛出异常
         mapper.configure(SerializationFeature.FAIL_ON_SELF_REFERENCES, false);
-        //当出现 Java 类中未知的属性时不报错，而是忽略此 JSON 字段
+        // 当出现 Java 类中未知的属性时不报错，而是忽略此 JSON 字段
         mapper.configure(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS, false);
-        //设置为false，表示： 在遇到未知属性的时候不抛出异常
+        // 设置为false，表示： 在遇到未知属性的时候不抛出异常
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        //反序列化时，遇到类名错误或者map中id找不到时是否报异常。默认为true
+        // 反序列化时，遇到类名错误或者map中id找不到时是否报异常。默认为true
         mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
-        //反序列化时，遇到无法解析的对象id不抛出异常
+        // 反序列化时，遇到无法解析的对象id不抛出异常
         mapper.configure(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, false);
-        //默认情况下启用功能，以便在子类型属性丢失时抛出异常，关闭
+        // 默认情况下启用功能，以便在子类型属性丢失时抛出异常，关闭
         mapper.configure(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY, false);
     }
 
