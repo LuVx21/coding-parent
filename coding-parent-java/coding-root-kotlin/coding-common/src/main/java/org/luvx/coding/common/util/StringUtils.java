@@ -1,5 +1,7 @@
 package org.luvx.coding.common.util;
 
+import java.util.Objects;
+
 public class StringUtils {
     public static int estimatedBinaryLengthAsUTF8(String value) {
         int length = 0;
@@ -38,5 +40,32 @@ public class StringUtils {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 指定区间内替换
+     * <pre>
+     *     abcdefg -> 2~5 替换为 12345 -> ab12345g
+     * </pre>
+     */
+    public static String replace(String s, int from, int to, String replacement) {
+        int sLen = org.apache.commons.lang3.StringUtils.length(s);
+        int replaceLen = org.apache.commons.lang3.StringUtils.length(replacement);
+        int length = Objects.checkIndex(to, sLen) - Objects.checkIndex(from, sLen) + 1;
+        if (length < 1) {
+            throw new RuntimeException(STR."from(\{from})~to(\{to})异常");
+        }
+        char[] charArray = new char[sLen - length + replaceLen];
+        int k = 0;
+        for (int i = 0; i < from; i++) {
+            charArray[k++] = s.charAt(i);
+        }
+        for (int i = 0; i < replaceLen; i++) {
+            charArray[k++] = replacement.charAt(i);
+        }
+        for (int i = to + 1; i < sLen; i++) {
+            charArray[k++] = s.charAt(i);
+        }
+        return String.valueOf(charArray);
     }
 }
