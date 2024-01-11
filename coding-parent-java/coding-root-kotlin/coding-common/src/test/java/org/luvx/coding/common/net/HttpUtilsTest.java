@@ -13,4 +13,11 @@ class HttpUtilsTest {
         );
         System.out.println(download);
     }
+
+    @Test
+    void m2() {
+        String url = "https://hosts.gitcdn.top/hosts.txt";
+        var fileName = UrlUtils.urlFileName(url);
+        System.out.println(fileName);
+    }
 }
