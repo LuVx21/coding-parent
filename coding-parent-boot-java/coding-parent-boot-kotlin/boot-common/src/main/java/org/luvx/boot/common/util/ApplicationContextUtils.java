@@ -68,7 +68,7 @@ public class ApplicationContextUtils implements ApplicationContextAware, Disposa
         try {
             return Optional.ofNullable(applicationContext.getBean(clazz));
         } catch (Throwable ignore) {
-            log.warn("获取Bean: {} 不存在", clazz);
+            log.debug("获取Bean: {} 不存在", clazz);
             return Optional.empty();
         }
     }
