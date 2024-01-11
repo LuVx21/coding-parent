@@ -1,7 +1,6 @@
 package org.luvx.boot.common.util;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
@@ -9,6 +8,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -19,7 +19,7 @@ public class ApplicationContextUtils implements ApplicationContextAware, Disposa
     @Override
     public void destroy() {
         if (log.isDebugEnabled()) {
-            log.info("销毁applicationContext: " + applicationContext);
+            log.info("销毁applicationContext: {}", applicationContext);
         }
         applicationContext = null;
     }
@@ -58,5 +58,18 @@ public class ApplicationContextUtils implements ApplicationContextAware, Disposa
     public static <T> T getBean(Class<T> clazz) {
         hasInjected();
         return applicationContext.getBean(clazz);
+    }
+
+    /**
+     * 找不到时不抛出异常
+     */
+    public static <T> Optional<T> getBeanNullable(Class<T> clazz) {
+        hasInjected();
+        try {
+            return Optional.ofNullable(applicationContext.getBean(clazz));
+        } catch (Throwable ignore) {
+            log.warn("获取Bean: {} 不存在", clazz);
+            return Optional.empty();
+        }
     }
 }
