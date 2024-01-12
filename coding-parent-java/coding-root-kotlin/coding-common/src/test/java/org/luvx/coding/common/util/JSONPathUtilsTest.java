@@ -35,7 +35,7 @@ class JSONPathUtilsTest {
 
         MoreRuns.runWithTime(() -> {
             for (int i = 0; i < 10000; i++) {
-                JSONPath.eval(json, path);
+                JSONPath.extract(json, path);
             }
         });
 
