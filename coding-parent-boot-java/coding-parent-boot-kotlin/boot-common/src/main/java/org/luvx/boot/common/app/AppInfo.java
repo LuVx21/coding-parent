@@ -13,6 +13,8 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Optional;
+
 import static com.github.phantomthief.util.MoreFunctions.runCatching;
 import static org.luvx.boot.common.util.ApplicationContextUtils.getBeanNullable;
 
@@ -22,7 +24,7 @@ public class AppInfo implements SmartLifecycle {
 
     @Getter
     @Value("${server.port}")
-    private String port;
+    private Integer port;
 
     @Override
     public void start() {
@@ -63,5 +65,9 @@ public class AppInfo implements SmartLifecycle {
     @Override
     public boolean isRunning() {
         return false;
+    }
+
+    public static Optional<AppInfo> instance() {
+        return getBeanNullable(AppInfo.class);
     }
 }
