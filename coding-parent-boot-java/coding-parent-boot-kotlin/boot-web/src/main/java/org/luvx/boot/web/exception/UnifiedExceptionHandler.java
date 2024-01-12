@@ -35,6 +35,7 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -48,18 +49,11 @@ import static org.luvx.coding.common.exception.code.ArgumentResponseCode.BAD_REQ
 @Component
 @ControllerAdvice
 @ConditionalOnWebApplication
-@ConditionalOnMissingBean(UnifiedExceptionHandler.class)
+// @ConditionalOnMissingBean(UnifiedExceptionHandler.class)
 public class UnifiedExceptionHandler {
-    /**
-     * 生产环境
-     */
-    private final static String ENV_PROD = "prod";
 
-    /**
-     * 当前环境
-     */
-    @Value("${spring.profiles.active}")
-    private String profile;
+    @Value("${app.switch.exception.handler.enable:false}")
+    private boolean exceptionHandlerEnable;
 
     /**
      * 自定义异常
@@ -121,7 +115,7 @@ public class UnifiedExceptionHandler {
                     ServletResponseCode.class.getName());
         }
 
-        if (ENV_PROD.equals(profile)) {
+        if (exceptionHandlerEnable) {
             code = CommonResponseCode.SERVER_ERROR;
             BaseException ee = CommonResponseCode.SERVER_ERROR.exception();
             String message = getMessage(ee);
@@ -165,7 +159,7 @@ public class UnifiedExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R<?> handleException(HttpServletRequest request, Throwable t) {
         log.error("异常->url: {}", request.getRequestURI(), t);
-        if (ENV_PROD.equals(profile)) {
+        if (exceptionHandlerEnable) {
             // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
             BaseException ee = CommonResponseCode.SERVER_ERROR.exception();
             String message = getMessage(ee);
@@ -187,7 +181,7 @@ public class UnifiedExceptionHandler {
                     String s = "";
                     if (error instanceof FieldError) {
                         String field = ((FieldError) error).getField();
-                        s = field + ":";
+                        s = STR."\{field}:";
                     }
                     s += defaultIfNull(error.getDefaultMessage(), "");
                     return s;
@@ -203,6 +197,6 @@ public class UnifiedExceptionHandler {
      */
     private String getMessage(BaseException e) {
         String message = e.getResponseCode().getMessage();
-        return StringUtils.isEmpty(message) ? e.getMessage() : "response." + message;
+        return StringUtils.isEmpty(message) ? e.getMessage() : STR."response.\{message}";
     }
 }

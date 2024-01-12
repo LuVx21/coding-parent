@@ -10,20 +10,18 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.luvx.coding.common.consts.Common;
 import org.luvx.coding.infra.retrieve.base.MultiDataRetrievable;
 import org.luvx.coding.infra.retrieve.exception.AllFailedException;
 
 import com.google.common.collect.Sets;
-import com.google.common.util.concurrent.RateLimiter;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class RetrieveIdUtils {
-    private static final RateLimiter rateLimiter = RateLimiter.create(1);
-
     private static void rateLog(Runnable doLog) {
-        if (rateLimiter.tryAcquire()) {
+        if (Common.RATE_LIMITER_SUPPLIER.get().tryAcquire()) {
             doLog.run();
         }
     }
@@ -42,7 +40,7 @@ public final class RetrieveIdUtils {
     }
 
     private static <K, V> Map<K, V> getByIterator(Collection<K> keys,
-            Iterator<MultiDataRetrievable<K, V>> iterator) {
+                                                  Iterator<MultiDataRetrievable<K, V>> iterator) {
         if (keys.isEmpty() || !iterator.hasNext()) {
             return emptyMap();
         }
@@ -76,12 +74,12 @@ public final class RetrieveIdUtils {
      * @throws AllFailedException 如果所有 IMultiDataAccess 都抛出异常，则抛出 AllFailException
      */
     public static <K, V> Map<K, V> getFailSafeUnlessAllFailed(Collection<K> keys,
-            Iterable<MultiDataRetrievable<K, V>> list) {
+                                                              Iterable<MultiDataRetrievable<K, V>> list) {
         return getByIteratorFailSafeUnlessAllFailed(Sets.newHashSet(keys), list.iterator(), false);
     }
 
     private static <K, V> Map<K, V> getByIteratorFailSafeUnlessAllFailed(Set<K> keys,
-            Iterator<MultiDataRetrievable<K, V>> iterator, boolean hasSuccess) {
+                                                                         Iterator<MultiDataRetrievable<K, V>> iterator, boolean hasSuccess) {
         if (keys.isEmpty()) {
             return emptyMap();
         }

@@ -9,7 +9,7 @@ import org.luvx.coding.common.exception.base.BizResponseCode;
 public enum CommonResponseCode implements BizResponseCode {
     SUCCESS("0", "成功"),
     FAILED("1", "失败"),
-    SERVER_ERROR("2", ""),
+    SERVER_ERROR("2", "系统错误"),
     OPERATION_FAILED("10001", "系统错误，操作失败"),
     ;
 

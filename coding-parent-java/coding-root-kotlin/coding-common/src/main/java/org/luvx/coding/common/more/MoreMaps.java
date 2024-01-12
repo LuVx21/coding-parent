@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -44,6 +45,19 @@ public class MoreMaps {
             }
         }
         return result;
+    }
+
+    public static <K, V> V firstNonNull(Map<? super K, V> map, V defaultValue, K... keys) {
+        if (ObjectUtils.anyNull(map, keys)) {
+            return defaultValue;
+        }
+        for (K key : keys) {
+            V value = map.get(key);
+            if (value != null) {
+                return value;
+            }
+        }
+        return defaultValue;
     }
 
     public static <K, V> List<V> getList(Map<? super K, ?> map, K key) {

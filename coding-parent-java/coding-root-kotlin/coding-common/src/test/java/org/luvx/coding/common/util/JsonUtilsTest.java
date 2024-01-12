@@ -1,5 +1,7 @@
 package org.luvx.coding.common.util;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Triple;
 import org.junit.jupiter.api.Test;
@@ -79,5 +81,23 @@ class JsonUtilsTest {
             Triple<Set<String>, Set<String>, Map<String, Map.Entry<Object, Object>>> diff = JsonUtils.diff(json1, json2);
             log.info("json1独有key:{}, json2独有key:{}, 不同值:{}", diff.getLeft(), diff.getMiddle(), diff.getRight());
         });
+    }
+
+    @Test
+    void modify() {
+        String json = """
+                {
+                    "a": "aaa",
+                    "b": {
+                        "bb": "bbb"
+                    }
+                }
+                """;
+        JSONObject j1 = JSON.parseObject(json);
+        j1.put("a", "aaa1");
+        JSONObject j2 = j1.getJSONObject("b");
+        j2.put("bb", "bbb1");
+        j2.put("cc", "ccc");
+        System.out.println(j1);
     }
 }
