@@ -35,6 +35,7 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -48,7 +49,7 @@ import static org.luvx.coding.common.exception.code.ArgumentResponseCode.BAD_REQ
 @Component
 @ControllerAdvice
 @ConditionalOnWebApplication
-@ConditionalOnMissingBean(UnifiedExceptionHandler.class)
+// @ConditionalOnMissingBean(UnifiedExceptionHandler.class)
 public class UnifiedExceptionHandler {
 
     @Value("${app.switch.exception.handler.enable:false}")
