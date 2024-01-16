@@ -1,7 +1,9 @@
 package org.luvx.boot.common.app;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.luvx.coding.common.util.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchProperties;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -11,32 +13,44 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Optional;
+
+import static com.github.phantomthief.util.MoreFunctions.runCatching;
 import static org.luvx.boot.common.util.ApplicationContextUtils.getBeanNullable;
 
 @Slf4j
 @Configuration
 public class AppInfo implements SmartLifecycle {
 
+    @Getter
+    @Value("${server.port}")
+    private Integer port;
+
     @Override
     public void start() {
-        getBeanNullable(ServerProperties.class).ifPresent(p ->
-                log.info("服务运行在: {}", p.getPort())
-        );
-        getBeanNullable(DataSourceProperties.class).ifPresent(p ->
-                log.info("数据库服务: {}", p.getUrl())
-        );
-        getBeanNullable(RedisProperties.class).ifPresent(p ->
-                log.info("Redis服务: {}", delete(p.getUrl()))
-        );
-        getBeanNullable(MongoProperties.class).ifPresent(p ->
-                log.info("MongoDB服务: {}", delete(p.getUri()))
-        );
-        getBeanNullable(ElasticsearchProperties.class).ifPresent(p ->
-                log.info("Elasticsearch服务: {}", p.getUris())
-        );
-        getBeanNullable(KafkaProperties.class).ifPresent(p ->
-                log.info("Kafka服务: {}", p.getBootstrapServers())
-        );
+        runCatching(() -> {
+            String repeat = "-".repeat(80);
+            log.info(repeat);
+            getBeanNullable(ServerProperties.class).ifPresent(p ->
+                    log.info("服务运行在: {}", p.getPort())
+            );
+            getBeanNullable(DataSourceProperties.class).ifPresent(p ->
+                    log.info("数据库服务: {}", p.getUrl())
+            );
+            getBeanNullable(RedisProperties.class).ifPresent(p ->
+                    log.info("Redis服务: {}", delete(p.getUrl()))
+            );
+            getBeanNullable(MongoProperties.class).ifPresent(p ->
+                    log.info("MongoDB服务: {}", delete(p.getUri()))
+            );
+            getBeanNullable(ElasticsearchProperties.class).ifPresent(p ->
+                    log.info("Elasticsearch服务: {}", p.getUris())
+            );
+            getBeanNullable(KafkaProperties.class).ifPresent(p ->
+                    log.info("Kafka服务: {}", p.getBootstrapServers())
+            );
+            log.info(repeat);
+        });
     }
 
     private String delete(String s) {
@@ -51,5 +65,9 @@ public class AppInfo implements SmartLifecycle {
     @Override
     public boolean isRunning() {
         return false;
+    }
+
+    public static Optional<AppInfo> instance() {
+        return getBeanNullable(AppInfo.class);
     }
 }

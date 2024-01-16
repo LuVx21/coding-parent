@@ -37,7 +37,7 @@ public class JSONPathUtils {
     }
 
     public static Object get(String jsonStr, String path) {
-        return getJsonPath(path).eval(JSONReader.of(jsonStr));
+        return getJsonPath(path).extract(JSONReader.of(jsonStr));
     }
 
     public static Object get(Object bean, String path) {

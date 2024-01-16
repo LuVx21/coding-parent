@@ -1,6 +1,12 @@
 package org.luvx.coding.common.more;
 
-import static java.util.stream.Collectors.toList;
+import com.alibaba.fastjson2.JSON;
+import com.github.phantomthief.util.MoreFunctions;
+import com.github.phantomthief.util.ThrowableRunnable;
+import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.luvx.coding.common.concurrent.ThreadUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -8,20 +14,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
-import com.alibaba.fastjson2.JSON;
-import org.apache.commons.lang3.ObjectUtils;
-import org.luvx.coding.common.concurrent.ThreadUtils;
-
-import com.github.phantomthief.util.MoreFunctions;
-import com.github.phantomthief.util.ThrowableRunnable;
-import com.google.common.collect.Lists;
-
-import lombok.extern.slf4j.Slf4j;
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 public class MoreRuns {
@@ -33,6 +32,14 @@ public class MoreRuns {
         MoreFunctions.runCatching(runnable);
         long end = System.currentTimeMillis();
         log.info("执行时间:{}ms", end - start);
+    }
+
+    public static <R> R runWithTime(Callable<R> runnable) {
+        long start = System.currentTimeMillis();
+        R r = MoreFunctions.catching(runnable);
+        long end = System.currentTimeMillis();
+        log.info("执行时间:{}ms", end - start);
+        return r;
     }
 
     public static List<Object> run(String className, String methodName, Object... args) {

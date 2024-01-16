@@ -2,6 +2,7 @@ package org.luvx.boot.web.filter;
 
 import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
@@ -42,7 +43,9 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
         String urlParams = getRequestParams(request);
         log.info("request params: {}", urlParams);
         String requestBodyStr = getRequestBody(wrapperRequest);
-        log.info("request body: {}", requestBodyStr);
+        if (StringUtils.isNotEmpty(requestBodyStr)) {
+            log.info("request body: {}", requestBodyStr);
+        }
 
         filterChain.doFilter(wrapperRequest, wrapperResponse);
 

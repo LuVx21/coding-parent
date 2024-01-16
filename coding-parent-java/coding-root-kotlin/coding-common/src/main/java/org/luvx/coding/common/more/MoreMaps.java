@@ -1,16 +1,16 @@
 package org.luvx.coding.common.more;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
+
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.ArrayUtils.getLength;
@@ -47,15 +47,35 @@ public class MoreMaps {
         return result;
     }
 
-    public static <K> List<Object> getList(Map<? super K, ?> map, K key, @Nullable List<Object> defaultValue) {
+    public static <K, V> V firstNonNull(Map<? super K, V> map, V defaultValue, K... keys) {
+        if (ObjectUtils.anyNull(map, keys)) {
+            return defaultValue;
+        }
+        for (K key : keys) {
+            V value = map.get(key);
+            if (value != null) {
+                return value;
+            }
+        }
+        return defaultValue;
+    }
+
+    public static <K, V> List<V> getList(Map<? super K, ?> map, K key) {
+        return getList(map, key, null);
+    }
+
+    public static <K, V> List<V> getList(Map<? super K, ?> map, K key, @Nullable List<V> defaultValue) {
         Object value;
         if (map == null || (value = map.get(key)) == null) {
             return defaultValue != null ? defaultValue : emptyList();
         }
         Preconditions.checkArgument(value instanceof List, "Key[%s] should be a list, was [%s]", key, value);
-        return (List<Object>) value;
+        return (List<V>) value;
     }
 
+    /**
+     * 前一个map的value作为下一个map的key查询
+     */
     @Nullable
     public static <K, V> V lookup(K key, V defaultValue, Map<?, ?>... maps) {
         if (ArrayUtils.isEmpty(maps)) {
