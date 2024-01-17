@@ -28,6 +28,8 @@
         <slf4j.version>1.7.36</slf4j.version>
         <vavr.version>0.10.4</vavr.version>
         <!-- <vavr.version>1.0.0-alpha-4</vavr.version> -->
+
+        <jsoup.version>1.17.2</jsoup.version>
     </properties>
 
     <modules>
