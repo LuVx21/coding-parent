@@ -103,12 +103,9 @@ public class SnowflakeIdWorker1 {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         for (int i = 0; i < 10000; i++) {
-            executorService.execute(new Runnable() {
-                @Override
-                public void run() {
-                    long id = idGenerator.nextId();
-                    System.out.println(id);
-                }
+            executorService.execute(() -> {
+                long id = idGenerator.nextId();
+                System.out.println(id);
             });
         }
         executorService.shutdown();

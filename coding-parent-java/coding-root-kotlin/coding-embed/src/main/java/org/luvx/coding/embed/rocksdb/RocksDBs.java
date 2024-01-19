@@ -1,31 +1,41 @@
 package org.luvx.coding.embed.rocksdb;
 
+import com.github.phantomthief.util.MoreFunctions;
 import com.github.phantomthief.util.MoreSuppliers.CloseableSupplier;
+import org.luvx.coding.common.OnOffSwitch;
 import org.rocksdb.Options;
 import org.rocksdb.RocksDB;
 import org.rocksdb.RocksDBException;
 
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import static com.github.phantomthief.util.MoreSuppliers.lazy;
 import static com.google.common.base.StandardSystemProperty.USER_HOME;
 
 public class RocksDBs {
-    public static final String dbPath = STR."\{USER_HOME.value()}/data/RocksDB";
+    private static final OnOffSwitch deleteLog = OnOffSwitch.of(false);
+    public static final  String      dbPath    = STR."\{USER_HOME.value()}/data/RocksDB";
 
     public static final CloseableSupplier<RocksDB> ROCKSDB_SUPPLIER = lazy(() -> {
         RocksDB.loadLibrary();
 
         Options options = new Options()
                 .setCreateIfMissing(true);
+        Path path = Path.of(dbPath);
         try {
-            if (!Files.isSymbolicLink(Paths.get(dbPath))) {
-                Files.createDirectories(Paths.get(dbPath));
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+            } else if (deleteLog.isOn()) {
+                try (Stream<Path> stream = Files.list(path)) {
+                    stream.filter(p -> p.getFileName().toString().startsWith("LOG.old."))
+                            .forEachOrdered(p -> MoreFunctions.runCatching(() -> Files.deleteIfExists(p)));
+                }
             }
             return RocksDB.open(options, dbPath);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("初始化异常");
         }
     });
 
