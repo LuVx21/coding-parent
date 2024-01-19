@@ -91,6 +91,7 @@ public class ZipUtils {
         if (!cacheLocally) {
             try {
                 return RetryUtils.supplyWithRetry(
+                        "解压缩zip重试",
                         () -> unzip(byteSource.openStream(), outDir),
                         shouldRetry,
                         DEFAULT_RETRY_COUNT,

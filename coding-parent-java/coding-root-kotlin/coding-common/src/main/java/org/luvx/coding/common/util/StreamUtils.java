@@ -41,6 +41,7 @@ public class StreamUtils {
     ) {
         try {
             return RetryUtils.supplyWithRetry(
+                    "文件复制重试",
                     () -> {
                         try (InputStream inputStream = byteSource.openStream()) {
                             try (OutputStream outputStream = byteSink.openStream()) {
