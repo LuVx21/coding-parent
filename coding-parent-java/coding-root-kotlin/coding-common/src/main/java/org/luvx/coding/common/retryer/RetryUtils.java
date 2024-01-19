@@ -4,12 +4,14 @@ import com.github.phantomthief.util.ThrowableRunnable;
 import com.github.phantomthief.util.ThrowableSupplier;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.function.Predicate;
 
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
 @Slf4j
 public class RetryUtils {
@@ -27,7 +29,7 @@ public class RetryUtils {
             func.run();
             return null;
         };
-        supplyWithRetry(supplier, exceptionChecker, maxRetryTimes, retryPeriod);
+        supplyWithRetry(null, supplier, exceptionChecker, maxRetryTimes, retryPeriod);
     }
 
     public static <T, X extends Throwable> T supplyWithRetry(
@@ -35,7 +37,17 @@ public class RetryUtils {
             @Nullable Predicate<Throwable> exceptionChecker,
             int maxRetryTimes, Duration retryPeriod
     ) throws X {
-        int times = 0;
+        return supplyWithRetry(null, func, exceptionChecker, maxRetryTimes, retryPeriod);
+    }
+
+    public static <T, X extends Throwable> T supplyWithRetry(
+            @Nullable String name,
+            ThrowableSupplier<T, X> func,
+            @Nullable Predicate<Throwable> exceptionChecker,
+            int maxRetryTimes, Duration retryPeriod
+    ) throws X {
+        name = StringUtils.isBlank(name) ? STR."重试\{randomAlphabetic(4)}" : name;
+        int times = -1;
         Throwable lastThrowable;
         do {
             try {
@@ -52,7 +64,7 @@ public class RetryUtils {
                 }
                 times++;
                 if (times <= maxRetryTimes) {
-                    log.warn("当前异常:{}, 当前重试次数:{}", e, times);
+                    log.warn("{}->当前异常:{}, 当前重试次数:{}", name, e, times);
                 }
                 lastThrowable = e;
             }
