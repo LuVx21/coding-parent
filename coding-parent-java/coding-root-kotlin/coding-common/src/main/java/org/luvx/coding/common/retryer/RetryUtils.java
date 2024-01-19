@@ -52,7 +52,7 @@ public class RetryUtils {
                 }
                 times++;
                 if (times <= maxRetryTimes) {
-                    log.warn("重试最大次数后异常:{}, 重试次数:{}", e, times);
+                    log.warn("当前异常:{}, 当前重试次数:{}", e, times);
                 }
                 lastThrowable = e;
             }
