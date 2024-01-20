@@ -3,14 +3,15 @@ package org.luvx.coding.common.retryer;
 import com.github.phantomthief.util.ThrowableRunnable;
 import com.github.phantomthief.util.ThrowableSupplier;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.luvx.coding.common.util.Predicates;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.function.Predicate;
 
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
 @Slf4j
@@ -29,7 +30,7 @@ public class RetryUtils {
             func.run();
             return null;
         };
-        supplyWithRetry(null, supplier, exceptionChecker, maxRetryTimes, retryPeriod);
+        supplyWithRetry(null, supplier, exceptionChecker, maxRetryTimes, retryPeriod, null);
     }
 
     public static <T, X extends Throwable> T supplyWithRetry(
@@ -37,23 +38,33 @@ public class RetryUtils {
             @Nullable Predicate<Throwable> exceptionChecker,
             int maxRetryTimes, Duration retryPeriod
     ) throws X {
-        return supplyWithRetry(null, func, exceptionChecker, maxRetryTimes, retryPeriod);
+        return supplyWithRetry(null, func, exceptionChecker, maxRetryTimes, retryPeriod, null);
     }
 
+    /**
+     * 最大重试次数后,仍然异常,忽略的话返回null
+     *
+     * @param shouldRetry         返回true不抛出异常,进行重试
+     * @param ignoreLastException 返回true不抛出异常,返回null
+     */
+    @Nullable
     public static <T, X extends Throwable> T supplyWithRetry(
             @Nullable String name,
             ThrowableSupplier<T, X> func,
-            @Nullable Predicate<Throwable> exceptionChecker,
-            int maxRetryTimes, Duration retryPeriod
+            @Nullable Predicate<Throwable> shouldRetry,
+            int maxRetryTimes, Duration retryPeriod,
+            @Nullable Predicate<Throwable> ignoreLastException
     ) throws X {
         name = StringUtils.isBlank(name) ? STR."重试\{randomAlphabetic(4)}" : name;
+        Predicate<Throwable> alwaysTrue = Predicates.alwaysTrue();
+
         int times = -1;
         Throwable lastThrowable;
         do {
             try {
                 return func.get();
             } catch (Throwable e) {
-                if (ObjectUtils.defaultIfNull(exceptionChecker, throwable -> true).negate().test(e)) {
+                if (defaultIfNull(shouldRetry, alwaysTrue).negate().test(e)) {
                     throw e;
                 }
                 if (e instanceof Error) {
@@ -69,6 +80,11 @@ public class RetryUtils {
                 lastThrowable = e;
             }
         } while (times <= maxRetryTimes);
-        throw (X) lastThrowable;
+
+        if (defaultIfNull(ignoreLastException, alwaysTrue).negate().test(lastThrowable)) {
+            return null;
+        } else {
+            throw (X) lastThrowable;
+        }
     }
 }

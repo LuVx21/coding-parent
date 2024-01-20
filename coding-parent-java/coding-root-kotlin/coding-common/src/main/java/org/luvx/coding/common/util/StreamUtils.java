@@ -40,7 +40,7 @@ public class StreamUtils {
             final int maxRetryTimes
     ) {
         try {
-            return RetryUtils.supplyWithRetry(
+            Long r = RetryUtils.supplyWithRetry(
                     "文件复制重试",
                     () -> {
                         try (InputStream inputStream = byteSource.openStream()) {
@@ -53,8 +53,10 @@ public class StreamUtils {
                     },
                     shouldRetry,
                     maxRetryTimes,
-                    Duration.ofSeconds(1)
+                    Duration.ofSeconds(1),
+                    null
             );
+            return r == null ? 0 : r;
         } catch (Exception e) {
             throw Throwables.propagate(e);
         }

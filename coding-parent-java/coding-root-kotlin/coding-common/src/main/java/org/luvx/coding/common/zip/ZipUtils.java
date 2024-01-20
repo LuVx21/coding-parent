@@ -14,6 +14,7 @@ import org.luvx.coding.common.util.Predicates;
 import org.luvx.coding.common.util.StreamUtils;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -82,6 +83,7 @@ public class ZipUtils {
         return totalSize;
     }
 
+    @Nullable
     public static FileCopyResult unzip(
             final ByteSource byteSource,
             final File outDir,
@@ -95,7 +97,8 @@ public class ZipUtils {
                         () -> unzip(byteSource.openStream(), outDir),
                         shouldRetry,
                         DEFAULT_RETRY_COUNT,
-                        Duration.ofSeconds(5)
+                        Duration.ofSeconds(5),
+                        null
                 );
             } catch (Exception e) {
                 throw Throwables.propagate(e);
