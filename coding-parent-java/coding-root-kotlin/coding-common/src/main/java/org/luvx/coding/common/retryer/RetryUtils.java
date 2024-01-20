@@ -58,7 +58,7 @@ public class RetryUtils {
         name = StringUtils.isBlank(name) ? STR."重试\{randomAlphabetic(4)}" : name;
         Predicate<Throwable> alwaysTrue = Predicates.alwaysTrue();
 
-        int times = -1;
+        int times = 0;
         Throwable lastThrowable;
         do {
             try {
@@ -75,7 +75,7 @@ public class RetryUtils {
                 }
                 times++;
                 if (times <= maxRetryTimes) {
-                    log.warn("{}->当前异常:{}, 当前重试次数:{}", name, e, times);
+                    log.warn("{}->当前异常:{}, 进行第{}次重试", name, e, times);
                 }
                 lastThrowable = e;
             }
