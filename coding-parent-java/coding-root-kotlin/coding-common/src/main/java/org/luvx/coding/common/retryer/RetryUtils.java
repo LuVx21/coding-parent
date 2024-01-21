@@ -44,8 +44,8 @@ public class RetryUtils {
     /**
      * 最大重试次数后,仍然异常,忽略的话返回null
      *
-     * @param shouldRetry         返回true不抛出异常,进行重试
-     * @param ignoreLastException 返回true不抛出异常,返回null
+     * @param shouldRetry        返回true不抛出异常,进行重试
+     * @param throwLastException 返回true抛出异常,false则返回null
      */
     @Nullable
     public static <T, X extends Throwable> T supplyWithRetry(
@@ -53,12 +53,12 @@ public class RetryUtils {
             ThrowableSupplier<T, X> func,
             @Nullable Predicate<Throwable> shouldRetry,
             int maxRetryTimes, Duration retryPeriod,
-            @Nullable Predicate<Throwable> ignoreLastException
+            @Nullable Predicate<Throwable> throwLastException
     ) throws X {
         name = StringUtils.isBlank(name) ? STR."重试\{randomAlphabetic(4)}" : name;
         Predicate<Throwable> alwaysTrue = Predicates.alwaysTrue();
 
-        int times = -1;
+        int times = 0;
         Throwable lastThrowable;
         do {
             try {
@@ -75,16 +75,17 @@ public class RetryUtils {
                 }
                 times++;
                 if (times <= maxRetryTimes) {
-                    log.warn("{}->当前异常:{}, 当前重试次数:{}", name, e, times);
+                    log.warn("{}->当前异常:{}, 进行第{}次重试", name, e, times);
                 }
                 lastThrowable = e;
             }
         } while (times <= maxRetryTimes);
 
-        if (defaultIfNull(ignoreLastException, alwaysTrue).negate().test(lastThrowable)) {
-            return null;
-        } else {
+        log.warn("进行{}次重试仍失败,最终异常:", maxRetryTimes, lastThrowable);
+        if (defaultIfNull(throwLastException, alwaysTrue).test(lastThrowable)) {
             throw (X) lastThrowable;
+        } else {
+            return null;
         }
     }
 }
