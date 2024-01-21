@@ -81,6 +81,7 @@ public class RetryUtils {
             }
         } while (times <= maxRetryTimes);
 
+        log.warn("进行{}次重试仍失败,最终异常:", maxRetryTimes, lastThrowable);
         if (defaultIfNull(throwLastException, alwaysTrue).test(lastThrowable)) {
             throw (X) lastThrowable;
         } else {
