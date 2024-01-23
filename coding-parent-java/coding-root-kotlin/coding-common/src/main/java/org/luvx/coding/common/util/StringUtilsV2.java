@@ -1,8 +1,14 @@
 package org.luvx.coding.common.util;
 
-import java.util.Objects;
+import org.apache.commons.lang3.function.Suppliers;
 
-public class StringUtils {
+import java.util.Objects;
+import java.util.function.Supplier;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.length;
+
+public class StringUtilsV2 {
     public static int estimatedBinaryLengthAsUTF8(String value) {
         int length = 0;
         for (int i = 0; i < value.length(); i++) {
@@ -49,8 +55,7 @@ public class StringUtils {
      * </pre>
      */
     public static String replace(String s, int from, int to, String replacement) {
-        int sLen = org.apache.commons.lang3.StringUtils.length(s);
-        int replaceLen = org.apache.commons.lang3.StringUtils.length(replacement);
+        int sLen = length(s), replaceLen = length(replacement);
         int length = Objects.checkIndex(to, sLen) - Objects.checkIndex(from, sLen) + 1;
         if (length < 1) {
             throw new RuntimeException(STR."from(\{from})~to(\{to})异常");
@@ -67,5 +72,9 @@ public class StringUtils {
             charArray[k++] = s.charAt(i);
         }
         return String.valueOf(charArray);
+    }
+
+    public static String getIfEmpty(final String s, final Supplier<String> sp) {
+        return isEmpty(s) ? Suppliers.get(sp) : s;
     }
 }

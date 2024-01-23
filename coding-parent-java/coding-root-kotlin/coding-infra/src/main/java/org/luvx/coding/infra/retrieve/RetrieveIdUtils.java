@@ -1,27 +1,23 @@
 package org.luvx.coding.infra.retrieve;
 
+import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.RateLimiter;
+import lombok.extern.slf4j.Slf4j;
+import org.luvx.coding.infra.retrieve.base.MultiDataRetrievable;
+import org.luvx.coding.infra.retrieve.exception.AllFailedException;
+
+import java.util.*;
+
 import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singleton;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import org.luvx.coding.common.consts.Common;
-import org.luvx.coding.infra.retrieve.base.MultiDataRetrievable;
-import org.luvx.coding.infra.retrieve.exception.AllFailedException;
-
-import com.google.common.collect.Sets;
-
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 public final class RetrieveIdUtils {
+    private static final RateLimiter limiter = RateLimiter.create(100);
+
     private static void rateLog(Runnable doLog) {
-        if (Common.RATE_LIMITER_SUPPLIER.get().tryAcquire()) {
+        if (limiter.tryAcquire()) {
             doLog.run();
         }
     }

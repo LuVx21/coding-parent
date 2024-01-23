@@ -22,15 +22,17 @@ public class RetryUtils {
     }
 
     public static <X extends Throwable> void runWithRetry(
+            @Nullable String name,
             ThrowableRunnable<X> func,
             @Nullable Predicate<Throwable> exceptionChecker,
-            int maxRetryTimes, Duration retryPeriod
+            int maxRetryTimes, Duration retryPeriod,
+            @Nullable Predicate<Throwable> throwLastException
     ) throws X {
         ThrowableSupplier<Object, X> supplier = () -> {
             func.run();
             return null;
         };
-        supplyWithRetry(null, supplier, exceptionChecker, maxRetryTimes, retryPeriod, null);
+        supplyWithRetry(name, supplier, exceptionChecker, maxRetryTimes, retryPeriod, throwLastException);
     }
 
     public static <T, X extends Throwable> T supplyWithRetry(
