@@ -8,7 +8,7 @@ class StringUtilsTest {
     void
     replaceTest() {
 
-        String abcdefg = StringUtils.replace(
+        String abcdefg = StringUtilsV2.replace(
                 "abcdefg", 2, 5, "123456789"
         );
         System.out.println(abcdefg);

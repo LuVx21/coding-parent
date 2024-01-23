@@ -2,7 +2,7 @@ package org.luvx.boot.common.app;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.luvx.coding.common.util.StringUtils;
+import org.luvx.coding.common.util.StringUtilsV2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchProperties;
@@ -54,7 +54,7 @@ public class AppInfo implements SmartLifecycle {
     }
 
     private String delete(String s) {
-        return StringUtils.replace(s, s.lastIndexOf(':', s.indexOf('@')) + 1, s.indexOf('@') - 1, "****");
+        return StringUtilsV2.replace(s, s.lastIndexOf(':', s.indexOf('@')) + 1, s.indexOf('@') - 1, "****");
     }
 
     @Override
