@@ -20,7 +20,7 @@ public class Systems {
     @Nullable
     public static String appRunInHost() {
         String v = getEnv("APP_RUN_IN_HOST");
-        v = StringUtilsV2.getIfEmpty(v, () -> NetUtils.getHostInfo().get("ip"));
+        // v = StringUtilsV2.getIfEmpty(v, () -> NetUtils.getHostInfo().get("ip"));
         return v;
     }
 
