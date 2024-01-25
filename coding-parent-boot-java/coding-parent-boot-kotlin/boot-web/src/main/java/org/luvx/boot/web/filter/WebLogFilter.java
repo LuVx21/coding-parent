@@ -1,6 +1,7 @@
 package org.luvx.boot.web.filter;
 
 import com.alibaba.fastjson2.JSON;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
@@ -40,6 +41,8 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
         ContentCachingRequestWrapper wrapperRequest = new ContentCachingRequestWrapper(request);
         ContentCachingResponseWrapper wrapperResponse = new ContentCachingResponseWrapper(response);
 
+        String remoteInfo = getRemoteInfo(request);
+        log.debug("request from: {}", remoteInfo);
         String urlParams = getRequestParams(request);
         log.info("request params: {}", urlParams);
         String requestBodyStr = getRequestBody(wrapperRequest);
@@ -55,6 +58,14 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
         }
 
         wrapperResponse.copyBodyToResponse();
+    }
+
+    public static String getRemoteInfo(HttpServletRequest request) {
+        String remoteUser = request.getRemoteUser();
+        String remoteAddr = request.getRemoteAddr();
+        String remoteHost = request.getRemoteHost();
+        int remotePort = request.getRemotePort();
+        return Lists.newArrayList(remoteUser, remoteAddr, remoteHost, remotePort).toString();
     }
 
     /**

@@ -19,6 +19,8 @@ public interface Common {
     Splitter SPLITTER_COMMA   = Splitter.on(",");
     Splitter SPLITTER_NEWLINE = Splitter.on("\n");
 
+    CloseableSupplier<RateLimiter> DEFAULT_RATE_LIMITER = lazy(() -> RateLimiter.create(1));
+
     CloseableSupplier<LoadingCache<String, RateLimiter>> RATE_LIMITER_SUPPLIER = lazy(() -> {
         return CacheBuilder.newBuilder()
                 .maximumSize(500)
