@@ -1,9 +1,8 @@
 package org.luvx.boot.common.app;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.luvx.coding.common.util.StringUtilsV2;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchProperties;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -12,6 +11,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import java.util.Optional;
 
@@ -21,10 +21,6 @@ import static org.luvx.boot.common.util.ApplicationContextUtils.getBeanNullable;
 @Slf4j
 @Configuration
 public class AppInfo implements SmartLifecycle {
-
-    @Getter
-    @Value("${server.port}")
-    private Integer port;
 
     @Override
     public void start() {
@@ -65,6 +61,13 @@ public class AppInfo implements SmartLifecycle {
     @Override
     public boolean isRunning() {
         return false;
+    }
+
+    public Integer getPort() {
+        return getBeanNullable(Environment.class)
+                .map(e -> e.getProperty("server.port"))
+                .map(NumberUtils::toInt)
+                .orElse(-1);
     }
 
     public static Optional<AppInfo> instance() {
