@@ -18,7 +18,7 @@
 
         <collections4.version>4.4</collections4.version>
         <guava.version>33.0.0-jre</guava.version>
-        <jackson.version>2.16.1</jackson.version>
+        <jackson-bom.version>2.16.1</jackson-bom.version>
         <junit.version>5.10.1</junit.version>
         <lang3.version>3.14.0</lang3.version>
         <kotlin.version>1.9.22</kotlin.version>
