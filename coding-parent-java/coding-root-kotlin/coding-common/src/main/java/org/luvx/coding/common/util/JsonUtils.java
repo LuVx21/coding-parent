@@ -65,7 +65,7 @@ public final class JsonUtils {
             return (supportNullValue ? getNullValueMapper() : getDefaultMapper())
                     .writeValueAsString(obj);
         } catch (IOException e) {
-            log.warn("[writeValueAsString]：" + e.getMessage(), e);
+            log.warn("[writeValueAsString]：{}", e.getMessage(), e);
         }
         return null;
     }
@@ -79,13 +79,13 @@ public final class JsonUtils {
     }
 
     public static <T> T fromJson(String json, Class<T> clazz, boolean snake) {
-        if (StringUtils.isEmpty(json)) {
+        if (!isValid(json)) {
             return null;
         }
         try {
             return (snake ? getSnakeMapper() : getDefaultMapper()).readValue(json, clazz);
         } catch (IOException e) {
-            log.warn("[readValue]：" + e.getMessage(), e);
+            log.warn("[readValue]：{}", e.getMessage(), e);
         }
         return null;
     }
@@ -99,26 +99,26 @@ public final class JsonUtils {
     }
 
     public static <T> T fromJson(String json, TypeReference<T> typeRef, boolean snake) {
-        if (StringUtils.isEmpty(json)) {
+        if (!isValid(json)) {
             return null;
         }
         try {
             return (snake ? getSnakeMapper() : getDefaultMapper()).readValue(json, typeRef);
         } catch (IOException e) {
-            log.warn("[readValue]：" + e.getMessage(), e);
+            log.warn("[readValue]：{}", e.getMessage(), e);
         }
         return null;
     }
 
     public static <T extends List<E>, E> List<E> parseArray(String json, Class<T> listClass, Class<E> elementClass) {
-        if (StringUtils.isEmpty(json)) {
+        if (!isValid(json)) {
             return Collections.emptyList();
         }
         try {
             JavaType javaType = getDefaultMapper().getTypeFactory().constructCollectionType(listClass, elementClass);
             return getDefaultMapper().readValue(json, javaType);
         } catch (IOException e) {
-            log.warn("[parseArray]" + e.getMessage(), e);
+            log.warn("[parseArray]:{}", e.getMessage(), e);
         }
         return Collections.emptyList();
     }
@@ -126,7 +126,7 @@ public final class JsonUtils {
     public static <M extends Map<String, V>, V> M fromJson(String json,
                                                            Class<M> mapClass, Class<V> vClass
     ) {
-        if (StringUtils.isEmpty(json)) {
+        if (!isValid(json)) {
             json = EMPTY_JSON;
         }
         try {
@@ -149,7 +149,7 @@ public final class JsonUtils {
             Object obj = getDefaultMapper().readValue(json, Object.class);
             return getDefaultMapper().writerWithDefaultPrettyPrinter().writeValueAsString(obj);
         } catch (Exception e) {
-            log.warn("[formatJson]：" + e.getMessage(), e);
+            log.warn("[formatJson]：{}", e.getMessage(), e);
         }
         return json;
     }
@@ -265,5 +265,11 @@ public final class JsonUtils {
         }
 
         return Triple.of(s1, s2, diff);
+    }
+
+    private boolean isValid(String json) {
+        return StringUtils.isNotBlank(json)
+                && StringUtils.length(json) >= 2
+                && !"\"\"".equals(json);
     }
 }
