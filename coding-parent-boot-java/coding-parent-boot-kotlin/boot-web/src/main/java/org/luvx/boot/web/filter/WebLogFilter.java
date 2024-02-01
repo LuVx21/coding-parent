@@ -76,7 +76,7 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
      */
     public static String getRequestParams(HttpServletRequest request) {
         String type = request.getMethod(), uri = request.getRequestURI();
-        StringBuilder sb = new StringBuilder(STR."\{type} \{uri} ");
+        StringBuilder sb = new StringBuilder(STR."\{type} \{uri}");
         Enumeration<String> enu = request.getParameterNames();
         while (enu.hasMoreElements()) {
             String name = enu.nextElement();
