@@ -2,7 +2,9 @@ package org.luvx.boot.web.filter;
 
 import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.iterators.EnumerationIterator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -76,16 +79,15 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
      */
     public static String getRequestParams(HttpServletRequest request) {
         String type = request.getMethod(), uri = request.getRequestURI();
-        StringBuilder sb = new StringBuilder(STR."\{type} \{uri}");
         Enumeration<String> enu = request.getParameterNames();
-        while (enu.hasMoreElements()) {
-            String name = enu.nextElement();
-            sb.append(name).append("=").append(request.getParameter(name));
-            if (enu.hasMoreElements()) {
-                sb.append("&");
-            }
+        String query = "";
+        if (enu.hasMoreElements()) {
+            query = STR."?\{Streams.stream(new EnumerationIterator<>(enu))
+                    .map(name -> STR."\{name}=\{request.getParameter(name)}")
+                    .collect(Collectors.joining("&"))}";
         }
-        return sb.toString();
+
+        return STR."\{type} \{uri}\{query}";
     }
 
     /**
