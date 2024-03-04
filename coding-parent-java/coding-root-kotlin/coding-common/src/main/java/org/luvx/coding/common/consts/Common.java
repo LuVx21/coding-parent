@@ -1,6 +1,5 @@
 package org.luvx.coding.common.consts;
 
-import com.github.phantomthief.util.MoreFunctions;
 import com.github.phantomthief.util.MoreSuppliers.CloseableSupplier;
 import com.google.common.base.Splitter;
 import com.google.common.cache.CacheBuilder;
@@ -9,7 +8,6 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.RateLimiter;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
-import java.net.URI;
 import java.time.Duration;
 import java.util.concurrent.*;
 
@@ -53,14 +51,4 @@ public interface Common {
                 .factory();
         return Executors.newThreadPerTaskExecutor(factory);
     });
-
-    default RateLimiter getLimiter(String url) {
-        RateLimiter r = MoreFunctions.catching(() -> {
-            URI uri = URI.create(url);
-            int port = uri.getPort();
-            String host = port != -1 ? STR."\{uri.getHost()}:\{port}" : uri.getHost();
-            return RATE_LIMITER_SUPPLIER.get().get(host);
-        });
-        return r != null ? r : RateLimiter.create(1);
-    }
 }
