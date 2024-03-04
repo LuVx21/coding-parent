@@ -9,12 +9,14 @@ import java.net.URI;
 @Slf4j
 public class Commons {
     public static RateLimiter getLimiter(String url) {
-        RateLimiter r = MoreFunctions.catching(() -> {
-            URI uri = URI.create(url);
-            int port = uri.getPort();
-            String host = port != -1 ? STR."\{uri.getHost()}:\{port}" : uri.getHost();
-            return Common.RATE_LIMITER_SUPPLIER.get().get(host);
-        });
+        URI uri = URI.create(url);
+        int port = uri.getPort();
+        return getLimiter(uri.getHost(), port);
+    }
+
+    public static RateLimiter getLimiter(String host, int port) {
+        String s = port <= 0 ? host : STR."\{host}:\{port}";
+        RateLimiter r = MoreFunctions.catching(() -> Common.RATE_LIMITER_SUPPLIER.get().get(s));
         return r != null ? r : RateLimiter.create(1);
     }
 }
