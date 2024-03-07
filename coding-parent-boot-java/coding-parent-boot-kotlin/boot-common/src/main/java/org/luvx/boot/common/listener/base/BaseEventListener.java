@@ -1,17 +1,15 @@
 package org.luvx.boot.common.listener.base;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationListener;
+
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-import org.luvx.coding.common.enums.EnumHasCode;
-import org.springframework.context.ApplicationListener;
-
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 public abstract class BaseEventListener<EVENT extends BaseEvent<E, T>,
-        E extends Enum<E> & EnumHasCode<?>,
+        E extends Enum<E>,
         T extends BaseEventData>
         implements ApplicationListener<EVENT> {
 
