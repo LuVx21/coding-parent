@@ -2,7 +2,7 @@
 
 <configuration>
     <contextListener class="org.luvx.coding.logging.CustomLogContextListener" />
-    <property name="logging.path" value="${user.home}/Desktop/logs/${LOG_PATH}"/>
+    <property name="logging.path" value="${user.home}/data/logs/${LOG_PATH}"/>
     <property name="logging.level" value="INFO"/>
 
     <!-- 按照每天生成日志文件 -->
