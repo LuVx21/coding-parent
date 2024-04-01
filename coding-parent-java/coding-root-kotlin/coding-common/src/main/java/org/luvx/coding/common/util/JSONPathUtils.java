@@ -2,20 +2,19 @@ package org.luvx.coding.common.util;
 
 import com.alibaba.fastjson2.JSONPath;
 import com.alibaba.fastjson2.JSONReader;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalListener;
+import com.github.benmanes.caffeine.cache.CacheLoader;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
 
 import java.time.Duration;
 
 public class JSONPathUtils {
     private static final String PREFIX = "$.";
 
-    private static final LoadingCache<String, JSONPath> cache = CacheBuilder.newBuilder()
+    private static final LoadingCache<String, JSONPath> cache = Caffeine.newBuilder()
             .maximumSize(500)
             .expireAfterAccess(Duration.ofDays(1))
-            .removalListener((RemovalListener<String, JSONPath>) rn -> {
+            .removalListener((k, v, e) -> {
             })
             .recordStats()
             .build(new CacheLoader<>() {
