@@ -1,10 +1,10 @@
 package org.luvx.coding.common.consts;
 
+import com.github.benmanes.caffeine.cache.CacheLoader;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.github.phantomthief.util.MoreSuppliers.CloseableSupplier;
 import com.google.common.base.Splitter;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.RateLimiter;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
@@ -20,7 +20,7 @@ public interface Common {
     CloseableSupplier<RateLimiter> DEFAULT_RATE_LIMITER = lazy(() -> RateLimiter.create(1));
 
     CloseableSupplier<LoadingCache<String, RateLimiter>> RATE_LIMITER_SUPPLIER = lazy(() -> {
-        return CacheBuilder.newBuilder()
+        return Caffeine.newBuilder()
                 .maximumSize(500)
                 .expireAfterAccess(Duration.ofDays(1))
                 .recordStats()
