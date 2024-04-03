@@ -1,6 +1,7 @@
 package org.luvx.coding.common.util;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyMap;
 
@@ -85,8 +85,12 @@ public class MoreBeanUtils {
      * value: 属性值
      */
     public static Map<String, Object> beanToMapByField(Object object, Predicate<Field> fieldFilter) {
-        return beanToArrayByField(object, fieldFilter).stream()
-                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight, (a, b) -> b));
+        List<Pair<String, Object>> list = beanToArrayByField(object, fieldFilter);
+        Map<String, Object> map = Maps.newHashMapWithExpectedSize(list.size());
+        for (Pair<String, Object> p : list) {
+            map.put(p.getLeft(), p.getRight());
+        }
+        return map;
     }
 
     private static Map<String, Object> bean2MapByGetter(Object javaBean) {
