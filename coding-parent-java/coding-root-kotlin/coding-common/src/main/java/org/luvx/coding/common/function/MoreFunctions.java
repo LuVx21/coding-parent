@@ -28,6 +28,10 @@ import static java.util.Optional.ofNullable;
 public final class MoreFunctions {
     private static final String FAIL_SAFE_MARK = "[fail safe]";
 
+    public static <I, R> Function<I, R> castingIdentity() {
+        return i -> (R) i;
+    }
+
     /**
      * 执行一个{@link Callable}，使用fail-safe模式，异常只记录到日志中，返回一个{@link Optional}对象
      *
