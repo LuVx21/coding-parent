@@ -42,13 +42,13 @@ public class ConsoleTable {
         return lines;
     }
 
-    void render() {
+    public void render() {
         for (String line : getLines()) {
             System.out.println(line);
         }
     }
 
-    void renderLog() {
+    public void renderLog() {
         for (String line : getLines()) {
             log.info(line);
         }
