@@ -8,6 +8,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.luvx.boot.web.filter.WebLogFilter;
 import org.luvx.boot.web.response.R;
 import org.luvx.coding.common.exception.BizException;
 import org.luvx.coding.common.exception.base.BaseException;
@@ -158,7 +159,8 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     @ExceptionHandler(Exception.class)
     public R<?> handleException(HttpServletRequest request, Throwable t) {
-        log.error("异常->url: {}", request.getRequestURI(), t);
+        String info = WebLogFilter.getRequestParams(request);
+        log.error("异常->url: {}", info, t);
         if (exceptionHandlerEnable) {
             // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
             BaseException ee = CommonResponseCode.SERVER_ERROR.exception();
