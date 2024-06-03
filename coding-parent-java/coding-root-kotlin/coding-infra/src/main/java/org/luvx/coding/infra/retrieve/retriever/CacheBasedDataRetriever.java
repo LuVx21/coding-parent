@@ -13,9 +13,9 @@ import lombok.AllArgsConstructor;
 public class CacheBasedDataRetriever<K, V> implements MultiDataRetrievable<K, V> {
     private final Cache<K, V> cache;
 
-    public static <K, V> MultiDataRetrievable<K, V> of(Cache<K, V> cache) {
-        return new CacheBasedDataRetriever<>(cache);
-    }
+    // public static <K, V> MultiDataRetrievable<K, V> of(Cache<K, V> cache) {
+    //     return new CacheBasedDataRetriever<>(cache);
+    // }
 
     @Override
     public Map<K, V> get(Collection<K> keys) {

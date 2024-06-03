@@ -13,10 +13,16 @@ import lombok.AllArgsConstructor;
  * 批量获取数据
  */
 public interface MultiDataRetrievable<K, V> {
+    /**
+     * 获取数据
+     */
     default Map<K, V> get(Collection<K> keys) {
         return emptyMap();
     }
 
+    /**
+     * 写入数据
+     */
     default void set(Map<K, V> dataMap) {
     }
 
@@ -38,12 +44,12 @@ public interface MultiDataRetrievable<K, V> {
         };
     }
 
-    static <K, V> IMultiDataAccessBuilder<K, V> builder(Function<Collection<K>, Map<K, V>> fun) {
-        return new IMultiDataAccessBuilder<>(fun);
+    static <K, V> MultiDataAccessBuilder<K, V> builder(Function<Collection<K>, Map<K, V>> fun) {
+        return new MultiDataAccessBuilder<>(fun);
     }
 
     @AllArgsConstructor
-    class IMultiDataAccessBuilder<K, V> {
+    class MultiDataAccessBuilder<K, V> {
         private final Function<Collection<K>, Map<K, V>> getFunc;
 
         public MultiDataRetrievable<K, V> set(Consumer<Map<K, V>> setFunc) {

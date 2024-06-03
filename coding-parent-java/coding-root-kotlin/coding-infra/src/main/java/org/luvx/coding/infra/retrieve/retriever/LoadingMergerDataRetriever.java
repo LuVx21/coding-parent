@@ -1,48 +1,37 @@
 package org.luvx.coding.infra.retrieve.retriever;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.luvx.coding.infra.retrieve.base.MultiDataRetrievable;
+
+import java.time.Duration;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.*;
+import java.util.function.Function;
+
 import static java.lang.System.currentTimeMillis;
 import static java.lang.Thread.currentThread;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.function.Function;
-
-import org.luvx.coding.infra.retrieve.base.MultiDataRetrievable;
-
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
+@AllArgsConstructor
 public class LoadingMergerDataRetriever<K, V> implements MultiDataRetrievable<K, V> {
     /* 毫秒 */
-    private final long                               waitOtherLoadingTimeout;
+    private final Duration                           waitOtherLoadingTimeout;
     /*  */
     private final Function<Collection<K>, Map<K, V>> loader;
 
     /* key-holder */
     private final ConcurrentMap<K, LoadingHolder<K, V>> currentLoading = new ConcurrentHashMap<>();
 
-    private LoadingMergerDataRetriever(long waitOtherLoadingTimeout, Function<Collection<K>, Map<K, V>> loader) {
-        this.waitOtherLoadingTimeout = waitOtherLoadingTimeout;
-        this.loader = loader;
-    }
-
-    public static <K, V> Builder<K, V> builder() {
-        return new Builder<>();
-    }
-
+    /**
+     * 并发
+     *
+     * @param keys 获取数据的key
+     * @return map结构: k为入参,v为具体的数据
+     */
     @Override
     public Map<K, V> get(Collection<K> keys) {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -50,9 +39,9 @@ public class LoadingMergerDataRetriever<K, V> implements MultiDataRetrievable<K,
         Set<K> needLoadKeys = new HashSet<>();
         Map<K, LoadingHolder<K, V>> otherLoading = new HashMap<>();
 
+        Function<K, LoadingHolder<K, V>> f = k -> new LoadingHolder<>(latch, k, result);
         keys.stream().distinct().forEach(key -> {
-            LoadingHolder<K, V> holder = currentLoading.computeIfAbsent(key,
-                    k -> new LoadingHolder<>(latch, k, result));
+            LoadingHolder<K, V> holder = currentLoading.computeIfAbsent(key, f);
             if (holder.isCurrent()) {
                 needLoadKeys.add(key);
             } else {
@@ -74,9 +63,9 @@ public class LoadingMergerDataRetriever<K, V> implements MultiDataRetrievable<K,
         }
 
         Map<K, V> finalResult = new HashMap<>(result);
-        if (waitOtherLoadingTimeout > 0) {
-            long remained = waitOtherLoadingTimeout;
-            Set<K> remainedKeys = new HashSet<>();
+        if (waitOtherLoadingTimeout != null && waitOtherLoadingTimeout.isPositive()) {
+            long remained = waitOtherLoadingTimeout.toMillis();
+            Set<K> reloadKeys = new HashSet<>();
             for (Entry<K, LoadingHolder<K, V>> entry : otherLoading.entrySet()) {
                 K key = entry.getKey();
                 LoadingHolder<K, V> holder = entry.getValue();
@@ -89,16 +78,15 @@ public class LoadingMergerDataRetriever<K, V> implements MultiDataRetrievable<K,
                 } catch (InterruptedException e) {
                     currentThread().interrupt();
                 } catch (TimeoutException e) {
-                    remainedKeys.add(key);
+                    reloadKeys.add(key);
                 } catch (Throwable e) {
-                    remainedKeys.add(key);
+                    reloadKeys.add(key);
                     log.error("Ops.", e);
                 }
-                now = currentTimeMillis() - now;
-                remained -= now;
+                remained -= (currentTimeMillis() - now);
             }
-            if (!remainedKeys.isEmpty()) {
-                finalResult.putAll(loader.apply(remainedKeys));
+            if (!reloadKeys.isEmpty()) {
+                finalResult.putAll(loader.apply(reloadKeys));
             }
         } else {
             otherLoading.forEach((key, holder) -> {
@@ -158,12 +146,16 @@ public class LoadingMergerDataRetriever<K, V> implements MultiDataRetrievable<K,
         }
     }
 
+    public static <K, V> Builder<K, V> builder() {
+        return new Builder<>();
+    }
+
     public static final class Builder<K, V> {
-        private long                               waitOtherLoadingTimeout;
+        private Duration                           waitOtherLoadingTimeout;
         private Function<Collection<K>, Map<K, V>> loader;
 
         public Builder<K, V> timeout(long timeout, TimeUnit unit) {
-            this.waitOtherLoadingTimeout = unit.toMillis(timeout);
+            this.waitOtherLoadingTimeout = Duration.ofMillis(unit.toMillis(timeout));
             return this;
         }
 

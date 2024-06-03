@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 class RetrieveIdUtilsTest {
     List<Integer>        ids       = List.of(1, 2, 3, 4, 5);
     Map<Integer, String> cacheData = Map.of(1, "a", 2, "b", 3, "c");
-    Map<Integer, String> dbData    = ImmutableMap.<Integer, String> builder()
+    Map<Integer, String> dbData    = ImmutableMap.<Integer, String>builder()
             .putAll(cacheData).put(4, "d")
             .build();
 
@@ -105,7 +105,7 @@ class RetrieveIdUtilsTest {
 
     @Test
     void m3() {
-        LoadingMergerDataRetriever<Integer, String> db = LoadingMergerDataRetriever.<Integer, String> builder()
+        LoadingMergerDataRetriever<Integer, String> db = LoadingMergerDataRetriever.<Integer, String>builder()
                 .timeout(10, TimeUnit.MILLISECONDS)
                 .loader(this::db)
                 .build();
@@ -140,7 +140,7 @@ class RetrieveIdUtilsTest {
             }
         };
 
-        RetrieveCacheHolder<Integer, String> holder = RetrieveCacheHolder.<Integer, String> builder()
+        RetrieveCacheHolder<Integer, String> holder = RetrieveCacheHolder.<Integer, String>builder()
                 .cacheRetriever(cache)
                 .fromDB(this::db)
                 .emptyHolder("空")
