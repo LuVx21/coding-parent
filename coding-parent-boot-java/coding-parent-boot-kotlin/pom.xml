@@ -15,7 +15,6 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <kotlin.logging.version>3.0.5</kotlin.logging.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
 <!--        <kotlin.compiler.incremental.cache.root>-->
 <!--            ${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}/kotlin-ic-->
@@ -62,7 +61,7 @@
         </dependency>
 
         <dependency>
-            <groupId>io.github.microutils</groupId>
+            <groupId>io.github.oshai</groupId>
             <artifactId>kotlin-logging-jvm</artifactId>
             <version>${kotlin.logging.version}</version>
             <exclusions>

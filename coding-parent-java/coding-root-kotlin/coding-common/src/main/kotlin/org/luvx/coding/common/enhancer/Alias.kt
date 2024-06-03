@@ -1,6 +1,6 @@
 package org.luvx.coding.common.enhancer
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import java.util.Arrays
 import java.util.function.Function
 import java.util.stream.Collectors
