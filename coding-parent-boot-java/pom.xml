@@ -72,7 +72,7 @@
                 <version>${spring.boot.version}</version>
                 <configuration>
                     <!--fork:如果没有该项配置,整个devtools不会起作用-->
-                    <fork>true</fork>
+                    <!--<fork>true</fork>-->
                 </configuration>
             </plugin>
         </plugins>
