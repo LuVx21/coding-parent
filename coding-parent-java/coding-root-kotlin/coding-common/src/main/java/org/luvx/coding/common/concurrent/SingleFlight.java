@@ -52,10 +52,10 @@ public class SingleFlight {
     }
 
     private static class Call<V> {
-        private final Object    lock = new Object();
-        private       boolean   finished;
-        private       V         result;
-        private       Exception exc;
+        private final    Object    lock = new Object();
+        private volatile boolean   finished;
+        private volatile V         result;
+        private volatile Exception exc;
 
         void finished(V result, Exception exc) {
             synchronized (lock) {
