@@ -10,8 +10,7 @@ import java.util.function.Function;
 import java.util.function.IntSupplier;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.luvx.coding.common.more.MoreStreams;
 
@@ -61,7 +60,6 @@ public class CursorIterator<Id, Record> implements Iterable<Record> {
         return MoreStreams.toStream(iterator());
     }
 
-    @CheckReturnValue
     public static <Id, Entity> Builder<Id, Entity> builder() {
         return new Builder<>();
     }
@@ -77,7 +75,6 @@ public class CursorIterator<Id, Record> implements Iterable<Record> {
         /**
          * 游标值提取方法
          */
-        @CheckReturnValue
         public Builder<Id, Entity> withCursorExtractor(Function<Entity, Id> cursorExtractor) {
             requireNonNull(cursorExtractor);
             this.cursorExtractor = cursorExtractor;
@@ -87,31 +84,26 @@ public class CursorIterator<Id, Record> implements Iterable<Record> {
         /**
          * 起始游标值, 对应的数据也是返回的第一条数据
          */
-        @CheckReturnValue
         public Builder<Id, Entity> withInitCursor(Id initCursor) {
             this.initCursor = initCursor;
             return this;
         }
 
-        @CheckReturnValue
         public Builder<Id, Entity> limit(int limit) {
             checkArgument(limit > 0);
             return limit(() -> limit);
         }
 
-        @CheckReturnValue
         public Builder<Id, Entity> limit(@Nonnull IntSupplier limitSupplier) {
             this.limitSupplier = requireNonNull(limitSupplier);
             return this;
         }
 
-        @CheckReturnValue
         public Builder<Id, Entity> maxPage(int maxPage) {
             this.maxPage = maxPage;
             return this;
         }
 
-        @CheckReturnValue
         public Builder<Id, Entity> withDataRetriever(CursorIterable<Id, Entity> dataRetriever) {
             requireNonNull(dataRetriever);
             this.dataRetriever = dataRetriever;

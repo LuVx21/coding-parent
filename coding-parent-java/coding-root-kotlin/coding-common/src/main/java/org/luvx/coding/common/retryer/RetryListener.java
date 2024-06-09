@@ -1,6 +1,6 @@
 package org.luvx.coding.common.retryer;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Retry的Listener.

@@ -1,6 +1,6 @@
 package org.luvx.coding.common.id;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

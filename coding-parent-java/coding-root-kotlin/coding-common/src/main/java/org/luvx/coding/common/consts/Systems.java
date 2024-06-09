@@ -6,7 +6,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.luvx.coding.common.net.NetUtils;
 import org.luvx.coding.common.util.StringUtilsV2;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 @Slf4j
 public class Systems {

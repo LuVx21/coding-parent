@@ -16,9 +16,9 @@
 
     <properties>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-<!--        <kotlin.compiler.incremental.cache.root>-->
-<!--            ${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}/kotlin-ic-->
-<!--        </kotlin.compiler.incremental.cache.root>-->
+        <!--        <kotlin.compiler.incremental.cache.root>-->
+        <!--            ${user.home}/.m2/target/${project.parent.artifactId}/${project.artifactId}/kotlin-ic-->
+        <!--        </kotlin.compiler.incremental.cache.root>-->
     </properties>
 
     <modules>
@@ -194,9 +194,11 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <compilerArgs>--enable-preview</compilerArgs>
-                    <!--编译的时候把参数添加进去-->
-                    <!-- <compilerArgument>-parameters</compilerArgument>-->
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                        <!--编译的时候把参数添加进去-->
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 

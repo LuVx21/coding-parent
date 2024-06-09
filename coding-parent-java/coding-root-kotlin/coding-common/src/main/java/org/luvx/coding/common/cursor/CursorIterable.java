@@ -2,7 +2,7 @@ package org.luvx.coding.common.cursor;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * 可用于按游标获取流式数据

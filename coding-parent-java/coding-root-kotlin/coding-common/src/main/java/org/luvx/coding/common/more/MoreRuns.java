@@ -6,6 +6,8 @@ import com.github.phantomthief.util.ThrowableRunnable;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.luvx.coding.common.concurrent.ThreadUtils;
 
 import java.lang.reflect.Constructor;
@@ -104,5 +106,19 @@ public class MoreRuns {
     }
 
     public void runWithRetry() {
+    }
+
+    public static void runThread(Runnable runnable, String name) {
+        if (StringUtils.isBlank(name)) {
+            name = STR."线程\{RandomStringUtils.randomNumeric(4)}";
+        }
+        new Thread(runnable, name).start();
+    }
+
+    public static void runVirtual(Runnable runnable, String name) {
+        if (StringUtils.isBlank(name)) {
+            name = STR."线程\{RandomStringUtils.randomNumeric(4)}";
+        }
+        Thread.ofVirtual().name(name).start(runnable);
     }
 }

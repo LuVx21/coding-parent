@@ -2,12 +2,13 @@ package org.luvx.coding.common.concurrent;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.function.Supplier;
 
 /**
  * 适用于解决缓存穿透
  */
-public class SingleFlight {
+public class SingleFlightV2 {
     private final ConcurrentMap<Object, Call<?>> calls = new ConcurrentHashMap<>();
 
     public void run(Object key, Runnable runnable) {
@@ -52,21 +53,21 @@ public class SingleFlight {
     }
 
     private static class Call<V> {
-        private final    Object    lock = new Object();
-        private volatile boolean   finished;
+        private final CountDownLatch latch;
+
         private volatile V         result;
         private volatile Exception exc;
 
+        private Call() {
+            this.latch = new CountDownLatch(1);
+        }
+
         V await() throws Exception {
-            synchronized (lock) {
-                while (!finished) {
-                    lock.wait();
-                }
-                if (exc != null) {
-                    throw exc;
-                }
-                return result;
+            latch.await();
+            if (exc != null) {
+                throw exc;
             }
+            return result;
         }
 
         V exec(Supplier<V> supplier) {
@@ -79,16 +80,10 @@ public class SingleFlight {
                 exc = e;
                 throw e;
             } finally {
-                finished(result, exc);
-            }
-        }
-
-        void finished(V result, Exception exc) {
-            synchronized (lock) {
                 this.result = result;
                 this.exc = exc;
-                this.finished = true;
-                lock.notifyAll();
+
+                latch.countDown();
             }
         }
     }

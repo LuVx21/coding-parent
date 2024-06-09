@@ -9,8 +9,8 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.luvx.coding.infra.retrieve.base.MultiDataRetrievable;
 import org.luvx.coding.infra.retrieve.retriever.EmptyHolderDataRetriever;

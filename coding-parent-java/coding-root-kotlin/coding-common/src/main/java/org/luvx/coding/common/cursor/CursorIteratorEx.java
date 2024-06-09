@@ -1,8 +1,9 @@
 package org.luvx.coding.common.cursor;
 
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import com.google.common.util.concurrent.RateLimiter;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Spliterator;
@@ -11,8 +12,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import com.google.common.util.concurrent.RateLimiter;
 
 /**
  * 主要逻辑全在RollingIterator中
@@ -40,8 +39,8 @@ import com.google.common.util.concurrent.RateLimiter;
  * }
  * </pre>
  *
- * @param <ITEM> 返回实体的类型
- * @param <ID> ID类型
+ * @param <ITEM>  返回实体的类型
+ * @param <ID>    ID类型
  * @param <ITEMS> 列表读取结果对象类型
  */
 public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
@@ -60,9 +59,9 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
     private final Predicate<ID>                   endChecker;
 
     private CursorIteratorEx(ID initCursor, boolean checkFirstCursor,
-            RateLimiter rateLimiter, Function<ID, ITEMS> dataAccessor,
-            Function<ITEMS, ID> cursorExtractor, Function<ITEMS, Iterator<ITEM>> dataExtractor,
-            Predicate<ID> endChecker) {
+                             RateLimiter rateLimiter, Function<ID, ITEMS> dataAccessor,
+                             Function<ITEMS, ID> cursorExtractor, Function<ITEMS, Iterator<ITEM>> dataExtractor,
+                             Predicate<ID> endChecker) {
         this.initCursor = initCursor;
         this.checkFirstCursor = checkFirstCursor;
         this.rateLimiter = rateLimiter;
@@ -78,7 +77,6 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
      * @return 游标迭代器构造器对象
      */
     @Nonnull
-    @CheckReturnValue
     public static <ITEM, ID, ITEMS> Builder<ITEM, ID, ITEMS> builder() {
         return new Builder<>();
     }
@@ -107,8 +105,8 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
     /**
      * 游标迭代器构造器
      *
-     * @param <ITEM> 返回实体的类型泛型
-     * @param <ID> ID类型泛型
+     * @param <ITEM>  返回实体的类型泛型
+     * @param <ID>    ID类型泛型
      * @param <ITEMS> 列表读取结果对象的泛型
      */
     @SuppressWarnings("unchecked")
@@ -127,7 +125,6 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          * @param initCursor 起始ID
          * @return 当前构造器对象
          */
-        @CheckReturnValue
         @Nonnull
         public Builder<ITEM, ID, ITEMS> withInitCursor(ID initCursor) {
             this.initCursor = initCursor;
@@ -140,7 +137,6 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          * @param check 是否对首个传入的游标进行终末检查，默认不检查
          * @return 当前构造器对象
          */
-        @CheckReturnValue
         @Nonnull
         public Builder<ITEM, ID, ITEMS> firstCursorCheckEnd(boolean check) {
             this.checkFirstCursor = check;
@@ -158,7 +154,6 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          * @param dataAccessor 数据读取函数，传入当前起始的ID，返回查询结果对象
          * @return 当前构造器对象
          */
-        @CheckReturnValue
         @Nonnull
         public Builder<ITEM, ID, ITEMS> withDataAccessor(@Nonnull Function<ID, ITEMS> dataAccessor) {
             this.dataAccessor = dataAccessor;
@@ -171,7 +166,6 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          * @param cursorExtractor 获取下一条游标函数，传入当前获得的查询结果对象，返回下一条游标ID对象
          * @return 当前构造器对象
          */
-        @CheckReturnValue
         @Nonnull
         public Builder<ITEM, ID, ITEMS> withCursorExtractor(@Nonnull Function<ITEMS, ID> cursorExtractor) {
             this.cursorExtractor = cursorExtractor;
@@ -184,7 +178,6 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          * @param dataExtractor 数据提取器函数，传入当前获得的查询结果对象，返回结果实体集合的迭代器对象
          * @return 当前构造器对象
          */
-        @CheckReturnValue
         @Nonnull
         public Builder<ITEM, ID, ITEMS> withDataExtractor(@Nonnull Function<ITEMS, Iterator<ITEM>> dataExtractor) {
             this.dataExtractor = dataExtractor;
@@ -195,10 +188,9 @@ public class CursorIteratorEx<ITEM, ID, ITEMS> implements Iterable<ITEM> {
          * 设置游标终末检查器
          *
          * @param endChecker 游标终末检查器，传入当前的游标值，判断是否还有下一条记录存在，有返回true，否则返回false。
-         * 默认根据游标是否为null来进行判断，不为空证明有下一条记录
+         *                   默认根据游标是否为null来进行判断，不为空证明有下一条记录
          * @return 当前构造器对象
          */
-        @CheckReturnValue
         @Nonnull
         public Builder<ITEM, ID, ITEMS> withEndChecker(Predicate<ID> endChecker) {
             this.endChecker = endChecker;

@@ -7,9 +7,8 @@ import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -38,7 +37,6 @@ import static java.util.Objects.requireNonNull;
  * @param <T> 重试代码块的返回值类型. 如果重试的代码块没有返回值，可以使用{@code Retryer<Void> }
  */
 @Slf4j
-@Immutable
 public class Retryer<T> {
     /**
      * 给当前的 retryer 起个名字

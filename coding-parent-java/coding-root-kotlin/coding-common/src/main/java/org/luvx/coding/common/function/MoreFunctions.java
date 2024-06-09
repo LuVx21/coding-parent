@@ -6,7 +6,7 @@ import com.github.phantomthief.util.ThrowableRunnable;
 import com.github.phantomthief.util.ThrowableSupplier;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.Callable;
