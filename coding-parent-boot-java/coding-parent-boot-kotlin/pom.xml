@@ -25,6 +25,7 @@
         <module>boot-common</module>
         <module>boot-web</module>
         <module>boot-aop</module>
+        <module>boot-nosql</module>
     </modules>
 
     <dependencies>

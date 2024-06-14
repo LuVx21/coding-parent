@@ -1,6 +1,6 @@
 package org.luvx.coding.common.util;
 
-import java.util.Arrays;
+import com.alibaba.fastjson2.JSON;
 
 public class ToString {
     public static String toString(Object obj) {
@@ -12,7 +12,8 @@ public class ToString {
         }
         Class<?> cl = obj.getClass();
         if (cl.isArray()) {
-            return Arrays.toString((Object[]) obj);
+            // return ArrayUtils.toString(obj);
+            return JSON.toJSONString(obj);
         }
         return obj.toString();
     }

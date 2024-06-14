@@ -17,7 +17,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <caffeine.version>3.1.8</caffeine.version>
-        <collections4.version>4.4</collections4.version>
+        <collections4.version>4.5.0-M1</collections4.version>
         <guava.version>33.2.1-jre</guava.version>
         <jackson-bom.version>2.17.1</jackson-bom.version>
         <jmh.version>1.37</jmh.version>
@@ -27,8 +27,10 @@
         <lang3.version>3.14.0</lang3.version>
         <logback.version>1.5.6</logback.version>
         <lombok.version>1.18.32</lombok.version>
+        <math3.version>4.0-beta1</math3.version>
         <maven.plugin.version>3.11.0</maven.plugin.version>
         <slf4j.version>2.0.13</slf4j.version>
+        <text.version>1.12.0</text.version>
         <vavr.version>0.10.4</vavr.version>
         <!-- <vavr.version>1.0.0-alpha-4</vavr.version> -->
 
@@ -96,7 +98,12 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.11.0</version>
+            <version>${text.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math4-core</artifactId>
+            <version>${math3.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>

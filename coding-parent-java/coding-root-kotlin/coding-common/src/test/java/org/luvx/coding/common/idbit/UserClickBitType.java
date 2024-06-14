@@ -1,8 +1,7 @@
-package org.luvx.coding.common.idbit.constant;
+package org.luvx.coding.common.idbit;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
 import org.luvx.coding.common.idbit.dto.HasBitInfo;
 
 @Getter

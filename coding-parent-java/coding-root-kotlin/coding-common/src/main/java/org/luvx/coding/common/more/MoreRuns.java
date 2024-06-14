@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.github.phantomthief.util.MoreFunctions;
 import com.github.phantomthief.util.ThrowableRunnable;
 import com.google.common.collect.Lists;
+import com.google.common.primitives.Primitives;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -65,7 +66,11 @@ public class MoreRuns {
                     .filter(m -> {
                         Class<?>[] parameterTypes = m.getParameterTypes();
                         for (int i = 0; i < parameterTypes.length; i++) {
-                            if (!Objects.equals(parameterTypes[i], args[i].getClass())) {
+                            // int
+                            Class<?> parameterType = parameterTypes[i];
+                            // Integer
+                            Class<?> aClass = args[i].getClass();
+                            if (!Objects.equals(parameterType, Primitives.unwrap(aClass))) {
                                 return false;
                             }
                         }
@@ -77,7 +82,9 @@ public class MoreRuns {
             int parameterCount = method.getParameterCount();
             Object[][] objects = MoreArguments.groupArgs(parameterCount, args);
             for (Object[] arg : objects) {
-                Object invoke = ObjectUtils.defaultIfNull(method.invoke(o, arg), arg);
+                Object invoke = ObjectUtils.defaultIfNull(method.invoke(o, arg), "无结果");
+                log.info("执行...参数: {} -> 结果:{}",arg, invoke);
+                // MorePrints.printlnTable(arg, invoke);
                 result.add(invoke);
             }
         });
