@@ -16,7 +16,7 @@ public class MorePrints {
     public static void println(Object... objs) {
         System.out.println(
                 Iterator.of(objs)
-                        .map(String::valueOf)
+                        .map(ToString::toString)
                         .mkString("\n")
         );
     }
@@ -31,6 +31,6 @@ public class MorePrints {
                 .restrict(false)
                 .addRows(row)
                 .build()
-                .renderLog();
+                .render();
     }
 }

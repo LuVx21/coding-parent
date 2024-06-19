@@ -1,0 +1,5 @@
+package ${package}
+
+public interface ${KType}${VType}Function {
+    boolean test(${KType} t)
+}
