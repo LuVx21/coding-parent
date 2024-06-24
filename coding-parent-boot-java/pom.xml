@@ -24,6 +24,7 @@
 
     <modules>
         <module>coding-parent-boot-kotlin</module>
+        <module>xxx-boot-starter</module>
     </modules>
 
     <dependencies>
