@@ -7,12 +7,12 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TreeNode<T> {
-    public T           val;
-    public TreeNode<T> left;
-    public TreeNode<T> right;
+public class BinaryTreeNode<T> {
+    public T                 val;
+    public BinaryTreeNode<T> left;
+    public BinaryTreeNode<T> right;
 
-    public TreeNode(T x) {
+    public BinaryTreeNode(T x) {
         val = x;
     }
 
@@ -20,8 +20,8 @@ public class TreeNode<T> {
         return left == null && right == null;
     }
 
-    public static <T> TreeNode<T> of(T x, TreeNode<T>... lr) {
-        final TreeNode<T> root = new TreeNode<>(x);
+    public static <T> BinaryTreeNode<T> of(T x, BinaryTreeNode<T>... lr) {
+        final BinaryTreeNode<T> root = new BinaryTreeNode<>(x);
         if (lr == null || lr.length == 0) {
             return root;
         }

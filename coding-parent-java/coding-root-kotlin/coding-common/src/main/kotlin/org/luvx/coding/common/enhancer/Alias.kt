@@ -25,12 +25,12 @@ fun Any?.nonNull(a: Function<Any?, Any?>): Any? {
 }
 
 fun out(vararg messages: Any?) {
-    if (messages.isNullOrEmpty()) {
+    if (messages.isEmpty()) {
         return
     }
     Arrays.stream(messages)
-            .map { s -> s.toString() }
-            .collect(Collectors.joining(""))
-            .out()
+        .map { s -> s.toString() }
+        .collect(Collectors.joining(""))
+        .out()
     // println(messages.contentDeepToString())
 }

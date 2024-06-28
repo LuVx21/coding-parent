@@ -27,7 +27,7 @@
         <kotlin.logging.version>7.0.0</kotlin.logging.version>
         <lang3.version>3.14.0</lang3.version>
         <logback.version>1.5.6</logback.version>
-        <lombok.version>1.18.32</lombok.version>
+        <lombok.version>1.18.34</lombok.version>
         <math3.version>4.0-beta1</math3.version>
         <maven.plugin.version>3.13.0</maven.plugin.version>
         <slf4j.version>2.0.13</slf4j.version>

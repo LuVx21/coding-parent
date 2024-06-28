@@ -58,7 +58,7 @@ public class MoreRuns {
         MoreFunctions.runCatching(() -> {
             Constructor<?> constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
-            Object o = constructor.newInstance();
+            // Object o = constructor.newInstance();
 
             Method[] declaredMethods = clazz.getDeclaredMethods();
             Method method = Arrays.stream(declaredMethods)
@@ -82,7 +82,7 @@ public class MoreRuns {
             int parameterCount = method.getParameterCount();
             Object[][] objects = MoreArguments.groupArgs(parameterCount, args);
             for (Object[] arg : objects) {
-                Object invoke = ObjectUtils.defaultIfNull(method.invoke(o, arg), "无结果");
+                Object invoke = ObjectUtils.defaultIfNull(method.invoke(constructor.newInstance(), arg), "无结果");
                 log.info("执行...参数: {} -> 结果:{}",arg, invoke);
                 // MorePrints.printlnTable(arg, invoke);
                 result.add(invoke);
