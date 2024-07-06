@@ -9,10 +9,16 @@ public class Unsigned {
         return (short) (b & 0xFF);
     }
 
+    /**
+     * {@link Short#toUnsignedInt(short)}
+     */
     public static int unsignedShort(short data) {
         return data & 0xFFFF;
     }
 
+    /**
+     * {@link Integer#toUnsignedLong(int)}
+     */
     public static long unsignedInt(int data) {
         return data & 0xFFFFFFFFL;
     }
