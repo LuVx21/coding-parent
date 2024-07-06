@@ -9,8 +9,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MorePrints {
-    public static void printlnBit(int n) {
-        System.out.printf("%32s\n", Integer.toBinaryString(n));
+    public static void printlnBit(long n) {
+        String format = String.format("%64s", Long.toBinaryString(n));
+        char[] array = format.toCharArray();
+
+        byte[] r = new byte[64 + 7];
+        int j = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (i != 0 && i % 8 == 0) {
+                r[j++] = '_';
+            }
+            r[j++] = (byte) array[i];
+        }
+        System.out.println(new String(r));
     }
 
     public static void println(Object... objs) {

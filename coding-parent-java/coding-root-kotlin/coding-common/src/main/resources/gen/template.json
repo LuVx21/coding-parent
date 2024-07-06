@@ -1,0 +1,200 @@
+[
+    {
+        "path": "function",
+        "name": "<firstUpper>Function.java",
+        "types": [
+            "byte",
+            "boolean",
+            "short",
+            "char",
+            "float"
+        ],
+        "template": [
+            "package org.luvx.coding.common.primitives.function;",
+            "",
+            "public interface <firstUpper>Function<R> {",
+            "    R apply(<baseType> value);",
+            "}\n"
+        ]
+    },
+    {
+        "path": "consumer",
+        "name": "<firstUpper>Consumer.java",
+        "types": [
+            "byte",
+            "boolean",
+            "short",
+            "char",
+            "float"
+        ],
+        "template": [
+            "package org.luvx.coding.common.primitives.consumer;",
+            "",
+            "import static java.util.Objects.requireNonNull;",
+            "",
+            "public interface <firstUpper>Consumer {",
+            "    void accept(<baseType> value);",
+            "",
+            "    default <firstUpper>Consumer andThen(<firstUpper>Consumer after) {",
+            "        requireNonNull(after);",
+            "        return (<baseType> t) -> { accept(t); after.accept(t); };",
+            "    }",
+            "}\n"
+        ]
+    },
+    {
+        "path": "supplier",
+        "name": "<firstUpper>Supplier.java",
+        "types": [
+            "byte",
+            "short",
+            "char",
+            "float"
+        ],
+        "template": [
+            "package org.luvx.coding.common.primitives.supplier;",
+            "",
+            "public interface <firstUpper>Supplier {",
+            "    <baseType> getAs<firstUpper>();",
+            "}\n"
+        ]
+    },
+    {
+        "path": "predicate",
+        "name": "<firstUpper>Predicate.java",
+        "types": [
+            "byte",
+            "boolean",
+            "short",
+            "char",
+            "float"
+        ],
+        "template": [
+            "package org.luvx.coding.common.primitives.predicate;",
+            "",
+            "import static java.util.Objects.requireNonNull;",
+            "",
+            "public interface <firstUpper>Predicate {",
+            "",
+            "    boolean test(<baseType> value);",
+            "",
+            "    default <firstUpper>Predicate and(<firstUpper>Predicate other) {",
+            "        requireNonNull(other);",
+            "        return (value) -> test(value) && other.test(value);",
+            "    }",
+            "",
+            "    default <firstUpper>Predicate negate() {",
+            "        return (value) -> !test(value);",
+            "    }",
+            "",
+            "    default <firstUpper>Predicate or(<firstUpper>Predicate other) {",
+            "        requireNonNull(other);",
+            "        return (value) -> test(value) || other.test(value);",
+            "    }",
+            "}\n"
+        ]
+    },
+    {
+        "path": "function",
+        "name": "To<firstUpper>Function.java",
+        "types": [
+            "byte",
+            "short",
+            "char",
+            "float"
+        ],
+        "template": [
+            "package org.luvx.coding.common.primitives.function;",
+            "",
+            "public interface To<firstUpper>Function<T> {",
+            "    <baseType> applyAs<firstUpper>(T value);",
+            "}\n"
+        ]
+    },
+    {
+        "path": "function",
+        "name": "To<firstUpper>BiFunction.java",
+        "types": [
+            "byte",
+            "short",
+            "char",
+            "float"
+        ],
+        "template": [
+            "package org.luvx.coding.common.primitives.function;",
+            "",
+            "public interface To<firstUpper>BiFunction<T, U> {",
+            "    <baseType> applyAs<firstUpper>(T t, U u);",
+            "}\n"
+        ]
+    },
+    {
+        "path": "consumer",
+        "name": "Obj<firstUpper>Consumer.java",
+        "types": [
+            "byte",
+            "boolean",
+            "short",
+            "char",
+            "float"
+        ],
+        "template": [
+            "package org.luvx.coding.common.primitives.consumer;",
+            "",
+            "public interface Obj<firstUpper>Consumer<T> {",
+            "    void accept(T t, <baseType> value);",
+            "}\n"
+        ]
+    },
+    {
+        "path": "operator",
+        "name": "<firstUpper>UnaryOperator.java",
+        "types": [
+            "byte",
+            "short",
+            "char",
+            "float"
+        ],
+        "template": [
+            "package org.luvx.coding.common.primitives.operator;",
+            "",
+            "import static java.util.Objects.requireNonNull;",
+            "",
+            "public interface <firstUpper>UnaryOperator {",
+            "",
+            "    <baseType> applyAs<firstUpper>(<baseType> operand);",
+            "",
+            "    default <firstUpper>UnaryOperator compose(<firstUpper>UnaryOperator before) {",
+            "        requireNonNull(before);",
+            "        return (<baseType> v) -> applyAs<firstUpper>(before.applyAs<firstUpper>(v));",
+            "    }",
+            "",
+            "    default <firstUpper>UnaryOperator andThen(<firstUpper>UnaryOperator after) {",
+            "        requireNonNull(after);",
+            "        return (<baseType> t) -> after.applyAs<firstUpper>(applyAs<firstUpper>(t));",
+            "    }",
+            "",
+            "    static <firstUpper>UnaryOperator identity() {",
+            "        return t -> t;",
+            "    }",
+            "}\n"
+        ]
+    },
+    {
+        "path": "operator",
+        "name": "<firstUpper>BinaryOperator.java",
+        "types": [
+            "byte",
+            "short",
+            "char",
+            "float"
+        ],
+        "template": [
+            "package org.luvx.coding.common.primitives.operator;",
+            "",
+            "public interface <firstUpper>BinaryOperator {",
+            "    <baseType> applyAs<firstUpper>(<baseType> left, <baseType> right);",
+            "}\n"
+        ]
+    }
+]
