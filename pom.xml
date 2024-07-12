@@ -23,7 +23,7 @@
         <hppc.version>0.10.0</hppc.version>
         <jmh.version>1.37</jmh.version>
         <junit.version>5.11.0-M2</junit.version>
-        <kotlin.version>2.0.20-Beta1</kotlin.version>
+        <kotlin.version>2.0.20-Beta2</kotlin.version>
         <kotlin.logging.version>7.0.0</kotlin.logging.version>
         <lang3.version>3.14.0</lang3.version>
         <logback.version>1.5.6</logback.version>
@@ -38,6 +38,8 @@
         <fastjson.version>2.0.51</fastjson.version>
         <jsoup.version>1.17.2</jsoup.version>
         <mysql-connector>9.0.0</mysql-connector>
+        <protoc.version>4.27.2</protoc.version>
+        <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
     </properties>
 
     <modules>
@@ -176,11 +178,6 @@
                 <version>${app.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.luvx.boot</groupId>
-                <artifactId>logging-parent-spring</artifactId>
-                <version>${app.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.luvx.coding</groupId>
                 <artifactId>coding-common</artifactId>
                 <version>${app.version}</version>
@@ -188,21 +185,6 @@
             <dependency>
                 <groupId>org.luvx.coding</groupId>
                 <artifactId>coding-infra</artifactId>
-                <version>${app.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.luvx.boot</groupId>
-                <artifactId>boot-common</artifactId>
-                <version>${app.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.luvx.boot</groupId>
-                <artifactId>boot-aop</artifactId>
-                <version>${app.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.luvx.boot</groupId>
-                <artifactId>boot-web</artifactId>
                 <version>${app.version}</version>
             </dependency>
 

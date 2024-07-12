@@ -1,20 +1,18 @@
 package org.luvx.boot.common.spel;
 
-import java.util.regex.Pattern;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class SpelParserUtils {
     private static final Pattern left  = Pattern.compile("\\{");
     private static final Pattern right = Pattern.compile("\\}");
 
-    private static final ExpressionParser parser = new SpelExpressionParser();
+    private static final ExpressionParser parser = new CachingExpressionParser();
 
     public static Expression parse(String expression) {
         try {

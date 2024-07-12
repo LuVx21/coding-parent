@@ -29,6 +29,11 @@
         </dependency>
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
     </build>
 
