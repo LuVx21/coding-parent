@@ -17,12 +17,7 @@ public class JSONPathUtils {
             .removalListener((k, v, e) -> {
             })
             .recordStats()
-            .build(new CacheLoader<>() {
-                @Override
-                public JSONPath load(String key) {
-                    return JSONPath.of(key);
-                }
-            });
+            .build(JSONPath::of);
 
     public static JSONPath getJsonPath(String path) {
         JSONPath jsonPath;

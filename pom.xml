@@ -36,7 +36,7 @@
         <!-- <vavr.version>1.0.0-alpha-4</vavr.version> -->
 
         <fastjson.version>2.0.51</fastjson.version>
-        <jsoup.version>1.17.2</jsoup.version>
+        <jsoup.version>1.18.1</jsoup.version>
         <mysql-connector>9.0.0</mysql-connector>
         <protoc.version>4.27.2</protoc.version>
         <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
@@ -271,6 +271,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.4.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <archive>
                         <manifestEntries>

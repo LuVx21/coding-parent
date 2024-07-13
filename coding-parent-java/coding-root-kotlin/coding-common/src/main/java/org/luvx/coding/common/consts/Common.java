@@ -1,6 +1,5 @@
 package org.luvx.coding.common.consts;
 
-import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.github.phantomthief.util.MoreSuppliers.CloseableSupplier;
@@ -24,12 +23,7 @@ public interface Common {
                 .maximumSize(500)
                 .expireAfterAccess(Duration.ofDays(1))
                 .recordStats()
-                .build(new CacheLoader<>() {
-                    @Override
-                    public RateLimiter load(String key) {
-                        return RateLimiter.create(1);
-                    }
-                });
+                .build(key -> RateLimiter.create(1));
     });
 
     CloseableSupplier<ThreadPoolExecutor> THREAD_POOL_EXECUTOR_SUPPLIER = lazy(() -> {

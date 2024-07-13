@@ -1,17 +1,19 @@
 package org.luvx.coding.common.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-
 import java.util.Arrays;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonValue;
 
 import static java.util.Collections.emptyMap;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * @param <T> 使用此接口的静态方法, T类型需要实现{@link Object#equals(Object)}和{@link Object#hashCode()}方法
+ */
 public interface EnumHasCode<T> {
     /**
      * 枚举类区分值(唯一)

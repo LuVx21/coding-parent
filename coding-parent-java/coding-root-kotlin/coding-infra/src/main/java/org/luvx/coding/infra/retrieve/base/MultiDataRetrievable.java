@@ -10,7 +10,7 @@ import java.util.function.Function;
 import lombok.AllArgsConstructor;
 
 /**
- * 批量获取数据
+ * 多源批量获取数据
  */
 public interface MultiDataRetrievable<K, V> {
     /**

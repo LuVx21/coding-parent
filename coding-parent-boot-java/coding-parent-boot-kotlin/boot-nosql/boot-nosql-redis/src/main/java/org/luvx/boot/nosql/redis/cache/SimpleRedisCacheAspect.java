@@ -20,7 +20,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
-import static java.util.Collections.emptyMap;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.math.NumberUtils.toDouble;
 import static org.luvx.boot.common.spel.SpelParserUtils.parse2String;
@@ -53,7 +52,7 @@ public class SimpleRedisCacheAspect {
         try {
             Signature signature = joinPoint.getSignature();
             if (!(signature instanceof MethodSignature methodSignature)) {
-                return emptyMap();
+                return joinPoint.proceed();
             }
 
             // 方法参数
