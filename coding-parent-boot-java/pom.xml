@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.luvx</groupId>
         <artifactId>coding-root</artifactId>
-        <version>0.3</version>
+        <version>${revision}</version>
     </parent>
 
     <groupId>org.luvx.boot</groupId>
@@ -69,33 +69,33 @@
             <dependency>
                 <groupId>org.luvx.boot</groupId>
                 <artifactId>boot-common</artifactId>
-                <version>${app.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.luvx.boot</groupId>
                 <artifactId>boot-aop</artifactId>
-                <version>${app.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.luvx.boot</groupId>
                 <artifactId>boot-web</artifactId>
-                <version>${app.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.luvx.boot</groupId>
                 <artifactId>boot-nosql-redis</artifactId>
-                <version>${app.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.luvx.boot</groupId>
                 <artifactId>boot-nosql-mongo</artifactId>
-                <version>${app.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.luvx.boot</groupId>
                 <artifactId>logging-parent-spring</artifactId>
-                <version>${app.version}</version>
+                <version>${revision}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
