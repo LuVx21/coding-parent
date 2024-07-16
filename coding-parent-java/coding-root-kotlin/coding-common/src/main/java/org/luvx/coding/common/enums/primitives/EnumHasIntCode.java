@@ -3,10 +3,10 @@ package org.luvx.coding.common.enums.primitives;
 import org.luvx.coding.common.enums.EnumHasCode;
 
 public interface EnumHasIntCode extends EnumHasCode<Integer> {
-    int code();
+    int intCode();
 
     @Override
     default Integer getCode() {
-        return code();
+        return intCode();
     }
 }

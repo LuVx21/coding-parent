@@ -24,6 +24,14 @@ public class MorePrints {
         System.out.println(new String(r));
     }
 
+    public static void print(Object... objs) {
+        for (Object o : objs) {
+            System.out.print(ToString.toString(o));
+            System.out.print(" ");
+        }
+        System.out.println();
+    }
+
     public static void println(Object... objs) {
         System.out.println(
                 Iterator.of(objs)
