@@ -47,6 +47,7 @@ public final class RetrieveIdUtils {
         Set<K> leftKeys = new HashSet<>();
         for (K key : keys) {
             V value = data.get(key);
+            // 这里直接判空, 因为没找到数据时, 不要用empty等代替
             if (value == null) {
                 leftKeys.add(key);
             } else {

@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 
 /**
  * 多源批量获取数据
+ *
+ * @param <V> K查找数据时, 找不到时应为null, 为empty的话会影响判断是否找到
  */
 public interface MultiDataRetrievable<K, V> {
     /**

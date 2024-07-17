@@ -9,14 +9,14 @@ import java.util.Map;
 /**
  * 重试策略
  */
-public interface RetryStrategy<T> {
+public interface RetryStrategy<V> {
     /**
      * 消费重试逻辑
      *
      * @param retryContext 重试上下文
      * @param runnable     业务的consume逻辑
      */
-    void retry(@Nonnull RetryContext<T> retryContext, @Nonnull Runnable runnable,
+    void retry(@Nonnull RetryContext<V> retryContext, @Nonnull Runnable runnable,
                @Nonnull Exception exception);
 
     public class NoneRetryStrategy<T> implements RetryStrategy<T> {

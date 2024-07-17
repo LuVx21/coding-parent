@@ -15,6 +15,9 @@ import static java.lang.Thread.currentThread;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+/**
+ * singleflight, 合并多线程
+ */
 @Slf4j
 @AllArgsConstructor
 public class LoadingMergerDataRetriever<K, V> implements MultiDataRetrievable<K, V> {

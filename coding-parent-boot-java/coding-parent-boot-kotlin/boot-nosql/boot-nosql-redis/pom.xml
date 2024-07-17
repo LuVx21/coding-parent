@@ -37,6 +37,10 @@
         </dependency>
 
         <dependency>
+            <groupId>org.luvx.coding</groupId>
+            <artifactId>coding-infra</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.luvx.boot</groupId>
             <artifactId>boot-common</artifactId>
         </dependency>
