@@ -27,6 +27,7 @@
         <module>boot-aop</module>
         <module>boot-db</module>
         <module>boot-nosql</module>
+        <module>boot-mq</module>
     </modules>
 
     <dependencies>
