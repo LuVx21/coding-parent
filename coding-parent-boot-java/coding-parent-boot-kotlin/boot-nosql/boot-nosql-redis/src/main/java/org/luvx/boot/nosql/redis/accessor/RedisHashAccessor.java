@@ -7,6 +7,7 @@ import org.luvx.coding.infra.retrieve.RetrieveIdUtils;
 import org.luvx.coding.infra.retrieve.base.MultiDataRetrievable;
 import org.luvx.coding.infra.retrieve.retriever.SimpleDbDataRetriever;
 import org.springframework.data.redis.connection.RedisHashCommands;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisCallback;
 
 import java.util.*;
@@ -23,6 +24,22 @@ public interface RedisHashAccessor<K, HK, HV> extends BaseRedisAccessor<K, Map<H
         Map<String, HV> smap = value.entrySet().stream()
                 .collect(Collectors.toMap(e -> Objects.toString(e.getKey()), Map.Entry::getValue));
         hashOps.putAll(redisKey(key), smap);
+    }
+
+    default void incr(K key, Map<HK, Double> map) {
+        String s = redisKey(key);
+        HashOperations<String, Object, Object> opsHash = getRedisTemplate().opsForHash();
+        map.forEach((hk, delta) -> {
+            opsHash.increment(s, hk, delta);
+        });
+    }
+
+    default void delete(K key, HK... hks) {
+        Object[] arg = new Object[hks.length];
+        for (int i = 0; i < hks.length; i++) {
+            arg[i] = Objects.toString(hks[i]);
+        }
+        getRedisTemplate().opsForHash().delete(redisKey(key), arg);
     }
 
     default Map<K, Map<HK, HV>> getByKeys(Collection<K> keys) {

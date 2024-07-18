@@ -10,7 +10,8 @@ import java.util.Set;
 @Slf4j
 public abstract class BaseEventListener<EVENT extends BaseEvent<E, T>,
         E extends Enum<E>,
-        T extends BaseEventData>
+        T // extends BaseEventData
+        >
         implements ApplicationListener<EVENT> {
 
     @Override

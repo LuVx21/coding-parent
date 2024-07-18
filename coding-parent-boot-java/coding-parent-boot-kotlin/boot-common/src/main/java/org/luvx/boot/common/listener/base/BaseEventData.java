@@ -1,4 +1,4 @@
-package org.luvx.boot.common.listener.base;
-
-public class BaseEventData {
-}
+// package org.luvx.boot.common.listener.base;
+//
+// public class BaseEventData {
+// }
