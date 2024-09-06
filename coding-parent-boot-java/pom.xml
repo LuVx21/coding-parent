@@ -16,9 +16,9 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <spring.boot.version>3.3.3</spring.boot.version>
+        <spring.boot.version>3.3.4</spring.boot.version>
 
-        <redisson.boot>3.35.0</redisson.boot>
+        <redisson.boot>3.36.0</redisson.boot>
         <rocketmq.boot>2.3.0</rocketmq.boot>
     </properties>
 

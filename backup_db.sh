@@ -4,6 +4,8 @@
 # rm -r ./db
 # ln -s ~/OneDrive/config/jetbrain/consoles db
 
-ln -s ~/OneDrive/config/jetbrain/dataSources dataSources
-ln -s ~/OneDrive/config/jetbrain/dataSources.xml dataSources.xml
-ln -s ~/OneDrive/config/jetbrain/dataSources.local.xml dataSources.local.xml
+ln -s $HOME/OneDrive/config/jetbrain/dataSources dataSources
+ln -s $HOME/OneDrive/config/jetbrain/dataSources.xml dataSources.xml
+ln -s $HOME/OneDrive/config/jetbrain/dataSources.local.xml dataSources.local.xml
+
+ln -s $HOME/OneDrive/config/jetbrain/consoles db

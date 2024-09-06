@@ -12,7 +12,7 @@
 
     <properties>
         <revision>0.3</revision>
-        <java.version>22</java.version>
+        <java.version>23</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -25,8 +25,8 @@
         <junit.version>5.11.0</junit.version>
         <kotlin.version>2.0.20</kotlin.version>
         <kotlin.logging.version>7.0.0</kotlin.logging.version>
-        <lang3.version>3.16.0</lang3.version>
-        <logback.version>1.5.7</logback.version>
+        <lang3.version>3.17.0</lang3.version>
+        <logback.version>1.5.8</logback.version>
         <lombok.version>1.18.34</lombok.version>
         <math3.version>4.0-beta1</math3.version>
         <maven.plugin.version>3.13.0</maven.plugin.version>
