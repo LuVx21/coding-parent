@@ -15,7 +15,7 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <rocksdb.version>9.5.2</rocksdb.version>
+        <rocksdb.version>9.7.3</rocksdb.version>
     </properties>
 
     <dependencies>

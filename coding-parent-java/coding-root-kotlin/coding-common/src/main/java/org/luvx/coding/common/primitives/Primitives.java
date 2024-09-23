@@ -1,4 +1,4 @@
-package org.luvx.coding.common;
+package org.luvx.coding.common.primitives;
 
 import java.lang.reflect.Field;
 
