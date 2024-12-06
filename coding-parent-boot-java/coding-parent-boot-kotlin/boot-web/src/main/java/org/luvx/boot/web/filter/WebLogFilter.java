@@ -82,12 +82,12 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
         Enumeration<String> enu = request.getParameterNames();
         String query = "";
         if (enu.hasMoreElements()) {
-            query = STR."?\{Streams.stream(new EnumerationIterator<>(enu))
-                    .map(name -> STR."\{name}=\{request.getParameter(name)}")
-                    .collect(Collectors.joining("&"))}";
+            query = "?" + Streams.stream(new EnumerationIterator<>(enu))
+                    .map(name -> name + "=" + request.getParameter(name))
+                    .collect(Collectors.joining("&"));
         }
 
-        return STR."\{type} \{uri}\{query}";
+        return type + " " + uri + query;
     }
 
     /**

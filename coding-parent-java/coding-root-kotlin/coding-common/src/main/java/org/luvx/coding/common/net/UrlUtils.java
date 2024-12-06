@@ -90,7 +90,7 @@ public class UrlUtils {
     public static String urlAddDomain(String baseUrl, String urlWithoutDomain) {
         if (!urlWithoutDomain.startsWith("http")) {
             URI uri = URI.create(baseUrl);
-            String domain = STR."\{uri.getScheme()}://\{uri.getHost()}";
+            String domain = uri.getScheme() + "://" + uri.getHost();
             urlWithoutDomain = domain + urlWithoutDomain;
         }
         return urlWithoutDomain;

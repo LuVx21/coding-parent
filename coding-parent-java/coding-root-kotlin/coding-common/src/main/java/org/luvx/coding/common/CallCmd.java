@@ -37,7 +37,7 @@ public class CallCmd {
 
             int exitValue = process.waitFor();
             if (0 != exitValue) {
-                throw new RuntimeException(STR."调用失败. 错误码:\{exitValue}");
+                throw new RuntimeException("调用失败. 错误码:" + exitValue);
             }
         } catch (Throwable e) {
             log.error("调用失败", e);

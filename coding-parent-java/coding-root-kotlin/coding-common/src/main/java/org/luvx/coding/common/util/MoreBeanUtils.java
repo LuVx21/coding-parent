@@ -122,7 +122,7 @@ public class MoreBeanUtils {
         Map<String, Object> result = new HashMap<>();
         try {
             Map<String, Object> map = PropertyUtils.describe(o);
-            prefix = StringUtils.isNotEmpty(prefix) ? STR."\{prefix}." : "";
+            prefix = StringUtils.isNotEmpty(prefix) ? prefix + "." : "";
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();

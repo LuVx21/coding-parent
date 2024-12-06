@@ -16,7 +16,7 @@ import static com.google.common.base.StandardSystemProperty.USER_HOME;
 
 public class RocksDBs {
     private static final OnOffSwitch deleteLog = OnOffSwitch.of(false);
-    public static final  String      dbPath    = STR."\{USER_HOME.value()}/data/RocksDB";
+    public static final  String      dbPath    = USER_HOME.value() + "/data/RocksDB";
 
     public static final CloseableSupplier<RocksDB> ROCKSDB_SUPPLIER = lazy(() -> {
         RocksDB.loadLibrary();

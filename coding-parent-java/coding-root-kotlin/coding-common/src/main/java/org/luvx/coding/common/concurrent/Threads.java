@@ -19,7 +19,7 @@ public class Threads {
     }
 
     public static void info(String format, Object... args) {
-        String x = STR."Time: \{LocalDateTime.now()}, 线程: \{Thread.currentThread().threadId()}-\{Thread.currentThread().getName()}, 数据: \{String.format(format, args)}";
+        String x = "Time: " + LocalDateTime.now() + ", 线程: " + Thread.currentThread().threadId() + "-" + Thread.currentThread().getName() + ", 数据: " + String.format(format, args);
         System.out.println(x);
     }
 }

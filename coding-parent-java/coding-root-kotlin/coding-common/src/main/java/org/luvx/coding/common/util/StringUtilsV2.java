@@ -58,7 +58,7 @@ public class StringUtilsV2 {
         int sLen = length(s), replaceLen = length(replacement);
         int length = Objects.checkIndex(to, sLen) - Objects.checkIndex(from, sLen) + 1;
         if (length < 1) {
-            throw new RuntimeException(STR."from(\{from})~to(\{to})异常");
+            throw new RuntimeException("from(" + from + ")~to(" + to + ")异常");
         }
         char[] charArray = new char[sLen - length + replaceLen];
         int k = 0;

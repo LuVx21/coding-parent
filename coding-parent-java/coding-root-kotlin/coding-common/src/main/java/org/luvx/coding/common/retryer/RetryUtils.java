@@ -57,7 +57,7 @@ public class RetryUtils {
             int maxRetryTimes, Duration retryPeriod,
             @Nullable Predicate<Throwable> throwLastException
     ) throws X {
-        name = StringUtils.isBlank(name) ? STR."重试\{randomAlphabetic(4)}" : name;
+        name = StringUtils.isBlank(name) ? "重试" + randomAlphabetic(4) : name;
         Predicate<Throwable> alwaysTrue = Predicates.alwaysTrue();
 
         int times = 0;

@@ -267,7 +267,7 @@ public final class JsonUtils {
         return Triple.of(s1, s2, diff);
     }
 
-    private boolean isValid(String json) {
+    private static boolean isValid(String json) {
         return StringUtils.isNotBlank(json)
                 && StringUtils.length(json) >= 2
                 && !"\"\"".equals(json);

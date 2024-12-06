@@ -50,7 +50,7 @@ public class PrintUtil {
                     case CENTER -> StringPadUtil.center(value, columnWidths[i]);
                     default -> StringPadUtil.leftPad(value, columnWidths[i]);
                 };
-                sb.append(STR."\{verticalSep} \{apply} \{verStrTemp}");
+                sb.append(verticalSep + " " + apply + " " + verStrTemp);
             }
             result.add(sb.toString());
         }

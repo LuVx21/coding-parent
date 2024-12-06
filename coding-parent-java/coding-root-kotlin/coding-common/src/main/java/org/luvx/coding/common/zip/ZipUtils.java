@@ -46,7 +46,7 @@ public class ZipUtils {
 
     public static long zip(File directory, File outputZipFile, boolean fsync) throws IOException {
         if (!isZip(outputZipFile.getName())) {
-            log.warn(STR."No .zip suffix[\{outputZipFile}], putting files from [\{directory}] into it anyway.");
+            log.warn("No .zip suffix[" + outputZipFile + "], putting files from [" + directory + "] into it anyway.");
         }
 
         try (final FileOutputStream out = new FileOutputStream(outputZipFile)) {
@@ -61,7 +61,7 @@ public class ZipUtils {
 
     public static long zip(File directory, OutputStream out) throws IOException {
         if (!directory.isDirectory()) {
-            throw new RuntimeException(STR."文件[\{directory}]不是文件夹");
+            throw new RuntimeException("文件[" + directory + "]不是文件夹");
         }
 
         final ZipOutputStream zipOut = new ZipOutputStream(out);
@@ -71,7 +71,7 @@ public class ZipUtils {
             log.info("添加文件[{}(大小:{})]. 现在总大小{}", file, file.length(), totalSize);
             if (file.length() >= Integer.MAX_VALUE) {
                 zipOut.finish();
-                throw new RuntimeException(STR."file\{file} too large \{file.length()}");
+                throw new RuntimeException("file: " + file + " too large " + file.length());
             }
             zipOut.putNextEntry(new ZipEntry(file.getName()));
             totalSize += Files.asByteSource(file).copyTo(zipOut);
@@ -271,7 +271,7 @@ public class ZipUtils {
         if (isGz(name) && !reducedName.isEmpty()) {
             return reducedName;
         }
-        throw new RuntimeException(STR."[\{name}] is not a valid gz file name");
+        throw new RuntimeException("[" + name + "] is not a valid gz file name");
     }
 
     public static void unzip(String filePath) {

@@ -66,7 +66,7 @@ public class SimpleRedisCacheAspect {
             Method method = methodSignature.getMethod();
             SimpleRedisCache anno = method.getAnnotation(SimpleRedisCache.class);
             ElValue elvalue = elValue(anno, context);
-            var redisKey = STR."\{anno.prefix()}:\{elvalue.key()}";
+            var redisKey = anno.prefix() + ":" + elvalue.key();
             result = get(anno, redisKey, elvalue);
             if (result != null) {
                 return result;

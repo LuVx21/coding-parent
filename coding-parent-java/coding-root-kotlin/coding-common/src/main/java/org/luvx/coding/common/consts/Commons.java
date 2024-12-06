@@ -15,7 +15,7 @@ public class Commons {
     }
 
     public static RateLimiter getLimiter(String host, int port) {
-        String s = port <= 0 ? host : STR."\{host}:\{port}";
+        String s = port <= 0 ? host : host + ":" + port;
         RateLimiter r = MoreFunctions.catching(() -> Common.RATE_LIMITER_SUPPLIER.get().get(s));
         return r != null ? r : RateLimiter.create(1);
     }

@@ -83,7 +83,7 @@ public class MoreRuns {
             Object[][] objects = MoreArguments.groupArgs(parameterCount, args);
             for (Object[] arg : objects) {
                 Object invoke = ObjectUtils.defaultIfNull(method.invoke(constructor.newInstance(), arg), "无结果");
-                log.info("执行...参数: {} -> 结果:{}",arg, invoke);
+                log.info("执行...参数: {} -> 结果:{}", arg, invoke);
                 // MorePrints.printlnTable(arg, invoke);
                 result.add(invoke);
             }
@@ -117,14 +117,14 @@ public class MoreRuns {
 
     public static void runThread(Runnable runnable, String name) {
         if (StringUtils.isBlank(name)) {
-            name = STR."线程\{RandomStringUtils.randomNumeric(4)}";
+            name = "线程" + RandomStringUtils.randomNumeric(4);
         }
         new Thread(runnable, name).start();
     }
 
     public static void runVirtual(Runnable runnable, String name) {
         if (StringUtils.isBlank(name)) {
-            name = STR."线程\{RandomStringUtils.randomNumeric(4)}";
+            name = "线程" + RandomStringUtils.randomNumeric(4);
         }
         Thread.ofVirtual().name(name).start(runnable);
     }

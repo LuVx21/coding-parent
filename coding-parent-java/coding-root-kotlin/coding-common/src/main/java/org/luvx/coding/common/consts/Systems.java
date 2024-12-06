@@ -11,7 +11,7 @@ import jakarta.annotation.Nullable;
 @Slf4j
 public class Systems {
     public static String appRunInDomain() {
-        return STR."\{appRunInHost()}:\{appRunInPort()}";
+        return appRunInHost() + ":" + appRunInPort();
     }
 
     /**

@@ -32,7 +32,7 @@ class RocksDBTest {
     void delete() throws RocksDBException {
         byte[] key = "Hello".getBytes();
         client.delete(key);
-        System.out.println(STR."删除:\{new String(key)}");
+        System.out.println("删除:" + new String(key));
     }
 
     @Test
@@ -40,7 +40,7 @@ class RocksDBTest {
         System.out.println("--------------------------------");
         RocksIterator iter = client.newIterator();
         for (iter.seekToFirst(); iter.isValid(); iter.next()) {
-            System.out.println(STR."\{new String(iter.key())}=\{new String(iter.value())}");
+            System.out.println(new String(iter.key()) + "=" + new String(iter.value()));
         }
         System.out.println("--------------------------------");
     }
@@ -99,7 +99,7 @@ class RocksDBTest {
 
         RocksIterator iter = client.newIterator(columnFamilyHandle);
         for (iter.seekToFirst(); iter.isValid(); iter.next()) {
-            System.out.println(STR."\{new String(iter.key())}:\{new String(iter.value())}");
+            System.out.println(new String(iter.key()) + ":" + new String(iter.value()));
         }
     }
 }

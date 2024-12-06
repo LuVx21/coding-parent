@@ -183,7 +183,7 @@ public class UnifiedExceptionHandler {
                     String s = "";
                     if (error instanceof FieldError) {
                         String field = ((FieldError) error).getField();
-                        s = STR."\{field}:";
+                        s = field + ":";
                     }
                     s += defaultIfNull(error.getDefaultMessage(), "");
                     return s;
@@ -199,6 +199,6 @@ public class UnifiedExceptionHandler {
      */
     private String getMessage(BaseException e) {
         String message = e.getResponseCode().getMessage();
-        return StringUtils.isEmpty(message) ? e.getMessage() : STR."response.\{message}";
+        return StringUtils.isEmpty(message) ? e.getMessage() : "response." + message;
     }
 }

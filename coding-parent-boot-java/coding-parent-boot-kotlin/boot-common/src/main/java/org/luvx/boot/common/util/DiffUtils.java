@@ -89,7 +89,7 @@ public class DiffUtils {
                     try {
                         value = readMethod.invoke(obj);
                     } catch (IllegalAccessException | InvocationTargetException e) {
-                        log.error(STR."反射获取类【\{objClass.getName()}】方法异常，", e);
+                        log.error("反射获取类【" + objClass.getName() + "】方法异常，", e);
                         return null;
                     }
                     return Triple.of(name, value, returnType);
