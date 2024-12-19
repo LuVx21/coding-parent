@@ -17,28 +17,32 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <caffeine.version>3.1.8</caffeine.version>
-        <collections4.version>4.5.0-M2</collections4.version>
-        <guava.version>33.3.1-jre</guava.version>
+        <collections4.version>4.5.0-M3</collections4.version>
+        <guava.version>33.4.0-jre</guava.version>
         <jackson-bom.version>2.18.2</jackson-bom.version>
         <hppc.version>0.10.0</hppc.version>
         <jmh.version>1.37</jmh.version>
-        <junit.version>5.11.3</junit.version>
+        <junit.version>5.11.4</junit.version>
         <kotlin.version>2.1.0</kotlin.version>
         <kotlin.logging.version>7.0.3</kotlin.logging.version>
         <lang3.version>3.17.0</lang3.version>
-        <logback.version>1.5.12</logback.version>
+        <logback.version>1.5.16</logback.version>
         <lombok.version>1.18.36</lombok.version>
         <math3.version>4.0-beta1</math3.version>
-        <maven.plugin.version>3.13.0</maven.plugin.version>
         <slf4j.version>2.0.13</slf4j.version>
-        <text.version>1.12.0</text.version>
+        <text.version>1.13.0</text.version>
         <vavr.version>0.10.4</vavr.version>
         <!-- <vavr.version>1.0.0-alpha-4</vavr.version> -->
 
-        <fastjson.version>2.0.52</fastjson.version>
-        <jsoup.version>1.18.1</jsoup.version>
+        <fastjson.version>2.0.53</fastjson.version>
+        <jsoup.version>1.18.3</jsoup.version>
         <mysql-connector>9.0.0</mysql-connector>
-        <protoc.version>4.27.2</protoc.version>
+        <protoc.version>4.29.3</protoc.version>
+
+        <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
     </properties>
 
@@ -93,6 +97,12 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -128,7 +138,7 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
+            <version>1.10.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-collections</groupId>
@@ -259,7 +269,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.plugin.version}</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
