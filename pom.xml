@@ -35,7 +35,7 @@
         <!-- <vavr.version>1.0.0-alpha-4</vavr.version> -->
 
         <fastjson.version>2.0.56</fastjson.version>
-        <jsoup.version>1.18.3</jsoup.version>
+        <jsoup.version>1.19.1</jsoup.version>
         <mysql-connector>9.0.0</mysql-connector>
         <protoc.version>4.29.3</protoc.version>
 
