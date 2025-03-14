@@ -6,8 +6,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>3.4.3</version>
-        <relativePath>org.springframework.boot:spring-boot-dependencies</relativePath>
+        <version>3.5.0</version>
+        <!--<relativePath>org.springframework.boot:spring-boot-dependencies</relativePath>-->
     </parent>
 
     <groupId>org.luvx.boot</groupId>
@@ -15,14 +15,44 @@
     <packaging>pom</packaging>
 
     <properties>
-        <jackson-bom.version>2.18.3</jackson-bom.version>
-        <kotlin.version>2.1.0</kotlin.version>
+        <java.version>23</java.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
 
-        <logback.version>1.5.17</logback.version>
+        <jackson-bom.version>2.19.0</jackson-bom.version>
+        <kotlin.version>2.2.0-RC2</kotlin.version>
+        <junit-jupiter.version>5.13.1</junit-jupiter.version>
+
+        <logback.version>1.5.18</logback.version>
         <slf4j.version>2.0.13</slf4j.version>
     </properties>
 
     <modules>
         <!--<module>disruptor-boot-starter</module>-->
+        <module>etcd-spring-boot-starter</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

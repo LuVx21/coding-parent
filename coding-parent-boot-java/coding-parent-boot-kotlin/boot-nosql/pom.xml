@@ -20,6 +20,7 @@
     <modules>
         <module>boot-nosql-redis</module>
         <module>boot-nosql-mongo</module>
+        <module>boot-nosql-es</module>
     </modules>
 
     <dependencies>

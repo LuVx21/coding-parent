@@ -1,0 +1,11 @@
+spring:
+  data:
+    redis:
+      url: redis://:1121@mini.rx:6379
+      lettuce:
+        pool:
+          enabled: true
+          max-active: 8
+          max-wait: -1
+          max-idle: 8
+          min-idle: 0
