@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>3.5.0</version>
+        <version>3.5.3</version>
         <!--<relativePath>org.springframework.boot:spring-boot-dependencies</relativePath>-->
     </parent>
 
@@ -18,9 +18,9 @@
         <java.version>23</java.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
 
-        <jackson-bom.version>2.19.0</jackson-bom.version>
-        <kotlin.version>2.2.0-RC2</kotlin.version>
-        <junit-jupiter.version>5.13.1</junit-jupiter.version>
+        <jackson-bom.version>2.19.1</jackson-bom.version>
+        <kotlin.version>2.2.20-RC</kotlin.version>
+        <junit-jupiter.version>6.0.0-RC2</junit-jupiter.version>
 
         <logback.version>1.5.18</logback.version>
         <slf4j.version>2.0.13</slf4j.version>

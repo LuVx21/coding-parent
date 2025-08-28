@@ -16,25 +16,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <caffeine.version>3.2.0</caffeine.version>
+        <caffeine.version>3.2.2</caffeine.version>
         <collections4.version>4.5.0</collections4.version>
         <guava.version>33.4.8-jre</guava.version>
-        <jackson-bom.version>2.19.0</jackson-bom.version>
+        <jackson-bom.version>2.19.1</jackson-bom.version>
         <hppc.version>0.10.0</hppc.version>
         <jmh.version>1.37</jmh.version>
-        <junit.version>5.13.1</junit.version>
-        <kotlin.version>2.2.0-RC2</kotlin.version>
-        <kotlin.logging.version>7.0.7</kotlin.logging.version>
-        <lang3.version>3.17.0</lang3.version>
+        <junit.version>6.0.0-RC2</junit.version>
+        <kotlin.version>2.2.20-RC</kotlin.version>
+        <kotlin.logging.version>7.0.13</kotlin.logging.version>
+        <lang3.version>3.18.0</lang3.version>
         <logback.version>1.5.18</logback.version>
         <lombok.version>1.18.38</lombok.version>
         <math3.version>4.0-beta1</math3.version>
         <slf4j.version>2.0.13</slf4j.version>
-        <text.version>1.13.1</text.version>
+        <text.version>1.14.0</text.version>
         <vavr.version>0.10.4</vavr.version>
         <!-- <vavr.version>1.0.0-alpha-4</vavr.version> -->
 
-        <fastjson.version>2.0.57</fastjson.version>
+        <fastjson.version>2.0.58</fastjson.version>
         <jsoup.version>1.19.1</jsoup.version>
         <mysql-connector>9.0.0</mysql-connector>
         <protoc.version>4.30.2</protoc.version>
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
-            <version>4.9.3</version>
+            <version>4.9.4</version>
         </dependency>
 
         <dependency>
@@ -122,7 +122,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.19.0</version>
+            <version>2.20.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -171,12 +171,12 @@
         <dependency>
             <groupId>it.unimi.dsi</groupId>
             <artifactId>fastutil</artifactId>
-            <version>8.5.15</version>
+            <version>8.5.16</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.collections</groupId>
             <artifactId>eclipse-collections</artifactId>
-            <version>12.0.0.M3</version>
+            <version>13.0.0</version>
         </dependency>
     </dependencies>
 
@@ -213,7 +213,7 @@
             <dependency>
                 <groupId>org.duckdb</groupId>
                 <artifactId>duckdb_jdbc</artifactId>
-                <version>1.3.0.0</version>
+                <version>1.3.2.0</version>
             </dependency>
 
         </dependencies>
