@@ -17,6 +17,7 @@ import org.luvx.coding.infra.retrieve.retriever.EmptyHolderDataRetriever;
 import org.luvx.coding.infra.retrieve.retriever.SimpleDbDataRetriever;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public final class RetrieveCacheHolder<K, V> {
-    private @Nonnull  List<MultiDataRetrievable<K, V>> dataRetrieverList;
+    private @Nonnull  List<MultiDataRetrievable<K, V>> dataRetrieverList = Lists.newArrayList();
     private @Nullable V                                emptyHolder;
 
     @Nullable
